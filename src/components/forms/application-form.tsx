@@ -133,6 +133,7 @@ export function ApplicationForm({ market = "uk", embedded = false, packageIntere
         if (first.success && last.success) {
           existing = { firstTouch: first.data, lastTouch: last.data };
           if (!isAttributionStateFresh(existing)) existing = undefined;
+          else if (!advertisingAllowed) existing = withoutAdvertisingIdentifiers(existing);
         }
       }
       localStorage.setItem(attributionKey, JSON.stringify(mergeAttribution(existing, consentSafeLatest)));

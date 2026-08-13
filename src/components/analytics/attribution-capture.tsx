@@ -25,6 +25,7 @@ export function AttributionCapture() {
         if (first.success && last.success) {
           existing = { firstTouch: first.data, lastTouch: last.data };
           if (!isAttributionStateFresh(existing)) existing = undefined;
+          else if (!consent?.marketing) existing = withoutAdvertisingIdentifiers(existing);
         }
       }
       localStorage.setItem(attributionKey, JSON.stringify(mergeAttribution(existing, latest)));
