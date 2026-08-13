@@ -1,0 +1,16 @@
+import type { Metadata } from "next";
+import { Check } from "lucide-react";
+import { MainShell } from "@/src/components/layout/main-shell";
+import { PageHero, Breadcrumbs, Container, SectionIntro, ButtonLink } from "@/src/components/ui/primitives";
+import { ProcessSection, CapabilityWorkSection, FaqSection, FinalCta } from "@/src/components/marketing/sections";
+
+export const metadata: Metadata = { title: "MVP Development for Nontechnical Founders", description: "Shape, design, build, and launch a focused MVP without arriving with a technical specification or complete feature list.", alternates: { canonical: "/mvp-development", languages: { "en-GB": "/mvp-development/uk", "en-US": "/mvp-development/us", "x-default": "/mvp-development" } } };
+
+export default function MvpDevelopmentPage() {
+  return <MainShell><PageHero eyebrow="MVP development" title="Build the smallest product that completes a valuable workflow." copy="A focused MVP is not a collection of unfinished features. It is a practical first release that creates one complete outcome and gives you something real to learn from."><Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "MVP development" }]} /><div className="button-row"><ButtonLink href="/apply">Discuss your MVP — free</ButtonLink><ButtonLink href="/pricing" variant="secondary">See starting prices</ButtonLink></div></PageHero>
+  <section className="section section--surface"><Container><SectionIntro eyebrow="A complete first release" title="What focused means in practice" /><div className="three-card-grid"><article className="editorial-card"><span className="card-tag">01 · Useful</span><h3>One end-to-end outcome</h3><p>The first release should let a real user complete something meaningful without a manual gap hidden in the middle.</p></article><article className="editorial-card"><span className="card-tag">02 · Operable</span><h3>The systems behind the screen</h3><p>Data, authentication, administration, notifications, quality, and deployment receive the attention needed for real use.</p></article><article className="editorial-card"><span className="card-tag">03 · Learnable</span><h3>Evidence for the next decision</h3><p>Analytics and early feedback show where users gain value, where they struggle, and what deserves the next investment.</p></article></div></Container></section>
+  <ProcessSection /><CapabilityWorkSection compact />
+  <section className="section section--muted"><Container><div className="market-choice"><div><p className="eyebrow">Market-specific detail</p><h2>Choose the starting prices and language relevant to you.</h2><p>The core approach is the same. UK and US campaign pages use manually configured local starting prices rather than automatic currency conversions.</p></div><div><article><span>UK · GBP</span><h3>For United Kingdom teams</h3><ul><li><Check />Blueprints from £2,000</li><li><Check />Focused MVPs from £8,000</li></ul><ButtonLink href="/mvp-development/uk" variant="secondary">View the UK page</ButtonLink></article><article><span>US · USD</span><h3>For United States teams</h3><ul><li><Check />Blueprints from $2,500</li><li><Check />Focused MVPs from $10,000</li></ul><ButtonLink href="/mvp-development/us" variant="secondary">View the US page</ButtonLink></article></div></div></Container></section>
+  <FaqSection /><FinalCta /></MainShell>;
+}
+

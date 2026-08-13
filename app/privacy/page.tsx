@@ -1,0 +1,14 @@
+import type { Metadata } from "next";
+import { LegalPage } from "@/src/components/legal/legal-page";
+export const metadata: Metadata = { title: "Privacy Notice", description: "How NeedFoundry intends to collect, use, retain, and protect product-enquiry information.", alternates: { canonical: "/privacy" } };
+const sections = [
+  { title: "Who this notice is for", paragraphs: ["This notice covers visitors, prospective clients, and people who submit a product enquiry through NeedFoundry. Replace this section with the legal entity, registration information, and data-controller contact before launch."] },
+  { title: "Information we collect", items: ["Contact and professional details you provide.", "Product context, current workflow, intended users, evidence, budget range, and timeline.", "Consent choices and technical anti-spam information.", "Landing page, referrer, and campaign attribution when available.", "Limited site analytics and advertising identifiers only when the relevant consent is active."] },
+  { title: "How we use it", paragraphs: ["We use enquiry information to assess fit, recommend a practical next step, communicate about the enquiry, protect the service from abuse, and improve the site. Optional marketing updates use separate consent.", "Free-text product descriptions are not sent to advertising platforms. Optional analytics or advertising failure does not prevent an application from working."] },
+  { title: "Providers and international processing", paragraphs: ["Configured providers may include hosting, Supabase or a signed CRM webhook, Resend, Cloudflare Turnstile, booking services, Google Analytics, and Meta. The final notice must identify active providers, roles, locations, safeguards, and links to their notices."] },
+  { title: "Retention and deletion", paragraphs: ["Lead retention is configurable and should be set to a documented business period. Unsuccessful, inactive, or consent-withdrawn records should be reviewed and deleted or minimized according to the approved retention schedule."] },
+  { title: "Your choices and rights", paragraphs: ["Depending on your location, you may have rights to access, correct, delete, restrict, or object to processing, and to withdraw marketing consent. Add a verified privacy contact and jurisdiction-specific instructions before launch."] },
+  { title: "Security", paragraphs: ["Lead validation, server-side scoring, private storage credentials, rate limiting, anti-spam checks, secure headers, and limited failure logs are designed into the application. No online service can promise absolute security."] },
+] as const;
+export default function PrivacyPage() { return <LegalPage title="Privacy notice" description="A plain-language explanation of how product-enquiry information is intended to be handled." updated="14 August 2026" sections={sections} />; }
+

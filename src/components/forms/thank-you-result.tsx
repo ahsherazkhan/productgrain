@@ -1,0 +1,179 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  CalendarCheck,
+  CheckCircle2,
+  Clock3,
+  Lightbulb,
+  Mail,
+} from "lucide-react";
+import { ButtonLink } from "@/src/components/ui/primitives";
+import { createEventId, trackClientEvent } from "@/src/lib/client/analytics";
+import { siteConfig } from "@/src/config/site";
+
+type LeadResult = {
+  leadId: string;
+  status: "qualified" | "review" | "nurture";
+  bookingUrl?: string;
+  message?: string;
+};
+
+const copy = {
+  qualified: {
+    eyebrow: "Potential fit",
+    title: "Your product looks like a potential fit for a focused discussion.",
+    body: "Choose a suitable time for a free thirty-minute Product Clarity Call. Beforehand, think about the current workflow, intended users, and the most important outcome the first version should create.",
+    icon: CalendarCheck,
+  },
+  review: {
+    eyebrow: "Thoughtful review",
+    title: "Your project may be suitable, and we’re reviewing the right starting point.",
+    body: "The details need a little human review before we recommend the right call or first phase. We will follow up using the work email in your application.",
+    icon: Clock3,
+  },
+  nurture: {
+    eyebrow: "A useful smaller step",
+    title: "The most useful next step may be more validation or a focused prototype.",
+    body: "Thank you for sharing the idea. We will follow up with a practical next step. This may be customer conversations, a product blueprint, or one smaller high-value workflow.",
+    icon: Lightbulb,
+  },
+} as const;
+
+function marketingConsentIsActive(): boolean {
+  try {
+    const raw = localStorage.getItem("needfoundry-consent-v1");
+    return raw
+      ? (JSON.parse(raw) as { marketing?: boolean }).marketing === true
+      : false;
+  } catch {
+    return false;
+  }
+}
+
+export function ThankYouResult({ reference }: { reference?: string }) {
+  const [result, setResult] = useState<LeadResult | null>(null);
+
+  useEffect(() => {
+    if (!reference) return;
+    const timer = window.setTimeout(() => {
+      try {
+        const raw = sessionStorage.getItem(`needfoundry-result:${reference}`);
+        if (!raw) return;
+        const parsed = JSON.parse(raw) as LeadResult;
+        setResult(parsed);
+        if (parsed.status === "qualified" && parsed.bookingUrl) {
+          trackClientEvent("booking_view", { result: "qualified" });
+        }
+      } catch {
+        // The private session result may be unavailable in a new browser.
+      }
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, [reference]);
+
+  const trackBooking = () => {
+    if (!result) return;
+    const eventId = createEventId("schedule");
+    trackClientEvent(
+      "booking_click",
+      { result: "qualified" },
+      "Schedule",
+      eventId,
+    );
+    if (!marketingConsentIsActive()) return;
+    void fetch("/api/meta", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        eventName: "Schedule",
+        eventId,
+        eventSourceUrl: `${window.location.origin}${window.location.pathname}`,
+        marketingConsent: true,
+        leadId: result.leadId,
+      }),
+      keepalive: true,
+    });
+  };
+
+  if (!result) {
+    return (
+      <div className="result-card result-card--generic">
+        <CheckCircle2 aria-hidden="true" />
+        <p className="eyebrow">Brief received</p>
+        <h1>Thank you for sharing your product context.</h1>
+        <p>
+          If you submitted an application in this browser, check your email for
+          the next step. For privacy, qualification details are available only
+          in the original submission session.
+        </p>
+        <ButtonLink href="/">Return to NeedFoundry</ButtonLink>
+      </div>
+    );
+  }
+
+  const content = copy[result.status];
+  const Icon = content.icon;
+
+  return (
+    <div className={`result-card result-card--${result.status}`}>
+      <Icon aria-hidden="true" />
+      <p className="eyebrow">{content.eyebrow}</p>
+      <h1>{content.title}</h1>
+      <p>{result.message || content.body}</p>
+
+      {result.status === "qualified" ? (
+        <>
+          <div className="result-prep">
+            <strong>Bring to the call</strong>
+            <ul>
+              <li>The current workflow and workaround</li>
+              <li>The intended users or stakeholders</li>
+              <li>The highest-value first outcome</li>
+            </ul>
+          </div>
+          {result.bookingUrl ? (
+            <a
+              href={result.bookingUrl}
+              className="button button--primary"
+              target="_blank"
+              rel="noreferrer"
+              onClick={trackBooking}
+            >
+              <span>Choose a time for the free call</span>
+              <ArrowUpRight aria-hidden="true" size={17} />
+            </a>
+          ) : (
+            <div className="booking-unavailable">
+              <Mail aria-hidden="true" />
+              <span>
+                <strong>Booking link unavailable</strong>
+                {siteConfig.email ? <>We’ll follow up by email. You can also contact <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>.</> : <>We’ll follow up using the work email in your application.</>}
+              </span>
+            </div>
+          )}
+          <p className="price-reminder">
+            Starting prices: focused MVPs from £8,000 in the UK or $10,000 in
+            the US. Final scope is agreed after the free call.
+          </p>
+        </>
+      ) : (
+        <div className="result-next">
+          <strong>What happens now</strong>
+          <span>
+            We review the complete context and reply by email with the most
+            practical recommendation.
+          </span>
+          {siteConfig.email ? <a href={`mailto:${siteConfig.email}`}>Contact {siteConfig.email}</a> : null}
+        </div>
+      )}
+
+      <Link href="/pricing" className="text-link">
+        Review the starting options <ArrowRight aria-hidden="true" />
+      </Link>
+    </div>
+  );
+}
