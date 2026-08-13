@@ -10,7 +10,7 @@ import { createEventId, trackClientEvent } from "@/src/lib/client/analytics";
 import type { MarketKey } from "@/src/config/markets";
 import type { PricingPackageId } from "@/src/config/pricing";
 import { TurnstileField } from "./turnstile-field";
-import { consentPolicyVersion } from "@/src/components/layout/cookie-consent";
+import { readConsent } from "@/src/components/layout/cookie-consent";
 
 type LeadFormValues = Omit<LeadSubmissionInput, "contactConsent"> & { contactConsent: boolean };
 type LeadResult = { leadId: string; status: "qualified" | "review" | "nurture"; bookingUrl?: string; message?: string };
@@ -206,16 +206,11 @@ export function ApplicationForm({ market = "uk", embedded = false, packageIntere
     let advertisingConsentUpdatedAt: string | undefined;
     let savedConsentPolicyVersion: string | undefined;
     try {
-      const raw = localStorage.getItem("needfoundry-consent-v1");
-      if (raw) {
-        const consent = JSON.parse(raw) as {
-          marketing?: boolean;
-          updatedAt?: string;
-          policyVersion?: string;
-        };
+      const consent = readConsent();
+      if (consent) {
         advertisingConsent = consent.marketing === true;
         advertisingConsentUpdatedAt = consent.updatedAt;
-        savedConsentPolicyVersion = consent.policyVersion ?? consentPolicyVersion;
+        savedConsentPolicyVersion = consent.policyVersion;
       }
     } catch { /* optional consent state remains denied */ }
 

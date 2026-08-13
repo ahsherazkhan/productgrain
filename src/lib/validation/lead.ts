@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 export const markets = ["us", "uk", "international"] as const;
+export const currentConsentPolicyVersion = "2026-08-14";
 
 export const roles = [
   "business-owner",
@@ -215,7 +216,7 @@ export const leadSubmissionSchema = z
   })
   .strict()
   .superRefine((value, context) => {
-    if (value.advertisingConsent && (!value.advertisingConsentUpdatedAt || !value.consentPolicyVersion)) {
+    if (value.advertisingConsent && (!value.advertisingConsentUpdatedAt || value.consentPolicyVersion !== currentConsentPolicyVersion)) {
       context.addIssue({
         code: "custom",
         path: ["advertisingConsent"],

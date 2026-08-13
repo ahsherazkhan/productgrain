@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { currentConsentPolicyVersion } from "@/src/lib/validation/lead";
 
 export type ConsentChoice = {
   necessary: true;
@@ -12,9 +13,9 @@ export type ConsentChoice = {
 };
 
 const storageKey = "needfoundry-consent-v1";
-export const consentPolicyVersion = "2026-08-14";
+export const consentPolicyVersion = currentConsentPolicyVersion;
 
-function readConsent(): ConsentChoice | null {
+export function readConsent(): ConsentChoice | null {
   try {
     const raw = localStorage.getItem(storageKey);
     if (!raw) return null;

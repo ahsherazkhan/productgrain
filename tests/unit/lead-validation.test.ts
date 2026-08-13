@@ -53,3 +53,16 @@ test("rejects unexpected fields rather than persisting them", () => {
 
   assert.equal(result.success, false);
 });
+
+test("requires current, timestamped advertising consent", () => {
+  for (const overrides of [
+    { advertisingConsent: true },
+    { advertisingConsent: true, advertisingConsentUpdatedAt: "2026-08-14T12:00:00.000Z", consentPolicyVersion: "old-policy" },
+  ] as const) {
+    const result = leadSubmissionSchema.safeParse(validLead(overrides));
+    assert.equal(result.success, false);
+    if (!result.success) {
+      assert.ok(result.error.issues.some((issue) => issue.path[0] === "advertisingConsent"));
+    }
+  }
+});
