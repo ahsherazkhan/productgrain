@@ -14,6 +14,7 @@ import {
 import { ButtonLink } from "@/src/components/ui/primitives";
 import { createEventId, trackClientEvent } from "@/src/lib/client/analytics";
 import { siteConfig } from "@/src/config/site";
+import { readConsent } from "@/src/components/layout/cookie-consent";
 
 type LeadResult = {
   leadId: string;
@@ -44,14 +45,7 @@ const copy = {
 } as const;
 
 function marketingConsentIsActive(): boolean {
-  try {
-    const raw = localStorage.getItem("needfoundry-consent-v1");
-    return raw
-      ? (JSON.parse(raw) as { marketing?: boolean }).marketing === true
-      : false;
-  } catch {
-    return false;
-  }
+  return readConsent()?.marketing === true;
 }
 
 export function ThankYouResult({ reference }: { reference?: string }) {

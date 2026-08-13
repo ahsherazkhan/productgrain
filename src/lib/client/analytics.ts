@@ -1,15 +1,7 @@
 import type { AnalyticsEventName, MetaEventName } from "@/src/config/integrations";
+import { readConsent } from "@/src/components/layout/cookie-consent";
 
 type SafeEventProperties = Record<string, string | number | boolean | undefined>;
-
-function readConsent(): { analytics?: boolean; marketing?: boolean } {
-  try {
-    const value = localStorage.getItem("needfoundry-consent-v1");
-    return value ? (JSON.parse(value) as { analytics?: boolean; marketing?: boolean }) : {};
-  } catch {
-    return {};
-  }
-}
 
 export function createEventId(prefix: string) {
   const uuid = typeof crypto !== "undefined" && "randomUUID" in crypto ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
@@ -24,6 +16,7 @@ export function trackClientEvent(
 ) {
   if (typeof window === "undefined") return;
   const consent = readConsent();
+  if (!consent) return;
 
   if (consent.analytics) {
     window.gtag?.("event", name, properties);

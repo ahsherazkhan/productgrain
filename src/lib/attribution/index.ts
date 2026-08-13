@@ -30,7 +30,7 @@ export function safePagePath(pageUrl: URL): string {
   return `${pageUrl.pathname}${query ? `?${query}` : ""}`.slice(0, 500);
 }
 
-function clean(value: string | null, max = 200): string | undefined {
+function clean(value: string | null | undefined, max = 200): string | undefined {
   if (!value) return undefined;
   const normalized = Array.from(value.normalize("NFKC"))
     .filter((character) => {
@@ -43,7 +43,7 @@ function clean(value: string | null, max = 200): string | undefined {
   return normalized || undefined;
 }
 
-function cleanReferrer(value: string | null | undefined): string | undefined {
+export function cleanReferrer(value: string | null | undefined): string | undefined {
   if (!value) return undefined;
   try {
     const url = new URL(value);
@@ -56,6 +56,37 @@ function cleanReferrer(value: string | null | undefined): string | undefined {
   } catch {
     return undefined;
   }
+}
+
+function cleanLandingPage(value: string | undefined): string | undefined {
+  if (!value) return undefined;
+  try {
+    const url = value.startsWith("/")
+      ? new URL(value, "https://needfoundry.invalid")
+      : new URL(value);
+    if (url.protocol !== "https:" && url.protocol !== "http:") return undefined;
+    return safePagePath(url);
+  } catch {
+    return undefined;
+  }
+}
+
+function cleanSnapshot(
+  snapshot: AttributionSnapshotInput | undefined,
+  fallbackCapturedAt: string,
+): AttributionSnapshotInput | undefined {
+  if (!snapshot) return undefined;
+  return {
+    capturedAt: snapshot.capturedAt ?? fallbackCapturedAt,
+    landingPage: cleanLandingPage(snapshot.landingPage),
+    referrer: cleanReferrer(snapshot.referrer),
+    utmSource: clean(snapshot.utmSource),
+    utmMedium: clean(snapshot.utmMedium),
+    utmCampaign: clean(snapshot.utmCampaign),
+    utmContent: clean(snapshot.utmContent),
+    utmTerm: clean(snapshot.utmTerm),
+    fbclid: clean(snapshot.fbclid),
+  };
 }
 
 export function captureAttribution(
@@ -102,20 +133,21 @@ export function attributionFromLeadInput(
   },
   now = new Date(),
 ): AttributionState {
+  const capturedAt = now.toISOString();
   const fallback: AttributionSnapshotInput = {
-    capturedAt: now.toISOString(),
-    landingPage: input.landingPage,
-    referrer: input.referrer,
-    utmSource: input.utmSource,
-    utmMedium: input.utmMedium,
-    utmCampaign: input.utmCampaign,
-    utmContent: input.utmContent,
-    utmTerm: input.utmTerm,
-    fbclid: input.fbclid,
+    capturedAt,
+    landingPage: cleanLandingPage(input.landingPage),
+    referrer: cleanReferrer(input.referrer),
+    utmSource: clean(input.utmSource),
+    utmMedium: clean(input.utmMedium),
+    utmCampaign: clean(input.utmCampaign),
+    utmContent: clean(input.utmContent),
+    utmTerm: clean(input.utmTerm),
+    fbclid: clean(input.fbclid),
   };
 
   return {
-    firstTouch: input.firstTouch ?? fallback,
-    lastTouch: input.lastTouch ?? fallback,
+    firstTouch: cleanSnapshot(input.firstTouch, capturedAt) ?? fallback,
+    lastTouch: cleanSnapshot(input.lastTouch, capturedAt) ?? fallback,
   };
 }

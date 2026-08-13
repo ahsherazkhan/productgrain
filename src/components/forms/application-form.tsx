@@ -220,7 +220,7 @@ export function ApplicationForm({ market = "uk", embedded = false, packageIntere
       market: selectedMarket,
       submissionId: submissionIdRef.current ?? (submissionIdRef.current = crypto.randomUUID()),
       landingPage: safePagePath(new URL(window.location.href)),
-      referrer: document.referrer || undefined,
+      referrer: captureAttribution(new URL(window.location.href), document.referrer).referrer,
       firstTouch: attribution?.firstTouch,
       lastTouch: attribution?.lastTouch,
       eventId,

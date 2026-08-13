@@ -3,6 +3,7 @@ import test from "node:test";
 
 import {
   captureAttribution,
+  attributionFromLeadInput,
   mergeAttribution,
 } from "../../src/lib/attribution/index";
 
@@ -58,4 +59,20 @@ test("preserves allowlisted application context", () => {
     new URL("https://needfoundry.example/apply?market=us&package=focused-mvp&token=secret"),
   );
   assert.equal(snapshot.landingPage, "/apply?market=us&package=focused-mvp");
+});
+
+test("sanitizes direct lead attribution on the server boundary", () => {
+  const attribution = attributionFromLeadInput({
+    landingPage: "/apply?market=us&token=secret",
+    referrer: "https://user:password@publisher.example/article?email=private%40example.com#secret",
+    firstTouch: {
+      landingPage: "/?utm_source=meta&secret=value",
+      referrer: "https://publisher.example/start?token=secret",
+    },
+  });
+
+  assert.equal(attribution.lastTouch.landingPage, "/apply?market=us");
+  assert.equal(attribution.lastTouch.referrer, "https://publisher.example/article");
+  assert.equal(attribution.firstTouch.landingPage, "/?utm_source=meta");
+  assert.equal(attribution.firstTouch.referrer, "https://publisher.example/start");
 });

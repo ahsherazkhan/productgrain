@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
-import type { ConsentChoice } from "@/src/components/layout/cookie-consent";
+import { readConsent, type ConsentChoice } from "@/src/components/layout/cookie-consent";
 
 declare global {
   interface Window {
@@ -106,12 +106,8 @@ export function ConsentAnalytics() {
       }
     };
 
-    try {
-      const stored = localStorage.getItem("needfoundry-consent-v1");
-      if (stored) apply(JSON.parse(stored) as ConsentChoice);
-    } catch {
-      // Optional analytics must never affect the website.
-    }
+    const stored = readConsent();
+    if (stored) apply(stored);
 
     const listener = (event: Event) => apply((event as CustomEvent<ConsentChoice>).detail);
     window.addEventListener("needfoundry:consent", listener);

@@ -101,9 +101,9 @@ export async function submitLeadApplication(
   const lead: LeadRecord = {
     ...leadFields,
     landingPage:
-      leadFields.landingPage ?? attribution.lastTouch.landingPage ?? attribution.firstTouch.landingPage,
+      attribution.lastTouch.landingPage ?? attribution.firstTouch.landingPage,
     referrer:
-      leadFields.referrer ?? attribution.lastTouch.referrer ?? attribution.firstTouch.referrer,
+      attribution.lastTouch.referrer ?? attribution.firstTouch.referrer,
     utmSource:
       leadFields.utmSource ?? attribution.lastTouch.utmSource ?? attribution.firstTouch.utmSource,
     utmMedium:
