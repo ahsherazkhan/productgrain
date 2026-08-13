@@ -139,6 +139,14 @@ function optionalText(max: number) {
     .optional();
 }
 
+function requiredSingleLine(min: number, max: number, label: string) {
+  return requiredText(min, max, label).transform((value) => value.replace(/\s*\n\s*/g, " "));
+}
+
+function optionalSingleLine(max: number) {
+  return optionalText(max).transform((value) => value?.replace(/\s*\n\s*/g, " "));
+}
+
 const trackingValue = optionalText(200);
 const pageValue = optionalText(500);
 
@@ -172,14 +180,14 @@ const eventIdSchema = z
 export const leadSubmissionSchema = z
   .object({
     submissionId: z.uuid().optional(),
-    fullName: requiredText(2, 100, "Full name"),
+    fullName: requiredSingleLine(2, 100, "Full name"),
     email: z.email("Enter a valid work email.").max(254).transform((email) => email.toLowerCase()),
     phone: phoneSchema,
-    company: optionalText(120),
-    country: requiredText(2, 80, "Country"),
+    company: optionalSingleLine(120),
+    country: requiredSingleLine(2, 80, "Country"),
     market: z.enum(markets).default("international"),
     role: z.enum(roles),
-    industry: requiredText(2, 120, "Industry"),
+    industry: requiredSingleLine(2, 120, "Industry"),
     projectType: z.enum(projectTypes),
     packageInterest: z.enum(["blueprint-prototype", "focused-mvp", "custom-product"]).optional(),
     problemDescription: requiredText(20, 2_000, "Problem description"),
@@ -241,6 +249,19 @@ export const leadSubmissionSchema = z
 
 export type AttributionSnapshotInput = z.infer<typeof attributionSnapshotSchema>;
 export type LeadSubmissionInput = z.infer<typeof leadSubmissionSchema>;
+
+export const leadSubmissionResultSchema = z.object({
+  leadId: z.uuid(),
+  status: z.enum(["qualified", "review", "nurture"]),
+  bookingUrl: z.url().refine((value) => new URL(value).protocol === "https:", "Invalid booking URL.").optional(),
+  message: z.string().max(500).optional(),
+}).strict().superRefine((value, context) => {
+  if (value.status !== "qualified" && value.bookingUrl) {
+    context.addIssue({ code: "custom", path: ["bookingUrl"], message: "Booking is available only for qualified results." });
+  }
+});
+
+export type LeadSubmissionResult = z.infer<typeof leadSubmissionResultSchema>;
 
 export type LeadValidationIssue = {
   field: string;

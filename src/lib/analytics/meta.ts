@@ -149,23 +149,20 @@ export class MetaLeadAnalyticsSink implements LeadAnalyticsSink {
       userAgent: input.userAgent,
       customData: {
         market: input.lead.market,
-        qualification_status: input.lead.qualificationStatus,
       },
     };
 
-    await this.client.send(
-      { ...common, eventName: "Lead", eventId: input.eventId },
-      true,
-    );
-    if (input.lead.qualificationStatus === "qualified") {
-      await this.client.send(
-        {
-          ...common,
-          eventName: "QualifiedLead",
-          eventId: input.eventId,
-        },
+    await Promise.all([
+      this.client.send(
+        { ...common, eventName: "Lead", eventId: input.eventId },
         true,
-      );
-    }
+      ),
+      ...(input.lead.qualificationStatus === "qualified"
+        ? [this.client.send(
+            { ...common, eventName: "QualifiedLead", eventId: input.eventId },
+            true,
+          )]
+        : []),
+    ]);
   }
 }

@@ -46,7 +46,7 @@ test("Meta lead events contain only consented, privacy-safe fields", async () =>
   const body = String(requests[0].init?.body);
   assert.doesNotMatch(body, /alex@example\.com/i);
   assert.doesNotMatch(body, /repeatedly transfers|spreadsheets/i);
-  assert.match(body, /qualification_status/);
+  assert.doesNotMatch(body, /qualification_status/);
   assert.match(body, /"Lead"/);
   assert.match(String(requests[1].init?.body), /"QualifiedLead"/);
   const leadPayload = JSON.parse(String(requests[0].init?.body)) as { data: Array<{ event_id: string; event_source_url: string }> };

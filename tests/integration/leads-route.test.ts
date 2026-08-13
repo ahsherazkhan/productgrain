@@ -10,6 +10,7 @@ const originalEnvironment = {
   CRM_WEBHOOK_URL: process.env.CRM_WEBHOOK_URL,
   CRM_WEBHOOK_SECRET: process.env.CRM_WEBHOOK_SECRET,
   TURNSTILE_SECRET_KEY: process.env.TURNSTILE_SECRET_KEY,
+  NEXT_PUBLIC_TURNSTILE_SITE_KEY: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY,
   BOOKING_URL_US: process.env.BOOKING_URL_US,
   NEXT_PUBLIC_BOOKING_URL_US: process.env.NEXT_PUBLIC_BOOKING_URL_US,
   RESEND_API_KEY: process.env.RESEND_API_KEY,
@@ -107,6 +108,7 @@ test("POST /api/leads stops when Turnstile rejects the token", async () => {
     return Response.json({ success: false });
   };
   process.env.TURNSTILE_SECRET_KEY = "turnstile-secret";
+  process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY = "turnstile-site-key";
 
   const response = await POST(
     new Request("https://needfoundry.example/api/leads", {

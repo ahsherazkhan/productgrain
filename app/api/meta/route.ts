@@ -19,6 +19,14 @@ function json(body: unknown, status: number, headers?: HeadersInit): Response {
 }
 
 export async function POST(request: Request): Promise<Response> {
+  if (!request.headers.get("content-type")?.toLowerCase().startsWith("application/json")) {
+    return json({ error: "Content-Type must be application/json." }, 415);
+  }
+  const origin = request.headers.get("origin");
+  const expectedOrigin = new URL(request.url).origin;
+  if (origin && origin !== expectedOrigin) {
+    return json({ error: "Invalid event origin." }, 403);
+  }
   const clientKey = requestClientKey(request);
   const rateLimit = rateLimiter.check(clientKey);
   if (!rateLimit.allowed) {

@@ -1,4 +1,4 @@
-import type { AttributionSnapshotInput, LeadSubmissionInput } from "../validation/lead";
+import type { AttributionSnapshotInput, LeadSubmissionInput, LeadSubmissionResult } from "../validation/lead";
 import type {
   LeadScoreBreakdown,
   QualificationStatus,
@@ -29,12 +29,7 @@ export type LeadRecord = Omit<
   retentionUntil: string;
 };
 
-export type LeadSubmissionResult = {
-  leadId: string;
-  status: QualificationStatus;
-  bookingUrl?: string;
-  message?: string;
-};
+export type { LeadSubmissionResult };
 
 export interface LeadRepository {
   save(lead: LeadRecord): Promise<{ id: string }>;

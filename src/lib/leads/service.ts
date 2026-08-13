@@ -1,4 +1,4 @@
-import { attributionFromLeadInput } from "../attribution";
+import { attributionFromLeadInput, withoutAdvertisingIdentifiers } from "../attribution";
 import { emailStatusMessage, sendLeadEmails, type EmailService } from "../email";
 import { calculateLeadScore } from "../scoring";
 import { buildBookingUrl, integrationErrorCode } from "../security";
@@ -48,7 +48,7 @@ export class LeadSubmissionError extends Error {
 }
 
 function retentionDate(now: Date, requestedDays: number | undefined): string {
-  const days = Math.min(3_650, Math.max(30, requestedDays ?? 365));
+  const days = Math.min(3_650, Math.max(1, requestedDays ?? 365));
   return new Date(now.getTime() + days * 86_400_000).toISOString();
 }
 
@@ -87,7 +87,10 @@ export async function submitLeadApplication(
   const id = dependencies.createId?.() ?? crypto.randomUUID();
   const submissionId = input.submissionId ?? id;
   const score = calculateLeadScore(input);
-  const attribution = attributionFromLeadInput(input, now);
+  const capturedAttribution = attributionFromLeadInput(input, now);
+  const attribution = input.advertisingConsent
+    ? capturedAttribution
+    : withoutAdvertisingIdentifiers(capturedAttribution);
   const { eventId, fbp, fbc } = input;
   const leadFields = { ...input };
   delete leadFields.turnstileToken;
@@ -116,8 +119,9 @@ export async function submitLeadApplication(
       leadFields.utmContent ?? attribution.lastTouch.utmContent ?? attribution.firstTouch.utmContent,
     utmTerm:
       leadFields.utmTerm ?? attribution.lastTouch.utmTerm ?? attribution.firstTouch.utmTerm,
-    fbclid:
-      leadFields.fbclid ?? attribution.lastTouch.fbclid ?? attribution.firstTouch.fbclid,
+    fbclid: input.advertisingConsent
+      ? leadFields.fbclid ?? attribution.lastTouch.fbclid ?? attribution.firstTouch.fbclid
+      : undefined,
     id,
     submissionId,
     createdAt: now.toISOString(),

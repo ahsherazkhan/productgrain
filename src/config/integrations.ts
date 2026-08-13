@@ -19,6 +19,7 @@ export type MetaEventName = (typeof metaEvents)[number];
 export const analyticsEvents = [
   "page_view",
   "pricing_view",
+  "service_view",
   "form_start",
   "form_step_complete",
   "lead_submitted",

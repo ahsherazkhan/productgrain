@@ -12,16 +12,10 @@ import {
   Mail,
 } from "lucide-react";
 import { ButtonLink } from "@/src/components/ui/primitives";
-import { createEventId, trackClientEvent } from "@/src/lib/client/analytics";
+import { createEventId, readMetaBrowserIdentifiers, trackClientEvent } from "@/src/lib/client/analytics";
 import { siteConfig } from "@/src/config/site";
 import { readConsent } from "@/src/components/layout/cookie-consent";
-
-type LeadResult = {
-  leadId: string;
-  status: "qualified" | "review" | "nurture";
-  bookingUrl?: string;
-  message?: string;
-};
+import { leadSubmissionResultSchema, type LeadSubmissionResult as LeadResult } from "@/src/lib/validation/lead";
 
 const copy = {
   qualified: {
@@ -57,9 +51,10 @@ export function ThankYouResult({ reference }: { reference?: string }) {
       try {
         const raw = sessionStorage.getItem(`needfoundry-result:${reference}`);
         if (!raw) return;
-        const parsed = JSON.parse(raw) as LeadResult;
-        setResult(parsed);
-        if (parsed.status === "qualified" && parsed.bookingUrl) {
+        const parsed = leadSubmissionResultSchema.safeParse(JSON.parse(raw));
+        if (!parsed.success) return;
+        setResult(parsed.data);
+        if (parsed.data.status === "qualified" && parsed.data.bookingUrl) {
           trackClientEvent("booking_view", { result: "qualified" });
         }
       } catch {
@@ -79,6 +74,7 @@ export function ThankYouResult({ reference }: { reference?: string }) {
       eventId,
     );
     if (!marketingConsentIsActive()) return;
+    const metaIdentifiers = readMetaBrowserIdentifiers();
     void fetch("/api/meta", {
       method: "POST",
       headers: { "content-type": "application/json" },
@@ -88,6 +84,7 @@ export function ThankYouResult({ reference }: { reference?: string }) {
         eventSourceUrl: `${window.location.origin}${window.location.pathname}`,
         marketingConsent: true,
         leadId: result.leadId,
+        ...metaIdentifiers,
       }),
       keepalive: true,
     });

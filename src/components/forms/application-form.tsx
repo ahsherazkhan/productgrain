@@ -4,16 +4,15 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useForm, type FieldErrors, type FieldPath } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { AlertCircle, ArrowLeft, ArrowRight, Check, Clock3, LockKeyhole, Save } from "lucide-react";
-import { attributionSnapshotSchema, leadSubmissionSchema, type LeadSubmissionInput } from "@/src/lib/validation/lead";
-import { captureAttribution, mergeAttribution, safePagePath, type AttributionState } from "@/src/lib/attribution";
-import { createEventId, trackClientEvent } from "@/src/lib/client/analytics";
+import { attributionSnapshotSchema, leadSubmissionResultSchema, leadSubmissionSchema, type LeadSubmissionInput } from "@/src/lib/validation/lead";
+import { captureAttribution, isAttributionStateFresh, mergeAttribution, safePagePath, withoutAdvertisingIdentifiers, type AttributionState } from "@/src/lib/attribution";
+import { createEventId, readMetaBrowserIdentifiers, trackClientEvent } from "@/src/lib/client/analytics";
 import type { MarketKey } from "@/src/config/markets";
 import type { PricingPackageId } from "@/src/config/pricing";
-import { TurnstileField } from "./turnstile-field";
+import { TurnstileField, type TurnstileHandle } from "./turnstile-field";
 import { readConsent } from "@/src/components/layout/cookie-consent";
 
 type LeadFormValues = Omit<LeadSubmissionInput, "contactConsent"> & { contactConsent: boolean };
-type LeadResult = { leadId: string; status: "qualified" | "review" | "nurture"; bookingUrl?: string; message?: string };
 
 const stepTitles = ["About you", "The problem", "Evidence & impact", "Commercial fit", "Permission"] as const;
 const sessionKey = "needfoundry-application-v1";
@@ -87,6 +86,7 @@ export function ApplicationForm({ market = "uk", embedded = false, packageIntere
   const [restored, setRestored] = useState(false);
   const errorSummaryRef = useRef<HTMLDivElement>(null);
   const submissionIdRef = useRef<string | null>(null);
+  const turnstileRef = useRef<TurnstileHandle>(null);
   const budgets = selectedMarket === "us" ? usBudgets : ukBudgets;
 
   const { register, handleSubmit, trigger, watch, reset, resetField, getValues, setValue, setError, formState: { errors, isSubmitting } } = useForm<LeadFormValues>({
@@ -122,15 +122,20 @@ export function ApplicationForm({ market = "uk", embedded = false, packageIntere
 
     try {
       const latest = captureAttribution(new URL(window.location.href), document.referrer);
+      const advertisingAllowed = readConsent()?.marketing === true;
+      const consentSafeLatest = advertisingAllowed ? latest : withoutAdvertisingIdentifiers({ firstTouch: latest, lastTouch: latest }).firstTouch;
       const existingRaw = localStorage.getItem(attributionKey);
       let existing: AttributionState | undefined;
       if (existingRaw) {
         const candidate = JSON.parse(existingRaw) as Partial<AttributionState>;
         const first = attributionSnapshotSchema.safeParse(candidate.firstTouch);
         const last = attributionSnapshotSchema.safeParse(candidate.lastTouch);
-        if (first.success && last.success) existing = { firstTouch: first.data, lastTouch: last.data };
+        if (first.success && last.success) {
+          existing = { firstTouch: first.data, lastTouch: last.data };
+          if (!isAttributionStateFresh(existing)) existing = undefined;
+        }
       }
-      localStorage.setItem(attributionKey, JSON.stringify(mergeAttribution(existing, latest)));
+      localStorage.setItem(attributionKey, JSON.stringify(mergeAttribution(existing, consentSafeLatest)));
     } catch {
       // Attribution is useful but never required for the application.
     }
@@ -199,7 +204,10 @@ export function ApplicationForm({ market = "uk", embedded = false, packageIntere
         const candidate = JSON.parse(raw) as Partial<AttributionState>;
         const first = attributionSnapshotSchema.safeParse(candidate.firstTouch);
         const last = attributionSnapshotSchema.safeParse(candidate.lastTouch);
-        if (first.success && last.success) attribution = { firstTouch: first.data, lastTouch: last.data };
+        if (first.success && last.success) {
+          const candidateAttribution = { firstTouch: first.data, lastTouch: last.data };
+          if (isAttributionStateFresh(candidateAttribution)) attribution = candidateAttribution;
+        }
       }
     } catch { /* optional */ }
     let advertisingConsent = false;
@@ -213,13 +221,24 @@ export function ApplicationForm({ market = "uk", embedded = false, packageIntere
         savedConsentPolicyVersion = consent.policyVersion;
       }
     } catch { /* optional consent state remains denied */ }
+    if (advertisingConsent) {
+      const latest = captureAttribution(new URL(window.location.href), document.referrer);
+      attribution = mergeAttribution(attribution, latest);
+    }
+    if (attribution && !advertisingConsent) attribution = withoutAdvertisingIdentifiers(attribution);
+    const metaIdentifiers = advertisingConsent ? readMetaBrowserIdentifiers() : {};
 
     const eventId = createEventId("lead");
     const candidate = {
       ...values,
       market: selectedMarket,
       submissionId: submissionIdRef.current ?? (submissionIdRef.current = crypto.randomUUID()),
-      landingPage: safePagePath(new URL(window.location.href)),
+      landingPage: advertisingConsent
+        ? safePagePath(new URL(window.location.href))
+        : withoutAdvertisingIdentifiers({
+            firstTouch: captureAttribution(new URL(window.location.href)),
+            lastTouch: captureAttribution(new URL(window.location.href)),
+          }).lastTouch.landingPage,
       referrer: captureAttribution(new URL(window.location.href), document.referrer).referrer,
       firstTouch: attribution?.firstTouch,
       lastTouch: attribution?.lastTouch,
@@ -227,6 +246,7 @@ export function ApplicationForm({ market = "uk", embedded = false, packageIntere
       advertisingConsent,
       advertisingConsentUpdatedAt,
       consentPolicyVersion: savedConsentPolicyVersion,
+      ...metaIdentifiers,
     };
     const parsed = leadSubmissionSchema.safeParse(candidate);
     if (!parsed.success) {
@@ -248,23 +268,27 @@ export function ApplicationForm({ market = "uk", embedded = false, packageIntere
 
     try {
       const response = await fetch("/api/leads", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(parsed.data) });
-      const data = await response.json() as LeadResult | { error?: string; issues?: { field: string; message: string }[] };
-      if (!response.ok || !("leadId" in data)) {
-        if ("issues" in data && data.issues) {
-          for (const issue of data.issues) setError(issue.field as FieldPath<LeadFormValues>, { type: "server", message: issue.message });
+      const data = await response.json() as unknown;
+      const publicResult = leadSubmissionResultSchema.safeParse(data);
+      if (!response.ok || !publicResult.success) {
+        const errorData = data && typeof data === "object" ? data as { error?: string; issues?: { field: string; message: string }[] } : {};
+        if (errorData.issues) {
+          for (const issue of errorData.issues) setError(issue.field as FieldPath<LeadFormValues>, { type: "server", message: issue.message });
         }
-        throw new Error("error" in data && data.error ? data.error : "We could not send your application.");
+        throw new Error(errorData.error || "We could not send your application.");
       }
+      const result = publicResult.data;
       try {
         sessionStorage.removeItem(sessionKey);
-        sessionStorage.setItem(`needfoundry-result:${data.leadId}`, JSON.stringify(data));
+        sessionStorage.setItem(`needfoundry-result:${result.leadId}`, JSON.stringify(result));
       } catch {
         // Durable submission succeeded; browser result caching is best-effort.
       }
-      trackClientEvent("lead_submitted", { market: selectedMarket, qualification: data.status }, "Lead", eventId);
-      if (data.status === "qualified") trackClientEvent("qualified_lead", { market: selectedMarket }, "QualifiedLead", eventId);
-      router.push(`/thank-you?ref=${encodeURIComponent(data.leadId)}`);
+      trackClientEvent("lead_submitted", { market: selectedMarket }, "Lead", eventId);
+      if (result.status === "qualified") trackClientEvent("qualified_lead", { market: selectedMarket }, "QualifiedLead", eventId);
+      router.push(`/thank-you?ref=${encodeURIComponent(result.leadId)}`);
     } catch (error) {
+      turnstileRef.current?.reset();
       setSubmitError(error instanceof Error ? error.message : "Something went wrong. Your answers remain saved in this browser so you can try again.");
       errorSummaryRef.current?.focus();
     }
@@ -341,7 +365,7 @@ export function ApplicationForm({ market = "uk", embedded = false, packageIntere
             <div className="privacy-panel"><LockKeyhole aria-hidden="true" /><div><h3>Your details stay private</h3><p>We use your information to review and respond to this product enquiry. We do not send your free-text answers to advertising platforms. Read the <a href="/privacy" target="_blank">privacy notice</a>.</p></div></div>
             <label className="check-option"><input type="checkbox" {...register("contactConsent", { required: "Consent to reply to your enquiry is required." })} /><span><i><Check aria-hidden="true" /></i><span>I consent to NeedFoundry contacting me about this enquiry. <strong>Required</strong></span></span></label><FieldError message={currentErrors.contactConsent?.message} />
             <label className="check-option"><input type="checkbox" {...register("marketingConsent")} /><span><i><Check aria-hidden="true" /></i><span>I would also like occasional product and studio updates. <small>Optional and unchecked by default</small></span></span></label>
-            <TurnstileField onToken={tokenCallback} />
+            <TurnstileField ref={turnstileRef} onToken={tokenCallback} />
             <div className="submission-note"><strong>What happens next?</strong><p>We evaluate the fit and send the most useful next step. Qualified applications can choose a free thirty-minute call; others receive a review or smaller-step recommendation.</p></div>
           </div> : null}
         </div>

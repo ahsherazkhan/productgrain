@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { readConsent, type ConsentChoice } from "@/src/components/layout/cookie-consent";
+import { readMetaBrowserIdentifiers } from "@/src/lib/client/analytics";
 
 declare global {
   interface Window {
@@ -91,6 +92,7 @@ export function ConsentAnalytics() {
       if (choice.marketing && lastMarketingPage.current !== page && window.fbq) {
         lastMarketingPage.current = page;
         const eventId = `page:${crypto.randomUUID()}`;
+        const metaIdentifiers = readMetaBrowserIdentifiers();
         window.fbq("track", "PageView", {}, { eventID: eventId });
         void fetch("/api/meta", {
           method: "POST",
@@ -100,6 +102,7 @@ export function ConsentAnalytics() {
             eventId,
             eventSourceUrl: safeLocation,
             marketingConsent: true,
+            ...metaIdentifiers,
           }),
           keepalive: true,
         });

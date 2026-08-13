@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
 import { ShieldCheck } from "lucide-react";
 
 declare global {
@@ -8,12 +8,16 @@ declare global {
     turnstile?: {
       render: (container: HTMLElement, options: { sitekey: string; callback: (token: string) => void; "expired-callback": () => void; theme: "light"; size: "flexible" }) => string;
       remove: (widgetId: string) => void;
+      reset: (widgetId: string) => void;
     };
   }
 }
 
-export function TurnstileField({ onToken }: { onToken: (token: string) => void }) {
+export type TurnstileHandle = { reset: () => void };
+
+export const TurnstileField = forwardRef<TurnstileHandle, { onToken: (token: string) => void }>(function TurnstileField({ onToken }, ref) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const widgetIdRef = useRef<string | undefined>(undefined);
   const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
   useEffect(() => {
@@ -28,6 +32,7 @@ export function TurnstileField({ onToken }: { onToken: (token: string) => void }
         theme: "light",
         size: "flexible",
       });
+      widgetIdRef.current = widgetId;
     };
     const existing = document.getElementById("cloudflare-turnstile-script") as HTMLScriptElement | null;
     if (existing) render();
@@ -44,11 +49,19 @@ export function TurnstileField({ onToken }: { onToken: (token: string) => void }
     return () => {
       window.clearInterval(timer);
       if (widgetId && window.turnstile) window.turnstile.remove(widgetId);
+      widgetIdRef.current = undefined;
     };
   }, [onToken, siteKey]);
+
+  useImperativeHandle(ref, () => ({
+    reset() {
+      onToken("");
+      if (widgetIdRef.current && window.turnstile) window.turnstile.reset(widgetIdRef.current);
+    },
+  }), [onToken]);
 
   if (!siteKey) {
     return <div className="turnstile-placeholder"><ShieldCheck aria-hidden="true" /><span><strong>Protected submission</strong>Secure verification runs before an application is accepted.</span></div>;
   }
   return <div className="turnstile-widget" ref={containerRef} aria-label="Spam protection verification" />;
-}
+});

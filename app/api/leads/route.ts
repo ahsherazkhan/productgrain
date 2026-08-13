@@ -83,6 +83,12 @@ function optionalCrmSink(storageProvider: string) {
 }
 
 export async function POST(request: Request): Promise<Response> {
+  if (!request.headers.get("content-type")?.toLowerCase().startsWith("application/json")) {
+    return json({ error: "Content-Type must be application/json." }, 415);
+  }
+  if (process.env.NODE_ENV === "production" && (!process.env.TURNSTILE_SECRET_KEY || !process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY)) {
+    return json({ error: "Applications are temporarily unavailable. Please try again later." }, 503);
+  }
   const clientKey = requestClientKey(request);
   const rateLimit = rateLimiter.check(clientKey);
   if (!rateLimit.allowed) {

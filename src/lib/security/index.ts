@@ -19,10 +19,28 @@ export async function readLimitedJson(
     throw new RequestBodyError("payload-too-large", "Request body is too large.");
   }
 
-  const body = await request.text();
-  if (new TextEncoder().encode(body).byteLength > maxBytes) {
-    throw new RequestBodyError("payload-too-large", "Request body is too large.");
+  const reader = request.body?.getReader();
+  const chunks: Uint8Array[] = [];
+  let totalBytes = 0;
+  if (reader) {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      totalBytes += value.byteLength;
+      if (totalBytes > maxBytes) {
+        await reader.cancel();
+        throw new RequestBodyError("payload-too-large", "Request body is too large.");
+      }
+      chunks.push(value);
+    }
   }
+  const bytes = new Uint8Array(totalBytes);
+  let offset = 0;
+  for (const chunk of chunks) {
+    bytes.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
+  const body = new TextDecoder().decode(bytes);
 
   try {
     return JSON.parse(body) as unknown;
@@ -52,6 +70,9 @@ export class InMemoryRateLimiter implements RateLimiter {
   check(key: string, now = Date.now()): RateLimitResult {
     if (this.attempts.size >= this.maxKeys && !this.attempts.has(key)) {
       this.removeExpiredKeys(now);
+      if (this.attempts.size >= this.maxKeys) {
+        return { allowed: false, retryAfterSeconds: Math.max(1, Math.ceil(this.windowMilliseconds / 1_000)) };
+      }
     }
 
     const windowStart = now - this.windowMilliseconds;

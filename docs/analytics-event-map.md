@@ -10,6 +10,7 @@ Consent and legal treatment must be reviewed for the production entity and marke
 |---|---|---|
 | `page_view` | A public route becomes the active view; once per actual route view, not every component render. | Analytics and Meta (`PageView`) after applicable consent. |
 | `pricing_view` | The pricing section meaningfully enters the viewport or the standalone pricing route is viewed; deduplicate within the route view. | Analytics; Meta may receive `ViewContent` when marketing consent permits. |
+| `service_view` | The detailed services route becomes the active view. | Analytics; Meta may receive `ViewContent` when marketing consent permits. |
 | `form_start` | The first meaningful application interaction in a session (focus/change), not merely form rendering. | Analytics and Meta (`LeadFormStart`) after applicable consent. |
 | `form_step_complete` | A step passes validation and the user advances; once for each completion attempt that succeeds. | Analytics. |
 | `lead_submitted` | The server accepts a valid, Turnstile-verified application for processing. Do not fire on button click or client-only validation. | Analytics and Meta (`Lead`) after applicable consent. |

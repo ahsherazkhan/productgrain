@@ -19,6 +19,16 @@ test("accepts and normalizes a complete application", () => {
   assert.equal(result.marketingConsent, false);
 });
 
+test("normalizes single-line identity fields for safe headers", () => {
+  const result = leadSubmissionSchema.parse(validLead({
+    fullName: "Alex\nBcc: injected@example.test",
+    company: "Example\r\nWorks",
+  }));
+  assert.equal(result.fullName, "Alex Bcc: injected@example.test");
+  assert.equal(result.company, "Example Works");
+  assert.doesNotMatch(result.fullName, /[\r\n]/);
+});
+
 test("rejects missing enquiry consent and capped free text", () => {
   const result = leadSubmissionSchema.safeParse({
     ...validLead(),

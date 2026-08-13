@@ -5,6 +5,8 @@ import {
   captureAttribution,
   attributionFromLeadInput,
   mergeAttribution,
+  isAttributionStateFresh,
+  withoutAdvertisingIdentifiers,
 } from "../../src/lib/attribution/index";
 
 test("captures campaign fields without URL credentials or fragments", () => {
@@ -23,6 +25,17 @@ test("captures campaign fields without URL credentials or fragments", () => {
   assert.equal(snapshot.referrer, "https://publisher.example/article");
 });
 
+test("expires old attribution and removes ad identifiers without consent", () => {
+  const state = mergeAttribution(undefined, captureAttribution(
+    new URL("https://needfoundry.example/?fbclid=abc"),
+    undefined,
+    new Date("2026-01-01T00:00:00.000Z"),
+  ));
+  assert.equal(isAttributionStateFresh(state, new Date("2026-08-14T00:00:00.000Z")), false);
+  assert.equal(withoutAdvertisingIdentifiers(state).firstTouch.fbclid, undefined);
+  assert.equal(withoutAdvertisingIdentifiers(state).firstTouch.landingPage, "/");
+});
+
 test("preserves first touch while replacing last touch", () => {
   const first = captureAttribution(
     new URL("https://needfoundry.example/?utm_source=meta"),
@@ -34,6 +47,27 @@ test("preserves first touch while replacing last touch", () => {
   const state = mergeAttribution(mergeAttribution(undefined, first), second);
   assert.equal(state.firstTouch.utmSource, "meta");
   assert.equal(state.lastTouch.utmSource, "email");
+});
+
+test("does not overwrite attributed last touch on an ordinary internal view", () => {
+  const campaign = captureAttribution(new URL("https://needfoundry.example/?utm_source=meta"));
+  const internal = captureAttribution(new URL("https://needfoundry.example/apply"), "https://needfoundry.example/");
+  const state = mergeAttribution(mergeAttribution(undefined, campaign), internal);
+  assert.equal(state.lastTouch.utmSource, "meta");
+});
+
+test("preserves campaign last touch when SPA navigation retains external referrer", () => {
+  const campaign = captureAttribution(
+    new URL("https://needfoundry.example/?utm_source=meta"),
+    "https://facebook.example/ad",
+  );
+  const spaRoute = captureAttribution(
+    new URL("https://needfoundry.example/apply"),
+    "https://facebook.example/ad",
+  );
+  const state = mergeAttribution(mergeAttribution(undefined, campaign), spaRoute);
+  assert.equal(state.lastTouch.utmSource, "meta");
+  assert.equal(state.lastTouch.landingPage, "/?utm_source=meta");
 });
 
 test("drops unsafe referrer protocols", () => {

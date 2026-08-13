@@ -15,6 +15,7 @@ import {
 } from "@/src/content/case-studies";
 import { getPublishedTestimonials } from "@/src/content/testimonials";
 import { FinalCta } from "@/src/components/marketing/sections";
+import { RouteEngagement } from "@/src/components/analytics/route-engagement";
 
 export function generateStaticParams() {
   return getPublishedCaseStudies().map(({ slug }) => ({ slug }));
@@ -68,6 +69,7 @@ export default async function CaseStudyPage({
 
   return (
     <MainShell>
+      <RouteEngagement event="case_study_view" metaEvent="ViewContent" properties={{ case_study_slug: item.slug }} />
       <PageHero
         eyebrow={`${item.industry} · ${item.clientType}`}
         title={item.title}

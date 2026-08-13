@@ -195,3 +195,30 @@ test("storage failure returns a generic domain error", async () => {
       error instanceof LeadSubmissionError && error.code === "storage-failed",
   );
 });
+
+test("honors a reviewed short retention period", async () => {
+  const repository = new MemoryLeadRepository();
+  await submitLeadApplication(validLead(), {
+    ...dependencies(repository),
+    retentionDays: 7,
+  });
+  assert.equal(repository.records[0].retentionUntil, "2026-08-21T12:00:00.000Z");
+});
+
+test("drops advertising identifiers at the server boundary without consent", async () => {
+  const repository = new MemoryLeadRepository();
+  await submitLeadApplication(validLead({
+    advertisingConsent: false,
+    fbclid: "direct-client-id",
+    landingPage: "/apply?utm_source=meta&fbclid=direct-client-id",
+    firstTouch: {
+      capturedAt: fixedNow.toISOString(),
+      landingPage: "/?fbclid=direct-client-id",
+      fbclid: "direct-client-id",
+    },
+  }), dependencies(repository));
+  assert.equal(repository.records[0].fbclid, undefined);
+  assert.equal(repository.records[0].landingPage, "/apply?utm_source=meta");
+  assert.equal(repository.records[0].firstTouch.fbclid, undefined);
+  assert.doesNotMatch(repository.records[0].firstTouch.landingPage ?? "", /fbclid/i);
+});

@@ -5,6 +5,8 @@ export type AttributionState = {
   lastTouch: AttributionSnapshotInput;
 };
 
+export const attributionMaxAgeMilliseconds = 90 * 24 * 60 * 60 * 1_000;
+
 const trackingKeys = {
   utm_source: "utmSource",
   utm_medium: "utmMedium",
@@ -112,10 +114,45 @@ export function mergeAttribution(
   existing: AttributionState | undefined,
   latest: AttributionSnapshotInput,
 ): AttributionState {
+  const hasCampaignAttribution = Boolean(
+    latest.utmSource || latest.utmMedium || latest.utmCampaign || latest.utmContent ||
+    latest.utmTerm || latest.fbclid,
+  );
+  const isAttributable = hasCampaignAttribution || (!existing && Boolean(latest.referrer));
   return {
     firstTouch: existing?.firstTouch ?? latest,
-    lastTouch: latest,
+    lastTouch: !existing || isAttributable ? latest : existing.lastTouch,
   };
+}
+
+export function isAttributionStateFresh(
+  state: AttributionState,
+  now = new Date(),
+): boolean {
+  const capturedAt = state.firstTouch.capturedAt;
+  if (!capturedAt) return false;
+  const timestamp = Date.parse(capturedAt);
+  return Number.isFinite(timestamp) && timestamp <= now.getTime() && now.getTime() - timestamp <= attributionMaxAgeMilliseconds;
+}
+
+export function withoutAdvertisingIdentifiers(
+  state: AttributionState,
+): AttributionState {
+  const cleanTouch = (touch: AttributionSnapshotInput): AttributionSnapshotInput => {
+    const rest = { ...touch };
+    delete rest.fbclid;
+    if (rest.landingPage) {
+      try {
+        const url = new URL(rest.landingPage, "https://needfoundry.invalid");
+        url.searchParams.delete("fbclid");
+        rest.landingPage = `${url.pathname}${url.search}`;
+      } catch {
+        delete rest.landingPage;
+      }
+    }
+    return rest;
+  };
+  return { firstTouch: cleanTouch(state.firstTouch), lastTouch: cleanTouch(state.lastTouch) };
 }
 
 export function attributionFromLeadInput(

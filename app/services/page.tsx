@@ -4,11 +4,13 @@ import { MainShell } from "@/src/components/layout/main-shell";
 import { PageHero, Container, SectionIntro, ButtonLink, Breadcrumbs } from "@/src/components/ui/primitives";
 import { services } from "@/src/content/services";
 import { FinalCta } from "@/src/components/marketing/sections";
+import { RouteEngagement } from "@/src/components/analytics/route-engagement";
 
 export const metadata: Metadata = { title: "Product Strategy, Design and Development Services", description: "Product discovery, UX design, full-stack development, AI workflows, integrations, launch support, and ongoing product development.", alternates: { canonical: "/services" } };
 
 export default function ServicesPage() {
   return <MainShell>
+    <RouteEngagement event="service_view" metaEvent="ViewContent" properties={{ content: "services" }} />
     <PageHero eyebrow="Services" title="Product strategy, design, and engineering—from one accountable team." copy="Bring the business problem and current workflow. We help decide what belongs in the first release, then design and build it without separating product decisions from delivery.">
       <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Services" }]} />
     </PageHero>
@@ -19,4 +21,3 @@ export default function ServicesPage() {
     <FinalCta />
   </MainShell>;
 }
-
