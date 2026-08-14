@@ -23,6 +23,7 @@ export type SiteConfig = {
   readonly bookingUrl: string | null;
   readonly socialLinks: SocialLinks;
   readonly navigation: readonly SiteNavigationItem[];
+  readonly footerNavigation: readonly SiteNavigationItem[];
   readonly campaignNavigation: readonly SiteNavigationItem[];
   readonly primaryCta: SiteNavigationItem;
 };
@@ -64,9 +65,13 @@ export const siteConfig = {
     facebook: null,
   },
   navigation: [
-    { label: "Work", href: "/work" },
-    { label: "Process", href: "/process" },
     { label: "Services", href: "/services" },
+    { label: "Process", href: "/process" },
+    { label: "Pricing", href: "/pricing" },
+  ],
+  footerNavigation: [
+    { label: "Services", href: "/services" },
+    { label: "Process", href: "/process" },
     { label: "Pricing", href: "/pricing" },
     { label: "About", href: "/about" },
   ],
@@ -75,7 +80,7 @@ export const siteConfig = {
     { label: "Pricing", href: "#pricing" },
   ],
   primaryCta: {
-    label: "Discuss your idea — free",
+    label: "Tell us about your project",
     href: "/apply",
   },
 } as const satisfies SiteConfig;

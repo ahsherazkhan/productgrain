@@ -203,9 +203,14 @@ export async function sendLeadEmails(options: {
   );
 }
 
-export function emailStatusMessage(status: QualificationStatus): string {
+export function emailStatusMessage(
+  status: QualificationStatus,
+  bookingAvailable = false,
+): string {
   if (status === "qualified") {
-    return "Your project looks like a potential fit. Choose a suitable time for a free product discussion.";
+    return bookingAvailable
+      ? "Your project looks like a potential fit. Choose a suitable time for a free product discussion."
+      : "Your project looks like a potential fit. We’ll follow up using the work email in your application.";
   }
   if (status === "review") {
     return "Thanks. Your project may be suitable, but we would like to review the details before recommending the right call.";

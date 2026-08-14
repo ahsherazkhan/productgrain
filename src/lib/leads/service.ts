@@ -202,6 +202,6 @@ export async function submitLeadApplication(
     leadId: stored.id,
     status: score.status,
     bookingUrl,
-    message: emailStatusMessage(score.status),
+    message: emailStatusMessage(score.status, Boolean(bookingUrl)),
   };
 }

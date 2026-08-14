@@ -38,19 +38,24 @@ test("Meta lead events contain only consented, privacy-safe fields", async () =>
   );
 
   assert.equal(requests.length, 2);
-  assert.equal(requests[0].url.includes("private-access-token"), false);
-  assert.equal(
-    new Headers(requests[0].init?.headers).get("authorization"),
-    "Bearer private-access-token",
-  );
-  const body = String(requests[0].init?.body);
+  for (const request of requests) {
+    assert.equal(request.url.includes("private-access-token"), false);
+    assert.equal(
+      new Headers(request.init?.headers).get("authorization"),
+      "Bearer private-access-token",
+    );
+  }
+  const payloads = requests.map((request) => JSON.parse(String(request.init?.body)) as { data: Array<{ event_name: string; event_id: string; event_source_url: string }> });
+  const leadPayload = payloads.find((payload) => payload.data[0].event_name === "Lead");
+  const qualifiedPayload = payloads.find((payload) => payload.data[0].event_name === "QualifiedLead");
+  assert.ok(leadPayload);
+  assert.ok(qualifiedPayload);
+  const body = JSON.stringify(leadPayload);
   assert.doesNotMatch(body, /alex@example\.com/i);
   assert.doesNotMatch(body, /repeatedly transfers|spreadsheets/i);
   assert.doesNotMatch(body, /qualification_status/);
   assert.match(body, /"Lead"/);
-  assert.match(String(requests[1].init?.body), /"QualifiedLead"/);
-  const leadPayload = JSON.parse(String(requests[0].init?.body)) as { data: Array<{ event_id: string; event_source_url: string }> };
-  const qualifiedPayload = JSON.parse(String(requests[1].init?.body)) as { data: Array<{ event_id: string }> };
+  assert.match(JSON.stringify(qualifiedPayload), /"QualifiedLead"/);
   assert.equal(qualifiedPayload.data[0].event_id, leadPayload.data[0].event_id);
   assert.equal(leadPayload.data[0].event_source_url, "https://needfoundry.example/apply");
 });

@@ -2,6 +2,7 @@ import { MetaConversionsClient, MetaLeadAnalyticsSink } from "@/src/lib/analytic
 import { ResendEmailService } from "@/src/lib/email";
 import {
   CrmWebhookSink,
+  MemoryLeadRepository,
   SignedWebhookLeadRepository,
   submitLeadApplication,
   SupabaseLeadRepository,
@@ -29,6 +30,11 @@ const rateLimiter = new InMemoryRateLimiter(
   positiveInteger(process.env.LEAD_RATE_LIMIT_WINDOW_SECONDS, 60) * 1_000,
 );
 
+// Local development can exercise the complete form journey without writing
+// test records to a production CRM. This repository is never selectable in a
+// production build and intentionally resets when the dev server restarts.
+const developmentMemoryRepository = new MemoryLeadRepository();
+
 function json(body: unknown, status: number, headers?: HeadersInit): Response {
   return Response.json(body, {
     status,
@@ -41,6 +47,9 @@ function json(body: unknown, status: number, headers?: HeadersInit): Response {
 
 function createRepository(): LeadRepository {
   const provider = (process.env.LEAD_STORAGE_PROVIDER ?? "supabase").toLowerCase();
+  if (provider === "memory" && process.env.NODE_ENV === "development") {
+    return developmentMemoryRepository;
+  }
   if (provider === "supabase") {
     return new SupabaseLeadRepository(
       process.env.SUPABASE_URL ?? "",

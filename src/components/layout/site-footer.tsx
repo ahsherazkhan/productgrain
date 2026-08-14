@@ -4,8 +4,28 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { siteConfig } from "@/src/config/site";
 
-export function SiteFooter() {
+export function SiteFooter({ compact = false }: { compact?: boolean }) {
   const reopenCookies = () => window.dispatchEvent(new Event("needfoundry:cookie-settings"));
+
+  if (compact) {
+    return (
+      <footer className="site-footer site-footer--compact">
+        <div className="container">
+          <Link href="/" className="wordmark wordmark--light">
+            <span className="wordmark__mark" aria-hidden="true"><i /><i /><i /></span>
+            {siteConfig.brandName}
+          </Link>
+          <nav aria-label="Legal information">
+            <Link href="/privacy">Privacy</Link>
+            <Link href="/terms">Terms</Link>
+            <Link href="/cookies">Cookies</Link>
+            <button type="button" onClick={reopenCookies}>Cookie settings</button>
+          </nav>
+          <p>© {new Date().getFullYear()} {siteConfig.brandName}</p>
+        </div>
+      </footer>
+    );
+  }
 
   return (
     <footer className="site-footer">
@@ -17,13 +37,13 @@ export function SiteFooter() {
           </Link>
           <p>{siteConfig.tagline}</p>
           <Link className="footer-cta" href="/apply">
-            Discuss your idea — free <ArrowUpRight aria-hidden="true" size={18} />
+            Tell us about your project <ArrowUpRight aria-hidden="true" size={18} />
           </Link>
         </div>
         <div className="footer-grid">
           <div>
             <p className="footer-label">Explore</p>
-            {siteConfig.navigation.map((item) => <Link key={item.href} href={item.href}>{item.label}</Link>)}
+            {siteConfig.footerNavigation.map((item) => <Link key={item.href} href={item.href}>{item.label}</Link>)}
           </div>
           <div>
             <p className="footer-label">Markets</p>
@@ -47,4 +67,3 @@ export function SiteFooter() {
     </footer>
   );
 }
-

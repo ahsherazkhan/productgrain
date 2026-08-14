@@ -43,7 +43,26 @@ cp .env.example .env.local
 npm run dev
 ```
 
+On a machine where Node is available through the Codex desktop runtime but not
+on the normal shell `PATH`, start the configured project with:
+
+```bash
+./run-local.sh
+```
+
 The development server prints its local URL. `.env.local` is ignored and must never be committed.
+
+For a self-contained local form journey without Supabase, set these values in
+`.env.local` and leave both Turnstile keys empty:
+
+```text
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+LEAD_STORAGE_PROVIDER=memory
+```
+
+The `memory` provider is accepted only in development. It makes no outbound
+storage request and its test records are discarded whenever the dev server
+restarts; production rejects this provider rather than risking volatile leads.
 
 Useful commands in the starter:
 
@@ -72,7 +91,7 @@ Copy `.env.example` to `.env.local`. Public variables are intentionally visible 
 | `BOOKING_URL_US` | Recommended | Server-only US qualified-lead calendar URL. |
 | `BOOKING_URL_UK` | Recommended | Server-only UK qualified-lead calendar URL. |
 | `NEXT_PUBLIC_BOOKING_URL_DEFAULT`, `NEXT_PUBLIC_BOOKING_URL_US`, `NEXT_PUBLIC_BOOKING_URL_UK` | Compatibility only | Brief-compatible aliases used only when the matching server-only value is absent. Because public variables are discoverable, they must not be treated as access controls. |
-| `LEAD_STORAGE_PROVIDER` | Yes | Active lead repository. The current lead endpoint supports `supabase` or `webhook`. Do not set `d1` unless a D1 repository adapter is added and tested. |
+| `LEAD_STORAGE_PROVIDER` | Yes | Active lead repository. Production supports `supabase` or `webhook`; local development may use `memory`, which resets when the dev server restarts and is rejected in production. Do not set `d1` unless a D1 repository adapter is added and tested. |
 | `SUPABASE_URL` | Supabase | Project API URL used by the server-side repository. |
 | `SUPABASE_SERVICE_ROLE_KEY` | Supabase | Privileged server-only key used to insert leads. Never prefix it with `NEXT_PUBLIC_` or expose it in browser code. |
 | `CRM_WEBHOOK_URL` | Webhook/optional fan-out | Valid HTTPS lead webhook destination. |

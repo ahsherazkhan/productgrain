@@ -4,15 +4,19 @@ import { PageHero, Breadcrumbs, Container, ButtonLink } from "@/src/components/u
 import { CapabilityWorkSection, FinalCta } from "@/src/components/marketing/sections";
 import { getPublishedCaseStudies } from "@/src/content/case-studies";
 
-export const metadata: Metadata = { title: "Selected Product Work", description: "A transparent view of NeedFoundry product decisions, delivery artifacts, and verified client work when permission is available.", alternates: { canonical: "/work" } };
+const hasPublishedWork = getPublishedCaseStudies().length > 0;
+export const metadata: Metadata = {
+  title: "Selected Product Work",
+  description: "A transparent view of NeedFoundry product decisions, delivery artifacts, and verified client work when permission is available.",
+  alternates: { canonical: "/work" },
+  robots: hasPublishedWork ? undefined : { index: false, follow: true },
+};
 
 export default function WorkPage() {
   const work = getPublishedCaseStudies();
   return <MainShell>
-    <PageHero eyebrow="Selected work" title="The work is more than the interface." copy="A useful case study explains the original workflow, the product decision, what was deliberately excluded, what the team built, and what could be verified."><Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Work" }]} /></PageHero>
-    {work.length < 2 ? <CapabilityWorkSection /> : <section className="section"><Container><div className="case-study-grid">{work.map((item) => <article key={item.slug}><p>{item.industry}</p><h2>{item.title}</h2><p>{item.summary}</p><ButtonLink href={`/work/${item.slug}`} variant="secondary">Read the case study</ButtonLink></article>)}</div></Container></section>}
-    <section className="section section--muted"><Container><div className="evidence-standard"><p className="eyebrow">Publication standard</p><h2>Proof should remain useful when you ask a second question.</h2><div><p>Every published project must include permission, an honest client situation, important assumptions, scope exclusions, founder and team roles, verified results, and screenshots that can legally be shown.</p><p>Until that material is available, capability evidence is more trustworthy than invented numbers, anonymous praise, or decorative logos.</p></div></div></Container></section>
+    <PageHero eyebrow="Delivery expectations" title="What a focused engagement should make visible." copy="Useful delivery makes the problem, scope, trade-offs, progress, and next decision clear—not only the interface."><Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Work" }]} /></PageHero>
+    {work.length === 0 ? <CapabilityWorkSection /> : <section className="section"><Container><div className="case-study-grid">{work.map((item) => <article key={item.slug}><p>{item.industry}</p><h2>{item.title}</h2><p>{item.summary}</p><ButtonLink href={`/work/${item.slug}`} variant="secondary">Read the case study</ButtonLink></article>)}</div></Container></section>}
     <FinalCta />
   </MainShell>;
 }
-

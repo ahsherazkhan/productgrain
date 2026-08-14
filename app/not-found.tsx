@@ -21,7 +21,7 @@ export default function NotFound() {
                 <ArrowLeft aria-hidden="true" /> Back to the homepage
               </Link>
               <Link href="/apply" className="button button--secondary">
-                Discuss your idea
+                Tell us about your project
               </Link>
             </div>
           </div>

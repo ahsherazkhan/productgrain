@@ -10,6 +10,40 @@ export type DetailedService = ServiceSummary & {
   readonly clientOutcome: string;
 };
 
+export type ServiceGroup = {
+  readonly title: string;
+  readonly description: string;
+  readonly capabilities: readonly string[];
+  readonly outcome: string;
+};
+
+export const serviceGroups = [
+  {
+    title: "Product direction and prototype",
+    description: "Clarify the problem, users, workflow, priorities, and exclusions before a large build begins.",
+    capabilities: ["Product direction", "Workflow mapping", "UX and prototype", "Focused scope"],
+    outcome: "A testable direction and a clear decision about what should happen next.",
+  },
+  {
+    title: "MVP and custom product development",
+    description: "Design, build, test, and deploy a complete first workflow with the systems needed for real use.",
+    capabilities: ["Responsive product", "Backend and data", "Authentication and administration", "Quality and deployment"],
+    outcome: "A production-ready release built around a useful end-to-end outcome.",
+  },
+  {
+    title: "Integrations and AI workflows",
+    description: "Connect the product to the tools, data, payments, and carefully bounded AI capabilities the workflow requires.",
+    capabilities: ["Third-party APIs", "Payments and subscriptions", "Automation", "Human-reviewed AI"],
+    outcome: "A connected workflow that reduces duplicate handling without hiding important controls.",
+  },
+  {
+    title: "Existing-product improvement",
+    description: "Improve, extend, redesign, or stabilize software that already has users, code, or operational history.",
+    capabilities: ["Product and code assessment", "Usability improvement", "Reliability work", "Evidence-led iterations"],
+    outcome: "A prioritized improvement plan and focused delivery that respects the product already in use.",
+  },
+] as const satisfies readonly ServiceGroup[];
+
 export const homepageServices = [
   {
     id: "product-direction",

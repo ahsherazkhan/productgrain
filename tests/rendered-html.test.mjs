@@ -19,8 +19,11 @@ test("server-renders the NeedFoundry homepage", async () => {
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
   const html = await response.text();
   assert.match(html, /MVP and Custom Software Product Studio/);
-  assert.match(html, /Turn the problem you understand into software/);
-  assert.match(html, /Discuss your idea/);
+  assert.match(html, /Turn a real business problem into focused software/);
+  assert.match(html, /Tell us about your project/);
+  assert.match(html, /Start with the problem—not a feature list/);
+  assert.match(html, /Choose the right first step/);
+  assert.doesNotMatch(html, /decision-map|Founder and team|Product possibilities/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape|react-loading-skeleton/i);
 });
 
@@ -36,6 +39,7 @@ test("server-renders market-specific campaign pricing", async () => {
   assert.doesNotMatch(uk, /From \$10,000/);
   assert.match(us, /From \$10,000/);
   assert.doesNotMatch(us, /From £8,000/);
+  assert.doesNotMatch(uk, /workflow-window|A familiar starting point|Founder and team/);
 });
 
 test("server-renders required core routes", async () => {

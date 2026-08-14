@@ -39,25 +39,25 @@ export type CaseStudy = {
 export const caseStudies: readonly CaseStudy[] = [];
 
 export const capabilityLedWorkAlternative = {
-  eyebrow: "How the work is shaped",
-  heading: "Product decisions you can see before scope expands",
+  eyebrow: "Clear commitments",
+  heading: "Know what you are committing to before development begins",
   copy:
-    "Until approved client work is available to publish, here is the practical evidence created during a focused engagement.",
+    "The engagement is designed to make scope, progress, and product risk visible before the next commitment is made.",
   items: [
     {
-      title: "A defined problem and user",
+      title: "Scope before spend",
       copy:
-        "The product direction starts with the current workflow, intended user, and outcome—not an untested feature list.",
+        "Paid work begins only after priorities, exclusions, milestones, responsibilities, timeline, and price are agreed.",
     },
     {
-      title: "A deliberately focused first release",
+      title: "Visible progress",
       copy:
-        "The scope identifies one complete high-value workflow and records what is intentionally left for later.",
+        "Milestone reviews keep working progress, trade-offs, decisions, and risks visible throughout delivery.",
     },
     {
-      title: "A visible route to launch",
+      title: "Honest product risk",
       copy:
-        "Milestones connect product design, engineering, quality assurance, deployment, and early-user learning.",
+        "No studio can guarantee adoption. A focused release creates real evidence for the next product decision.",
     },
   ],
 } as const;
@@ -78,5 +78,5 @@ export function getPublishedCaseStudyBySlug(
 }
 
 export function shouldUseCapabilityLedWork(): boolean {
-  return getPublishedCaseStudies().length < 2;
+  return getPublishedCaseStudies().length === 0;
 }

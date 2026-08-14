@@ -15,7 +15,7 @@ export const faqs = [
     id: "free-call",
     question: "Is the first call really free?",
     answer:
-      "Yes. The initial Product Clarity Call is free and carries no obligation. Paid work begins only after the scope, milestones, timeline, and price have been agreed.",
+      "Yes. Qualified enquiries can schedule a free thirty-minute Product Clarity Call with no obligation. Paid work begins only after the scope, milestones, timeline, and price have been agreed.",
   },
   {
     id: "free-call-agenda",

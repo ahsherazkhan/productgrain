@@ -68,7 +68,8 @@ export function PricingSection({
           ))}
         </div>
         <div className="pricing-notes">
-          <p><strong>{pricingCopy.startingPriceNotice}</strong></p><p>{pricingCopy.pricingFooter}</p><p>{pricingCopy.scopeNotice}</p><p>{pricingCopy.paymentNotice}</p>
+          <p><strong>{pricingCopy.startingPriceNotice}</strong> {pricingCopy.scopeNotice}</p>
+          <p>{pricingCopy.pricingFooter} {pricingCopy.paymentNotice}</p>
         </div>
       </Container>
     </section>

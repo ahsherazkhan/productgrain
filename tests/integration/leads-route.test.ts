@@ -5,7 +5,9 @@ import { POST } from "../../app/api/leads/route";
 import { validLead } from "../fixtures/lead";
 
 const originalFetch = globalThis.fetch;
+const mutableEnvironment = process.env as unknown as Record<string, string | undefined>;
 const originalEnvironment = {
+  NODE_ENV: process.env.NODE_ENV,
   LEAD_STORAGE_PROVIDER: process.env.LEAD_STORAGE_PROVIDER,
   CRM_WEBHOOK_URL: process.env.CRM_WEBHOOK_URL,
   CRM_WEBHOOK_SECRET: process.env.CRM_WEBHOOK_SECRET,
@@ -99,6 +101,81 @@ test("POST /api/leads returns field-safe validation issues", async () => {
   assert.equal(result.error, "Please check the highlighted fields.");
   assert.ok(result.issues?.some(({ field }) => field === "email"));
   assert.equal(requestCount, 0);
+});
+
+test("POST /api/leads supports isolated in-memory storage in development", async () => {
+  const previousProvider = process.env.LEAD_STORAGE_PROVIDER;
+  const previousNodeEnvironment = process.env.NODE_ENV;
+  const previousCrmWebhook = process.env.CRM_WEBHOOK_URL;
+  const previousBookingUrl = process.env.BOOKING_URL_US;
+  process.env.LEAD_STORAGE_PROVIDER = "memory";
+  mutableEnvironment.NODE_ENV = "development";
+  delete process.env.CRM_WEBHOOK_URL;
+  delete process.env.BOOKING_URL_US;
+  delete process.env.TURNSTILE_SECRET_KEY;
+  globalThis.fetch = async () => {
+    throw new Error("Local memory storage must not call an external provider.");
+  };
+
+  try {
+    const response = await POST(
+      new Request("http://localhost:3000/api/leads", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          "x-real-ip": "127.0.0.1",
+        },
+        body: JSON.stringify(validLead()),
+      }),
+    );
+    const result = (await response.json()) as Record<string, unknown>;
+
+    assert.equal(response.status, 201);
+    assert.equal(result.status, "qualified");
+    assert.match(String(result.leadId), /^[0-9a-f-]{36}$/i);
+    assert.match(String(result.message), /follow up using the work email/i);
+  } finally {
+    if (previousProvider === undefined) delete process.env.LEAD_STORAGE_PROVIDER;
+    else process.env.LEAD_STORAGE_PROVIDER = previousProvider;
+    if (previousNodeEnvironment === undefined) delete mutableEnvironment.NODE_ENV;
+    else mutableEnvironment.NODE_ENV = previousNodeEnvironment;
+    if (previousCrmWebhook === undefined) delete process.env.CRM_WEBHOOK_URL;
+    else process.env.CRM_WEBHOOK_URL = previousCrmWebhook;
+    if (previousBookingUrl === undefined) delete process.env.BOOKING_URL_US;
+    else process.env.BOOKING_URL_US = previousBookingUrl;
+  }
+});
+
+test("POST /api/leads rejects in-memory storage in production", async () => {
+  const previousProvider = process.env.LEAD_STORAGE_PROVIDER;
+  const previousNodeEnvironment = process.env.NODE_ENV;
+  process.env.LEAD_STORAGE_PROVIDER = "memory";
+  mutableEnvironment.NODE_ENV = "production";
+  process.env.TURNSTILE_SECRET_KEY = "configured-secret";
+  process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY = "configured-site-key";
+  let fetchCalls = 0;
+  globalThis.fetch = async () => {
+    fetchCalls += 1;
+    return Response.json({ success: true });
+  };
+
+  try {
+    const response = await POST(
+      new Request("https://needfoundry.example/api/leads", {
+        method: "POST",
+        headers: { "content-type": "application/json", "x-real-ip": "192.0.2.34" },
+        body: JSON.stringify(validLead({ turnstileToken: "valid-token" })),
+      }),
+    );
+
+    assert.equal(response.status, 503);
+    assert.equal(fetchCalls, 0);
+  } finally {
+    if (previousProvider === undefined) delete process.env.LEAD_STORAGE_PROVIDER;
+    else process.env.LEAD_STORAGE_PROVIDER = previousProvider;
+    if (previousNodeEnvironment === undefined) delete mutableEnvironment.NODE_ENV;
+    else mutableEnvironment.NODE_ENV = previousNodeEnvironment;
+  }
 });
 
 test("POST /api/leads stops when Turnstile rejects the token", async () => {

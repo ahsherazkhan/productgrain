@@ -1,5 +1,15 @@
 import { expect, test } from "@playwright/test";
 
+test("homepage keeps a concise lead-generation path", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("button", { name: "Necessary only" }).click();
+  await expect(page.getByRole("heading", { level: 1, name: "Turn a real business problem into focused software." })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Tell us about your project" }).first()).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Choose the right first step" })).toBeVisible();
+  await expect(page.locator(".decision-map")).toHaveCount(0);
+  await expect(page.getByRole("navigation", { name: "Primary navigation" }).getByRole("link", { name: "Work" })).toHaveCount(0);
+});
+
 test("UK landing shows configured pricing and reaches a qualified booking result", async ({ page }) => {
   await page.route("**/api/leads", async (route) => {
     const payload = route.request().postDataJSON();

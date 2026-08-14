@@ -1,18 +1,13 @@
 import type { Metadata } from "next";
 import { MainShell } from "@/src/components/layout/main-shell";
 import {
-  AudienceSection,
-  CapabilityStrip,
   CapabilityWorkSection,
   FaqSection,
+  FitSection,
   FinalCta,
-  FounderSection,
   HomeHero,
   HomePricing,
-  ProblemSection,
   ProcessSection,
-  ProductTypesSection,
-  ServicesSection,
 } from "@/src/components/marketing/sections";
 import { siteConfig, siteMetadata } from "@/src/config/site";
 import { defaultMarket } from "@/src/config/markets";
@@ -41,15 +36,10 @@ export default function Home() {
     <MainShell>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
       <HomeHero />
-      <CapabilityStrip />
-      <ProblemSection />
-      <AudienceSection />
+      <FitSection />
       <ProcessSection />
-      <ServicesSection />
-      <ProductTypesSection />
-      <CapabilityWorkSection />
       <HomePricing market={defaultMarket} />
-      <FounderSection />
+      <CapabilityWorkSection compact />
       <FaqSection />
       <FinalCta />
     </MainShell>
