@@ -139,10 +139,10 @@ Core message:
 
 ## Work/reference model and media
 - Content-driven profiles live in `src/content/case-studies.ts`.
-- The five Codal examples—ClaimDeck, Fuze Health, Cost Plus Drugs, Children's Health, and MANTL—are explicitly labelled as third-party reference projects delivered and documented by Codal. They are not represented as NeedFoundry client work.
+- The eight Codal examples—ClaimDeck, CPAP.com, CallPotential, BUILT BY GIRLS, Fuze Health, Cost Plus Drugs, Children's Health, and MANTL—are explicitly labelled as third-party reference projects delivered and documented by Codal. They are not represented as NeedFoundry client work.
 - TicketRev, Tributi, and Loopple are labelled as independent public product profiles, also not verified NeedFoundry client work.
 - Each profile carries typed provenance, source URLs, disclosure copy, and media metadata.
-- Codal reference cards and detail pages use credited logos and product imagery sourced from Codal's public case studies and stored under `public/work/codal` for reliable rendering. Cost Plus Drugs also uses three Vimeo demos with do-not-track parameters, lazy loading, controls, and no autoplay.
+- Codal reference cards and detail pages use credited logos and product imagery sourced from Codal's public case studies and stored under `public/work/codal` for reliable rendering. Cost Plus Drugs and CPAP.com also use Vimeo demos with do-not-track parameters, lazy loading, controls, and no autoplay.
 - Work cards include logo treatments and provenance badges; detail pages add a responsive product-media gallery and source links.
 - Published filtering requires the provenance source to appear in the profile source list. Only entries explicitly typed as verified client work require confirmed publication permission.
 - If fewer than two published profiles exist, the UI falls back to capability-led content.

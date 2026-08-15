@@ -12,7 +12,7 @@ The application uses five route families:
 4. Legal and system pages: privacy, terms, cookies, not-found, error, sitemap, and robots.
 5. Server endpoints: lead submission and consent-aware Meta event forwarding.
 
-The work area publishes five clearly attributed Codal reference projects and three independent public product profiles. None are represented as NeedFoundry client work. Typed provenance, visible disclosures, original source links, credited product imagery and logos, and privacy-conscious Cost Plus Drugs video embeds keep the reference material useful without obscuring ownership. Testimonials remain hidden until real approval and evidence exist. Real founder/team media are still outstanding, so professional initial/founder fallbacks remain in place. No placeholder names appear in public UI.
+The work area publishes eight clearly attributed Codal reference projects and three independent public product profiles. The added AI examples cover document processing, voice-data protection and routing, and machine-learning mentorship matching. None are represented as NeedFoundry client work. Typed provenance, visible disclosures, original source links, credited product imagery and logos, and privacy-conscious video embeds keep the reference material useful without obscuring ownership. Testimonials remain hidden until real approval and evidence exist. Real founder/team media are still outstanding, so professional initial/founder fallbacks remain in place. No placeholder names appear in public UI.
 
 ## Phases
 

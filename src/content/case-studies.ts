@@ -160,9 +160,266 @@ export const caseStudies: readonly CaseStudy[] = [
       disclosure:
         "This project was delivered and documented by Codal. NeedFoundry presents it as an attributed industry reference, not as NeedFoundry client work.",
     },
-    relatedSlugs: ["fuze-health", "cost-plus-drugs"],
+    relatedSlugs: ["cpap", "callpotential"],
     sourceUrls: ["https://codal.com/work/claimdeck/"],
     featuredOrder: 1,
+    reviewedAt: "2026-08-15",
+    permissionStatus: "not-requested",
+    published: true,
+  },
+  {
+    slug: "cpap",
+    clientName: "CPAP.com",
+    productUrl: "https://www.cpap.com/",
+    title: "Automating prescription review with OCR and generative AI",
+    industry: "Healthcare eCommerce",
+    clientType: "Regulated eCommerce platform",
+    summary:
+      "CPAP.com replaced slow, error-prone manual prescription checks with an AI workflow that reads documents, validates the extracted information, and routes exceptions to a person.",
+    originalProblem:
+      "A legacy commerce platform made integrations difficult, while prescription review depended on repetitive manual work across handwritten and structured documents.",
+    publicProductDirection:
+      "The project joined a Shopify migration with a focused AI service that accelerates compliant prescription processing without removing human review where it is needed.",
+    solution:
+      "Codal documented a hybrid system using AWS Textract for OCR, AWS Bedrock, and Anthropic Claude to interpret prescription data, apply validation logic, process accepted orders, and send uncertain cases to customer support.",
+    capabilities: [
+      "AI-enhanced document extraction",
+      "Prescription validation rules",
+      "Human exception routing",
+      "Order workflow automation",
+      "Shopify platform migration",
+      "Regulated data processing",
+    ],
+    tags: ["Generative AI", "Document AI", "Healthcare"],
+    publicLeadership: [],
+    results: [
+      {
+        value: "Minutes",
+        label: "Prescription validation timeline reported by Codal",
+        verificationNote: "Published in the CPAP.com case study on Codal.",
+      },
+      {
+        value: "2M+",
+        label: "Customers supported by the new platform foundation",
+        verificationNote: "Published in the CPAP.com case study on Codal.",
+      },
+    ],
+    logo: {
+      src: "/work/codal/cpap-logo.svg",
+      alt: "CPAP.com logo",
+      width: 420,
+      height: 120,
+    },
+    images: [
+      {
+        src: "/work/codal/cpap-cover.webp",
+        alt: "CPAP.com healthcare commerce website displayed on a laptop",
+        width: 1490,
+        height: 1080,
+        caption: codalMediaCaption("CPAP.com platform overview."),
+      },
+      {
+        src: "/work/codal/cpap-overview.webp",
+        alt: "CPAP.com responsive storefront and product discovery experience",
+        width: 1728,
+        height: 972,
+        caption: codalMediaCaption("CPAP.com commerce experience."),
+      },
+      {
+        src: "/work/codal/cpap-rx-processing.webp",
+        alt: "CPAP.com AI prescription processing workflow interface",
+        width: 1728,
+        height: 972,
+        caption: codalMediaCaption("CPAP.com prescription-processing workflow."),
+      },
+    ],
+    videos: [
+      {
+        embedUrl:
+          "https://player.vimeo.com/video/1078017296?dnt=1&title=0&byline=0&portrait=0",
+        title: "CPAP.com digital platform demonstration",
+        caption: "CPAP.com product demonstration published by Codal.",
+        sourceUrl: "https://codal.com/work/cpap-com/",
+      },
+    ],
+    provenance: {
+      kind: "third-party-reference",
+      label: "Reference project · delivered by Codal",
+      sourceName: "Codal",
+      sourceUrl: "https://codal.com/work/cpap-com/",
+      disclosure:
+        "This project was delivered and documented by Codal. NeedFoundry presents it as an attributed industry reference, not as NeedFoundry client work.",
+    },
+    relatedSlugs: ["claimdeck", "cost-plus-drugs"],
+    sourceUrls: ["https://codal.com/work/cpap-com/", "https://www.cpap.com/"],
+    featuredOrder: 2,
+    reviewedAt: "2026-08-15",
+    permissionStatus: "not-requested",
+    published: true,
+  },
+  {
+    slug: "callpotential",
+    clientName: "CallPotential",
+    productUrl: "https://www.callpotential.com/",
+    title: "Using AI to protect call data and automate storage operations",
+    industry: "Self-storage technology",
+    clientType: "Call center and workflow platform",
+    summary:
+      "CallPotential helps storage operators route callers, organize recordings, protect sensitive information, collect payments, and automate sales follow-up from one configurable platform.",
+    originalProblem:
+      "Storage call centers handled high call volumes, fragmented customer context, sensitive recordings, overdue-payment outreach, and sales follow-up through processes that consumed substantial staff time.",
+    publicProductDirection:
+      "The platform turns those activities into configurable workflows, combining customer-aware routing, automated messages, real-time analytics, and AI-assisted recording management.",
+    solution:
+      "Codal documented an intelligent backend that recognizes callers, retrieves account context, routes them to an agent or automated service, organizes recordings by content, and uses AI and machine learning to redact sensitive spoken information.",
+    capabilities: [
+      "AI-assisted audio redaction",
+      "Content-based call organization",
+      "Intelligent customer routing",
+      "Payment collection automation",
+      "Lead nurture workflows",
+      "Real-time call center analytics",
+    ],
+    tags: ["Applied AI", "Voice workflows", "Operations automation"],
+    publicLeadership: [],
+    results: [
+      {
+        value: "35%",
+        label: "Faster payment collection reported by Codal",
+        verificationNote:
+          "Published in the CallPotential case study on Codal.",
+      },
+      {
+        value: "45%",
+        label: "Reduction in advertising spend reported by Codal",
+        verificationNote:
+          "Published in the CallPotential case study on Codal.",
+      },
+      {
+        value: "99%",
+        label: "Customer retention rate reported by Codal",
+        verificationNote:
+          "Published in the CallPotential case study on Codal.",
+      },
+    ],
+    logo: {
+      src: "/work/codal/callpotential-logo.svg",
+      alt: "CallPotential logo",
+      width: 562,
+      height: 107,
+    },
+    images: [
+      {
+        src: "/work/codal/callpotential-cover.webp",
+        alt: "Self-storage facility representing CallPotential operations software",
+        width: 946,
+        height: 532,
+        caption: codalMediaCaption("CallPotential industry overview."),
+      },
+    ],
+    provenance: {
+      kind: "third-party-reference",
+      label: "Reference project · delivered by Codal",
+      sourceName: "Codal",
+      sourceUrl: "https://codal.com/work/callpotential/",
+      disclosure:
+        "This project was delivered and documented by Codal. NeedFoundry presents it as an attributed industry reference, not as NeedFoundry client work.",
+    },
+    relatedSlugs: ["built-by-girls", "claimdeck"],
+    sourceUrls: [
+      "https://codal.com/work/callpotential/",
+      "https://www.callpotential.com/",
+    ],
+    featuredOrder: 3,
+    reviewedAt: "2026-08-15",
+    permissionStatus: "not-requested",
+    published: true,
+  },
+  {
+    slug: "built-by-girls",
+    clientName: "BUILT BY GIRLS",
+    productUrl: "https://codal.com/work/built-by-girls/",
+    title: "Matching young women with technology mentors using machine learning",
+    industry: "Social impact",
+    clientType: "Mentorship platform",
+    summary:
+      "The WAVE platform makes mentorship easier by matching young women with suitable technology advisors and simplifying scheduling, session preparation, and ongoing engagement.",
+    originalProblem:
+      "The mentorship journey relied on a complex matching system and cumbersome scheduling flows that created friction for both advisors and advisees.",
+    publicProductDirection:
+      "The redesigned experience focuses on understandable onboarding, stronger matches, timezone-aware scheduling, and personalized session content.",
+    solution:
+      "Codal documented a decision engine that combines participant preferences with machine learning, plus timezone-aware scheduling and a historical-data-driven topic generator built with React, Node.js, and Python.",
+    capabilities: [
+      "Machine-learning matching",
+      "Preference-based decision engine",
+      "Timezone-aware scheduling",
+      "Personalized topic generation",
+      "Mentorship journey design",
+      "Accessible onboarding flows",
+    ],
+    tags: ["Machine learning", "Matching", "Social impact"],
+    publicLeadership: [],
+    results: [
+      {
+        value: "4,950+",
+        label: "New platform users reported by Codal",
+        verificationNote:
+          "Published in the BUILT BY GIRLS case study on Codal.",
+      },
+      {
+        value: "11,000+",
+        label: "Mentorship hours facilitated",
+        verificationNote:
+          "Published in the BUILT BY GIRLS case study on Codal.",
+      },
+      {
+        value: "6 months",
+        label: "Initial launch timeline",
+        verificationNote:
+          "Published in the BUILT BY GIRLS case study on Codal.",
+      },
+    ],
+    logo: {
+      src: "/work/codal/built-by-girls-logo.svg",
+      alt: "BUILT BY GIRLS logo",
+      width: 420,
+      height: 120,
+    },
+    images: [
+      {
+        src: "/work/codal/built-by-girls-cover.webp",
+        alt: "Young woman using the BUILT BY GIRLS mentorship platform",
+        width: 1728,
+        height: 1253,
+        caption: codalMediaCaption("BUILT BY GIRLS mentorship experience."),
+      },
+      {
+        src: "/work/codal/built-by-girls-dashboard.webp",
+        alt: "BUILT BY GIRLS WAVE mentorship dashboard interface",
+        width: 1728,
+        height: 972,
+        caption: codalMediaCaption("WAVE mentorship dashboard."),
+      },
+      {
+        src: "/work/codal/built-by-girls-booking.webp",
+        alt: "BUILT BY GIRLS mentorship session booking interface",
+        width: 1728,
+        height: 973,
+        caption: codalMediaCaption("WAVE session-booking experience."),
+      },
+    ],
+    provenance: {
+      kind: "third-party-reference",
+      label: "Reference project · delivered by Codal",
+      sourceName: "Codal",
+      sourceUrl: "https://codal.com/work/built-by-girls/",
+      disclosure:
+        "This project was delivered and documented by Codal. NeedFoundry presents it as an attributed industry reference, not as NeedFoundry client work.",
+    },
+    relatedSlugs: ["callpotential", "cpap"],
+    sourceUrls: ["https://codal.com/work/built-by-girls/"],
+    featuredOrder: 4,
     reviewedAt: "2026-08-15",
     permissionStatus: "not-requested",
     published: true,
@@ -240,7 +497,7 @@ export const caseStudies: readonly CaseStudy[] = [
     },
     relatedSlugs: ["children-health", "claimdeck"],
     sourceUrls: ["https://codal.com/work/truepill-fuze-health/"],
-    featuredOrder: 2,
+    featuredOrder: 6,
     reviewedAt: "2026-08-15",
     permissionStatus: "not-requested",
     published: true,
@@ -349,7 +606,7 @@ export const caseStudies: readonly CaseStudy[] = [
       "https://codal.com/work/costplusdrugs/",
       "https://costplusdrugs.com/",
     ],
-    featuredOrder: 3,
+    featuredOrder: 5,
     reviewedAt: "2026-08-15",
     permissionStatus: "not-requested",
     published: true,
@@ -438,7 +695,7 @@ export const caseStudies: readonly CaseStudy[] = [
     },
     relatedSlugs: ["fuze-health", "cost-plus-drugs"],
     sourceUrls: ["https://codal.com/work/childrens-health/"],
-    featuredOrder: 4,
+    featuredOrder: 7,
     reviewedAt: "2026-08-15",
     permissionStatus: "not-requested",
     published: true,
@@ -528,7 +785,7 @@ export const caseStudies: readonly CaseStudy[] = [
     },
     relatedSlugs: ["children-health", "ticketrev"],
     sourceUrls: ["https://codal.com/work/mantl/"],
-    featuredOrder: 5,
+    featuredOrder: 8,
     reviewedAt: "2026-08-15",
     permissionStatus: "not-requested",
     published: true,
@@ -591,7 +848,7 @@ export const caseStudies: readonly CaseStudy[] = [
       "https://www.ticketrev.com/",
       "https://www.ticketrev.com/about",
     ],
-    featuredOrder: 6,
+    featuredOrder: 9,
     reviewedAt: "2026-08-14",
     permissionStatus: "not-requested",
     published: true,
@@ -643,7 +900,7 @@ export const caseStudies: readonly CaseStudy[] = [
       "https://www.tributi.com/",
       "https://www.tributi.com/blog/preguntas-frecuentes",
     ],
-    featuredOrder: 7,
+    featuredOrder: 10,
     reviewedAt: "2026-08-14",
     permissionStatus: "not-requested",
     published: true,
@@ -696,7 +953,7 @@ export const caseStudies: readonly CaseStudy[] = [
       "https://www.loopple.com/low-code-builder",
       "https://www.loopple.com/blog/front-end-developer-tools/",
     ],
-    featuredOrder: 8,
+    featuredOrder: 11,
     reviewedAt: "2026-08-14",
     permissionStatus: "not-requested",
     published: true,

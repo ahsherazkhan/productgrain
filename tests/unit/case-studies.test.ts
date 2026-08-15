@@ -10,9 +10,9 @@ import {
   getRelatedCaseStudies,
 } from "../../src/content/case-studies";
 
-test("publishes the eight sourced reference and product profiles", () => {
+test("publishes the eleven sourced reference and product profiles", () => {
   const published = getPublishedCaseStudies();
-  assert.equal(published.length, 8);
+  assert.equal(published.length, 11);
   assert.ok(published.every((item) => item.published));
   assert.equal(getPublishedCaseStudyBySlug("fitish"), undefined);
 });
@@ -56,13 +56,13 @@ test("keeps project identifiers, order, sources, and media valid", () => {
 test("selects intentional featured and related reference records", () => {
   assert.deepEqual(
     getFeaturedCaseStudies().map((item) => item.slug),
-    ["claimdeck", "fuze-health", "cost-plus-drugs"],
+    ["claimdeck", "cpap", "callpotential"],
   );
   const claimdeck = getPublishedCaseStudyBySlug("claimdeck");
   assert.ok(claimdeck);
   assert.deepEqual(
     getRelatedCaseStudies(claimdeck).map((item) => item.slug),
-    ["fuze-health", "cost-plus-drugs"],
+    ["cpap", "callpotential"],
   );
 });
 
@@ -70,7 +70,7 @@ test("labels Codal references without claiming NeedFoundry delivery", () => {
   const references = caseStudies.filter(
     (item) => item.provenance.kind === "third-party-reference",
   );
-  assert.equal(references.length, 5);
+  assert.equal(references.length, 8);
   for (const item of references) {
     assert.equal(item.provenance.sourceName, "Codal");
     assert.equal(item.permissionStatus, "not-requested");

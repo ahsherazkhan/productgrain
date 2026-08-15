@@ -55,7 +55,7 @@ test("server-renders the reference index and every published product profile", a
   const workResponse = await render("/work");
   assert.equal(workResponse.status, 200);
   const workHtml = await workResponse.text();
-  for (const slug of ["claimdeck", "fuze-health", "cost-plus-drugs", "children-health", "mantl", "ticketrev", "tributi", "loopple"]) {
+  for (const slug of ["claimdeck", "cpap", "callpotential", "built-by-girls", "cost-plus-drugs", "fuze-health", "children-health", "mantl", "ticketrev", "tributi", "loopple"]) {
     assert.match(workHtml, new RegExp(`/work/${slug}`));
     const detailResponse = await render(`/work/${slug}`);
     assert.equal(detailResponse.status, 200, slug);
@@ -69,6 +69,11 @@ test("server-renders the reference index and every published product profile", a
   const costPlusHtml = await costPlusResponse.text();
   assert.match(costPlusHtml, /player\.vimeo\.com\/video\/1120947017/);
   assert.doesNotMatch(costPlusHtml, /autoplay=1/);
+
+  const cpapResponse = await render("/work/cpap");
+  const cpapHtml = await cpapResponse.text();
+  assert.match(cpapHtml, /player\.vimeo\.com\/video\/1078017296/);
+  assert.doesNotMatch(cpapHtml, /autoplay=1/);
 
   const missingResponse = await render("/work/not-a-real-project");
   assert.equal(missingResponse.status, 404);
