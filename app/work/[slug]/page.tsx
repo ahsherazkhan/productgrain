@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { Check } from "lucide-react";
 import { RouteEngagement } from "@/src/components/analytics/route-engagement";
@@ -38,24 +39,41 @@ export async function generateMetadata({
   }
 
   const cover = item.images[0];
+  const pageTitle =
+    item.provenance.kind === "verified-client-work"
+      ? `${item.clientName} case study`
+      : `${item.clientName} product reference`;
+  const requestHeaders = await headers();
+  const host =
+    requestHeaders.get("x-forwarded-host") ?? requestHeaders.get("host");
+  const protocol =
+    requestHeaders.get("x-forwarded-proto") ??
+    (host?.startsWith("localhost") ? "http" : "https");
+  const origin = siteConfig.siteUrl ?? (host ? `${protocol}://${host}` : null);
+  const socialImage =
+    cover && origin
+      ? {
+          url: new URL(cover.src, origin).toString(),
+          width: cover.width,
+          height: cover.height,
+          alt: cover.alt,
+        }
+      : null;
   return {
-    title: `${item.clientName} case study`,
+    title: pageTitle,
     description: item.summary,
     alternates: { canonical: `/work/${slug}` },
-    openGraph: cover
-      ? {
-          title: `${item.clientName} case study`,
-          description: item.summary,
-          images: [
-            {
-              url: cover.src,
-              width: cover.width,
-              height: cover.height,
-              alt: cover.alt,
-            },
-          ],
-        }
-      : undefined,
+    openGraph: {
+      title: pageTitle,
+      description: item.summary,
+      images: socialImage ? [socialImage] : [],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: pageTitle,
+      description: item.summary,
+      images: socialImage ? [socialImage.url] : [],
+    },
   };
 }
 
@@ -72,7 +90,7 @@ export default async function CaseStudyPage({
   const related = getRelatedCaseStudies(item);
   const structuredData = {
     "@context": "https://schema.org",
-    "@type": "CreativeWork",
+    "@type": "Article",
     name: item.title,
     description: item.summary,
     about: {
@@ -85,14 +103,12 @@ export default async function CaseStudyPage({
       "@type": "Organization",
       name: siteConfig.brandName,
     },
-    creator: {
+    author: {
       "@type": "Organization",
-      name:
-        item.provenance.kind === "verified-client-work"
-          ? siteConfig.brandName
-          : item.provenance.sourceName,
+      name: siteConfig.brandName,
     },
     citation: item.provenance.sourceUrl,
+    isBasedOn: item.provenance.sourceUrl,
     ...(siteConfig.siteUrl
       ? { url: `${siteConfig.siteUrl}/work/${item.slug}` }
       : {}),
@@ -111,7 +127,7 @@ export default async function CaseStudyPage({
       />
 
       <PageHero
-        eyebrow={`${item.provenance.label} · ${item.industry}`}
+        eyebrow={`${item.provenance.label} · Source: ${item.provenance.sourceName} · ${item.industry}`}
         title={item.title}
         copy={item.summary}
       >
@@ -136,7 +152,9 @@ export default async function CaseStudyPage({
         ) : null}
         <div className="button-row case-study-hero__actions">
           <ButtonLink href={item.productUrl} variant="secondary">
-            Visit {item.clientName}
+            {item.productUrl === item.provenance.sourceUrl
+              ? "View source profile"
+              : `Visit ${item.clientName}`}
           </ButtonLink>
           <ButtonLink href="/apply">Discuss a similar product</ButtonLink>
         </div>
@@ -174,7 +192,11 @@ export default async function CaseStudyPage({
               <p className="eyebrow">Project record</p>
               <dl>
                 <div>
-                  <dt>Client</dt>
+                  <dt>
+                    {item.provenance.kind === "verified-client-work"
+                      ? "Client"
+                      : "Product"}
+                  </dt>
                   <dd>{item.clientName}</dd>
                 </div>
                 <div>
@@ -186,7 +208,11 @@ export default async function CaseStudyPage({
                   <dd>{item.industry}</dd>
                 </div>
                 <div>
-                  <dt>Engagement</dt>
+                  <dt>
+                    {item.provenance.kind === "verified-client-work"
+                      ? "Engagement"
+                      : "Profile type"}
+                  </dt>
                   <dd>{item.provenance.label}</dd>
                 </div>
                 {item.publicLeadership.length ? (
@@ -211,6 +237,9 @@ export default async function CaseStudyPage({
                   View supporting source
                 </ButtonLink>
               ) : null}
+              <p className="project-record__disclosure">
+                {item.provenance.disclosure}
+              </p>
             </aside>
 
             <div className="project-record__story">
@@ -264,7 +293,11 @@ export default async function CaseStudyPage({
           <Container>
             <div className="case-study-outcomes__heading">
               <p className="eyebrow">Published outcomes</p>
-              <h2>What changed after launch.</h2>
+              <h2>
+                {item.provenance.kind === "verified-client-work"
+                  ? "What changed after launch."
+                  : "What the source reports."}
+              </h2>
               <p>
                 These figures are reported by {item.provenance.sourceName} and shown with their source context.
               </p>
@@ -289,7 +322,7 @@ export default async function CaseStudyPage({
               <p className="eyebrow">Product media</p>
               <h2>Product screens and brand details.</h2>
               <p>
-                Only locally verified project imagery is shown, with descriptive captions and original-source credit.
+                Source-credited project imagery is shown with descriptive captions.
               </p>
             </div>
             <div className="case-study-media__grid">
@@ -317,7 +350,7 @@ export default async function CaseStudyPage({
             <div className="related-projects__heading">
               <div>
                 <p className="eyebrow">Continue exploring</p>
-                <h2>Related client work</h2>
+                <h2>Related product references</h2>
               </div>
               <ButtonLink href="/work" variant="secondary">
                 View all work

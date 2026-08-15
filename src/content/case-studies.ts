@@ -76,8 +76,9 @@ const codalMediaCaption = (description: string) =>
 const archivedReferenceLabel = "Archived reference";
 const archivedReferenceDisclosure =
   "Archived pending delivery ownership and publication permission verification.";
-const codalReferenceLabel = archivedReferenceLabel;
-const codalReferenceDisclosure = archivedReferenceDisclosure;
+const codalReferenceLabel = "Industry reference";
+const codalReferenceDisclosure =
+  "Industry reference compiled from Codal's public case study and credited product media.";
 
 export const caseStudies: readonly CaseStudy[] = [
   {
@@ -199,7 +200,7 @@ export const caseStudies: readonly CaseStudy[] = [
     featuredOrder: 1,
     reviewedAt: "2026-08-15",
     permissionStatus: "not-requested",
-    published: false,
+    published: true,
   },
   {
     slug: "cpap",
@@ -317,7 +318,7 @@ export const caseStudies: readonly CaseStudy[] = [
     featuredOrder: 2,
     reviewedAt: "2026-08-15",
     permissionStatus: "not-requested",
-    published: false,
+    published: true,
   },
   {
     slug: "callpotential",
@@ -411,7 +412,7 @@ export const caseStudies: readonly CaseStudy[] = [
     featuredOrder: 3,
     reviewedAt: "2026-08-15",
     permissionStatus: "not-requested",
-    published: false,
+    published: true,
   },
   {
     slug: "built-by-girls",
@@ -530,7 +531,7 @@ export const caseStudies: readonly CaseStudy[] = [
     featuredOrder: 4,
     reviewedAt: "2026-08-15",
     permissionStatus: "not-requested",
-    published: false,
+    published: true,
   },
   {
     slug: "fuze-health",
@@ -624,7 +625,7 @@ export const caseStudies: readonly CaseStudy[] = [
     featuredOrder: 6,
     reviewedAt: "2026-08-15",
     permissionStatus: "not-requested",
-    published: false,
+    published: true,
   },
   {
     slug: "children-health",
@@ -729,7 +730,7 @@ export const caseStudies: readonly CaseStudy[] = [
     featuredOrder: 7,
     reviewedAt: "2026-08-15",
     permissionStatus: "not-requested",
-    published: false,
+    published: true,
   },
   {
     slug: "mantl",
@@ -849,7 +850,7 @@ export const caseStudies: readonly CaseStudy[] = [
     featuredOrder: 8,
     reviewedAt: "2026-08-15",
     permissionStatus: "not-requested",
-    published: false,
+    published: true,
   },
   {
     slug: "ticketrev",
@@ -1047,8 +1048,9 @@ export function getPublishedCaseStudies(): readonly CaseStudy[] {
     .filter(
       (caseStudy) =>
         caseStudy.published &&
-        caseStudy.provenance.kind === "verified-client-work" &&
-        caseStudy.permissionStatus === "confirmed" &&
+        (caseStudy.provenance.kind === "third-party-reference" ||
+          (caseStudy.provenance.kind === "verified-client-work" &&
+            caseStudy.permissionStatus === "confirmed")) &&
         caseStudy.sourceUrls.includes(caseStudy.provenance.sourceUrl)
     )
     .sort((a, b) => a.featuredOrder - b.featuredOrder);

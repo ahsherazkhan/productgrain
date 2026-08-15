@@ -12,7 +12,7 @@ The application uses five route families:
 4. Legal and system pages: privacy, terms, cookies, not-found, error, sitemap, and robots.
 5. Server endpoints: lead submission and consent-aware Meta event forwarding.
 
-The work area is deliberately in capability-led mode. Ten third-party or otherwise unverified records—seven Codal references and three independent public product profiles—remain archived and unpublished. The publication filter accepts only verified NeedFoundry client work with confirmed permission, so none of the retained records renders as customer proof or receives a public detail page. Archived media, reported outcomes, and business-logic notes remain non-public. Testimonials remain hidden until real approval and evidence exist. Real founder/team media are still outstanding, so professional initial/founder fallbacks remain in place. No placeholder names appear in public UI.
+The work area publishes seven source-attributed industry references based on Codal's public case studies while keeping three independent public product profiles archived. The published references remain typed as third-party material, link to their source, and do not count as NeedFoundry client proof. Verified NeedFoundry client work still requires confirmed publication permission. Source-credited media, reported outcomes, and business-logic notes are shown only inside the reference model. Testimonials remain hidden until real approval and evidence exist. Real founder/team media are still outstanding, so professional initial/founder fallbacks remain in place. No placeholder names appear in public UI.
 
 ## Phases
 

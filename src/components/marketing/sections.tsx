@@ -43,12 +43,12 @@ export function HomeHero() {
 }
 
 export function TrustStrip() {
-  const caseStudies = getPublishedCaseStudies().slice(0, 2);
-  const testimonials = getPublishedTestimonials().slice(0, 2);
+  const caseStudies = getPublishedCaseStudies();
+  const testimonials = getPublishedTestimonials();
   if (!caseStudies.length && !testimonials.length) return null;
 
   const counts = [
-    { label: "Verified case studies", value: caseStudies.length },
+    { label: "Published project references", value: caseStudies.length },
     { label: "Verified testimonials", value: testimonials.length },
     { label: "Markets covered", value: new Set(caseStudies.map((item) => item.industry)).size || "n/a" },
   ];

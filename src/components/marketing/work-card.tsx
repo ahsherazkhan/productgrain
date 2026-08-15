@@ -21,7 +21,7 @@ export function WorkCard({
         <Link
           className="work-card__media"
           href={`/work/${item.slug}`}
-          aria-label={`View the ${item.clientName} project profile`}
+          aria-label={`View the ${item.clientName} product reference`}
         >
           <Image
             src={cover.src}
@@ -69,7 +69,7 @@ export function WorkCard({
           ))}
         </ul>
         <ButtonLink href={`/work/${item.slug}`} variant="quiet">
-          Read the case study
+          Read the profile
         </ButtonLink>
       </div>
     </article>

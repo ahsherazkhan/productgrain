@@ -139,11 +139,11 @@ Core message:
 
 ## Work/portfolio model and media
 - Content-driven profile records live in `src/content/case-studies.ts`.
-- Seven Codal references—ClaimDeck, CPAP.com, CallPotential, BUILT BY GIRLS, Fuze Health, Children's Health, and MANTL—and three independent public product profiles—TicketRev, Tributi, and Loopple—remain archived and unpublished.
-- These ten records are retained only as third-party or otherwise unverified reference material. None is represented as NeedFoundry client work or delivery evidence.
-- The publication filter accepts only records with verified NeedFoundry delivery and confirmed publication permission. No current record meets that gate.
-- The `/work` page therefore renders capability-led delivery content. Archived profile slugs do not generate public detail pages, project structured data, or sitemap entries.
-- Archived project imagery remains stored locally but is not rendered as customer proof. External video embeds remain excluded.
+- Seven Codal-sourced profiles—ClaimDeck, CPAP.com, CallPotential, BUILT BY GIRLS, Fuze Health, Children's Health, and MANTL—are published as clearly labelled industry references.
+- Each reference links to its original public source, preserves media and outcome credit, and remains typed as `third-party-reference` rather than NeedFoundry client work.
+- Verified NeedFoundry client work requires confirmed publication permission. Third-party references use a separate editorial publication path and are never counted as client proof.
+- TicketRev, Tributi, and Loopple remain archived public product profiles and do not generate routes, structured data, or sitemap entries.
+- Source-credited project imagery is stored locally for reliable rendering. External video embeds remain excluded.
 - Testimonials are intentionally empty until approval and permission are present.
 
 ## Security/compliance posture currently implemented

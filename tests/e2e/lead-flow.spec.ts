@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-const formerWorkSlugs = [
+const publishedWorkSlugs = [
   "claimdeck",
   "cpap",
   "callpotential",
@@ -8,11 +8,15 @@ const formerWorkSlugs = [
   "fuze-health",
   "children-health",
   "mantl",
+];
+const archivedWorkSlugs = [
   "ticketrev",
   "tributi",
   "loopple",
-  "cost-plus-drugs",
 ];
+const removedWorkSlug = "cost-plus-drugs";
+const falseNeedFoundryDeliveryClaim =
+  /NeedFoundry client (?:work|projects?|engagements?)|(?:delivered|built|designed|developed|created) by NeedFoundry|NeedFoundry (?:delivered|built|designed|developed|created)/i;
 
 test("homepage keeps a concise lead-generation path", async ({ page }) => {
   await page.goto("/");
@@ -20,10 +24,16 @@ test("homepage keeps a concise lead-generation path", async ({ page }) => {
   await expect(page.getByRole("heading", { level: 1, name: "The product-first studio for AI-native software." })).toBeVisible();
   await expect(page.getByRole("link", { name: "Discuss your product idea — free" }).first()).toBeVisible();
   await expect(page.getByRole("heading", { name: "Start with the right level of product certainty." })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Know what you are committing to before development begins" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Scope before spend" })).toBeVisible();
-  await expect(page.locator("body")).not.toContainText(/Codal|founder-authorized|portfolio reference/i);
-  await expect(page.locator('a[href^="/work/"]')).toHaveCount(0);
+  await expect(page.getByRole("heading", { name: "Digital products shaped around real operating problems." })).toBeVisible();
+  await expect(page.getByRole("link", { name: "View the ClaimDeck product reference" })).toBeVisible();
+  await expect(page.locator("body")).toContainText("Industry references");
+  await expect(page.locator("body")).not.toContainText(falseNeedFoundryDeliveryClaim);
+  for (const slug of publishedWorkSlugs) {
+    await expect(page.locator(`a[href="/work/${slug}"]`).first()).toBeAttached();
+  }
+  for (const slug of [...archivedWorkSlugs, removedWorkSlug]) {
+    await expect(page.locator(`a[href="/work/${slug}"]`)).toHaveCount(0);
+  }
   await expect(page.getByRole("link", { name: "Explore your AI product opportunity" }).locator("svg")).toHaveCount(1);
   await expect(page.locator(".decision-map")).toHaveCount(0);
   const mobileMenu = page.getByRole("button", { name: "Open navigation" });
@@ -40,24 +50,54 @@ test("homepage keeps a concise lead-generation path", async ({ page }) => {
   await expect(page).toHaveURL(/\/work$/);
 });
 
-test("work shows capability commitments and retires former project routes", async ({ page }) => {
+test("work shows seven sourced industry references and archives unverified profiles", async ({ page, request }) => {
   await page.goto("/work");
   await page.getByRole("button", { name: "Necessary only" }).click();
-  await expect(page.getByRole("heading", { name: "Clear decisions before deeper delivery commitments." })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Know what you are committing to before development begins" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Scope before spend" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Visible progress" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Honest product risk" })).toBeVisible();
-  await expect(page.locator('a[href^="/work/"]')).toHaveCount(0);
-  await expect(page.locator("body")).not.toContainText(
-    /Codal|founder-authorized|portfolio reference|attributed industry reference|delivered and documented|Project delivered by/i,
-  );
+  await expect(page.getByRole("heading", { name: "Digital products shaped around real operating problems." })).toBeVisible();
+  await expect(page.locator("body")).toContainText("Industry references");
+  await expect(page.locator("body")).toContainText("Every profile links to its original source.");
+  await expect(page.locator("body")).not.toContainText(falseNeedFoundryDeliveryClaim);
 
-  for (const slug of formerWorkSlugs) {
-    const response = await page.goto(`/work/${slug}`);
-    expect(response?.status(), slug).toBe(404);
-    await expect(page.getByText("Project record")).toHaveCount(0);
+  for (const slug of publishedWorkSlugs) {
+    await expect(page.locator(`a[href="/work/${slug}"]`).first()).toBeAttached();
+    const response = await request.get(`/work/${slug}`);
+    expect(response.status(), slug).toBe(200);
   }
+  for (const slug of [...archivedWorkSlugs, removedWorkSlug]) {
+    await expect(page.locator(`a[href="/work/${slug}"]`)).toHaveCount(0);
+  }
+
+  const claimdeckResponse = await page.goto("/work/claimdeck");
+  expect(claimdeckResponse?.status()).toBe(200);
+  await expect(page.locator("body")).toContainText("Industry reference");
+  await expect(page.locator("body")).toContainText("Source: Codal");
+  await expect(page.locator("body")).toContainText(
+    "Industry reference compiled from Codal's public case study and credited product media.",
+  );
+  await expect(page.getByText("Profile type", { exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "How the workflow fits together" })).toBeVisible();
+  await expect(page.locator("body")).not.toContainText(falseNeedFoundryDeliveryClaim);
+  const structuredData = await page
+    .locator('script[type="application/ld+json"]')
+    .evaluateAll((nodes) =>
+      nodes
+        .map((node) => JSON.parse(node.textContent ?? "{}"))
+        .find((item) => item["@type"] === "Article"),
+    );
+  expect(structuredData?.citation).toBe("https://codal.com/work/claimdeck/");
+  expect(structuredData?.isBasedOn).toBe("https://codal.com/work/claimdeck/");
+
+  for (const slug of archivedWorkSlugs) {
+    const response = await request.get(`/work/${slug}`);
+    expect(response.status(), slug).toBe(404);
+  }
+
+  const removedResponse = await page.goto(`/work/${removedWorkSlug}`);
+  expect(removedResponse?.status(), removedWorkSlug).toBe(404);
+  await expect(page.getByText("Project record")).toHaveCount(0);
+  await expect(page.locator("body")).not.toContainText(
+    "Unifying pharmacy operations for faster fulfillment and product iteration",
+  );
 });
 
 test("UK landing shows configured pricing and reaches a qualified booking result", async ({ page }) => {

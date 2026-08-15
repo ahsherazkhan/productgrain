@@ -10,19 +10,51 @@ import {
   getRelatedCaseStudies,
 } from "../../src/content/case-studies";
 
-test("publishes only verified client work with confirmed permission", () => {
+const publishedWorkSlugs = [
+  "claimdeck",
+  "cpap",
+  "callpotential",
+  "built-by-girls",
+  "fuze-health",
+  "children-health",
+  "mantl",
+];
+
+test("publishes only sourced Codal industry references", () => {
   const published = getPublishedCaseStudies();
   assert.equal(caseStudies.length, 10);
-  assert.equal(published.length, 0);
-  assert.ok(caseStudies.every((item) => !item.published));
+  assert.deepEqual(
+    published.map((item) => item.slug),
+    publishedWorkSlugs,
+  );
   assert.ok(
     published.every(
       (item) =>
-        item.permissionStatus === "confirmed" &&
-        item.provenance.kind === "verified-client-work",
+        item.published &&
+        item.provenance.kind === "third-party-reference" &&
+        item.provenance.label === "Industry reference" &&
+        item.provenance.sourceName === "Codal" &&
+        item.provenance.disclosure ===
+          "Industry reference compiled from Codal's public case study and credited product media." &&
+        item.sourceUrls.includes(item.provenance.sourceUrl),
     ),
   );
-  assert.equal(getPublishedCaseStudyBySlug("claimdeck"), undefined);
+  assert.ok(
+    published.every(
+      (item) =>
+        !/(?:delivered|built|designed|developed|created) by NeedFoundry|NeedFoundry (?:delivered|built|designed|developed|created)/i.test(
+          [
+            item.summary,
+            item.originalProblem,
+            item.publicProductDirection,
+            item.solution,
+            item.provenance.disclosure,
+          ].join(" "),
+        ),
+    ),
+  );
+  assert.equal(getPublishedCaseStudyBySlug("claimdeck")?.clientName, "ClaimDeck");
+  assert.equal(getPublishedCaseStudyBySlug("cost-plus-drugs"), undefined);
   assert.equal(getPublishedCaseStudyBySlug("fitish"), undefined);
 });
 
@@ -70,14 +102,20 @@ test("keeps project identifiers, order, sources, and media valid", () => {
   }
 });
 
-test("returns no featured or related work while profiles remain unverified", () => {
-  assert.deepEqual(getFeaturedCaseStudies(), []);
-  const claimdeck = caseStudies.find((item) => item.slug === "claimdeck");
+test("selects intentional featured and related industry references", () => {
+  assert.deepEqual(
+    getFeaturedCaseStudies().map((item) => item.slug),
+    ["claimdeck", "cpap", "callpotential"],
+  );
+  const claimdeck = getPublishedCaseStudyBySlug("claimdeck");
   assert.ok(claimdeck);
-  assert.deepEqual(getRelatedCaseStudies(claimdeck), []);
+  assert.deepEqual(
+    getRelatedCaseStudies(claimdeck).map((item) => item.slug),
+    ["cpap", "callpotential"],
+  );
 });
 
-test("keeps third-party and independent profiles out of published work", () => {
+test("publishes Codal references and keeps independent profiles archived", () => {
   const publishedSlugs = new Set(
     getPublishedCaseStudies().map((item) => item.slug),
   );
@@ -91,8 +129,11 @@ test("keeps third-party and independent profiles out of published work", () => {
   assert.equal(thirdPartyProfiles.length, 7);
   assert.equal(independentProfiles.length, 3);
   assert.ok(
-    [...thirdPartyProfiles, ...independentProfiles].every(
-      (item) => !publishedSlugs.has(item.slug),
+    thirdPartyProfiles.every((item) => publishedSlugs.has(item.slug)),
+  );
+  assert.ok(
+    independentProfiles.every(
+      (item) => !item.published && !publishedSlugs.has(item.slug),
     ),
   );
 });
