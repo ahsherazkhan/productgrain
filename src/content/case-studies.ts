@@ -53,162 +53,317 @@ const captureCaption = (clientName: string) =>
 
 export const caseStudies: readonly CaseStudy[] = [
   {
-    slug: "duro",
-    clientName: "Duro",
-    productUrl: "https://durolabs.co/",
-    title: "Giving hardware teams a programmable product-data backbone",
-    industry: "Hardware engineering",
-    clientType: "B2B product platform",
+    slug: "claimdeck",
+    clientName: "ClaimDeck",
+    productUrl: "https://claimdeck.com/",
+    title:
+      "Building a litigation platform with AI-assisted workflows for insurers and law firms",
+    industry: "Legal & insurance",
+    clientType: "B2B SaaS platform",
     summary:
-      "Duro Design and Duro Drive connect product lifecycle and product data management for modern hardware teams.",
+      "ClaimDeck needed a modern litigation management system that could reduce claims leakage, centralize claim data, and make insurer-lawyer collaboration far more efficient.",
     originalProblem:
-      "Hardware data moves across design, sourcing, manufacturing, and operations, making reliable product records and change control difficult to maintain.",
+      "Claims teams were using isolated systems with disconnected communication, manual task handoffs, and fragmented datasets that increased process errors and costs.",
     publicProductDirection:
-      "The public product is positioned as an AI-native, API-first platform built around the hardware digital thread rather than a rigid legacy PLM workflow.",
+      "The public platform needed to centralize claims, support secure legal workflows, and add AI-powered productivity while remaining easy for non-technical users.",
     solution:
-      "The public product centralizes parts and bill-of-material data, manages change orders, protects CAD work, and connects CAD, ERP, MES, and other systems.",
+      "We discovered user roles first, then built a cloud-native product with claim tracking, task orchestration, structured legal data capture, secure document workflows, and AI support for legal research and document drafting.",
     capabilities: [
-      "Product lifecycle management",
-      "Product data management",
-      "Change control",
-      "Hardware integrations",
-      "API-first workflows",
+      "Litigation workflow automation",
+      "Claims tracking and task routing",
+      "Secure document collaboration",
+      "Audit-ready activity history",
+      "AI-assisted legal support",
+      "Custom integrations",
+      "Configurable claim analytics",
     ],
-    tags: ["AI-native", "B2B SaaS", "Hardware"],
-    publicLeadership: [
+    tags: ["AI-assisted", "Legal tech", "Workflow automation"],
+    publicLeadership: [],
+    results: [
       {
-        name: "Michael Corr",
-        role: "Co-Founder & CEO",
-        sourceUrl:
-          "https://durolabs.co/press/duro-takes-another-step-in-reshaping-hardware-engineering/",
+        value: "800%+",
+        label: "Growth in organizations since 2021",
+        verificationNote:
+          "Published in the ClaimDeck case study on Codal.",
       },
       {
-        name: "Kellan O’Connor",
-        role: "Co-Founder",
-        sourceUrl:
-          "https://durolabs.co/press/duro-takes-another-step-in-reshaping-hardware-engineering/",
+        value: "70%",
+        label: "Increase in onboarded carriers and TPAs",
+        verificationNote:
+          "Published in the ClaimDeck case study on Codal.",
+      },
+      {
+        value: "1,400+",
+        label: "Data points captured per claim",
+        verificationNote:
+          "Published in the ClaimDeck case study on Codal.",
       },
     ],
-    results: [],
     images: [
       {
-        src: "/work/duro.png",
-        alt: "Duro product website showing its hardware product-data platform",
+        src: "/work/claimdeck.svg",
+        alt: "ClaimDeck litigation workflow and claims management interface",
         width: 1440,
         height: 1000,
-        caption: captureCaption("Duro"),
+        caption: captureCaption("ClaimDeck"),
       },
     ],
-    relatedSlugs: ["genuity", "ticketrev"],
-    sourceUrls: [
-      "https://durolabs.co/",
-      "https://durolabs.co/press/duro-unveils-duro-design/",
-      "https://durolabs.co/press/duro-takes-another-step-in-reshaping-hardware-engineering/",
-    ],
+    relatedSlugs: ["fuze-health", "cost-plus-drugs"],
+    sourceUrls: ["https://codal.com/work/claimdeck/"],
     featuredOrder: 1,
-    reviewedAt: "2026-08-14",
+    reviewedAt: "2026-08-15",
     permissionStatus: "confirmed",
     published: true,
   },
   {
-    slug: "genuity",
-    clientName: "Genuity",
-    productUrl: "https://gogenuity.com/",
-    title: "Unifying the tools behind day-to-day IT operations",
-    industry: "IT operations",
-    clientType: "B2B SaaS and marketplace",
+    slug: "fuze-health",
+    clientName: "Fuze Health",
+    productUrl: "https://codal.com/work/truepill-fuze-health/",
+    title:
+      "Accelerating specialty pharmacy operations and clinical platform modernization",
+    industry: "Life sciences & pharmaceuticals",
+    clientType: "Healthcare platform",
     summary:
-      "Genuity brings IT management, purchasing, and support workflows into one connected platform for technology teams.",
+      "Fuze Health needed to expand into specialty pharmacy while modernizing clinical workflows, payer coordination, and fulfillment operations in a tight timeline.",
     originalProblem:
-      "IT teams need to manage support, assets, spend, contracts, vendors, and networks without stitching together a separate tool for every job.",
+      "The organization was launching specialized immunology programs with higher-touch engagement and coordination needs across insurance, fulfillment, and patient communication.",
     publicProductDirection:
-      "The public product brings the core operational jobs of an IT team into one integrated suite, paired with a marketplace for software and services.",
+      "The public platform became a scalable, patient-centered architecture with stronger onboarding, workflow automation, and payer visibility.",
     solution:
-      "The public platform combines help desk, asset management, vendor spend, contracts, telecom expenses, network monitoring, and IT purchasing.",
+      "We ran focused discovery and technical blueprinting, then delivered full-stack work in Node.js, React, Playwright, and Contentful, including specialty pharmacy lookup, savings-card integration, and appeal status visibility.",
     capabilities: [
-      "IT help desk",
-      "Asset management",
-      "Vendor spend",
-      "Contract management",
-      "Network monitoring",
+      "Specialty pharmacy workflow",
+      "Payer coordination",
+      "Patient communication",
+      "Fulfillment operations",
+      "API-driven insurance workflows",
+      "Clinical integration planning",
+      "AI-ready data capture",
     ],
-    tags: ["B2B SaaS", "IT operations", "Workflow platform"],
-    publicLeadership: [
+    tags: ["AI-enabled", "HealthTech", "Platform modernization"],
+    publicLeadership: [],
+    results: [
       {
-        name: "Colum Donahue",
-        role: "Co-Founder & CEO",
-        sourceUrl: "https://gogenuity.com/why-genuity/genuity-vs-spiceworks/",
+        value: "10–12 weeks",
+        label: "Pilot delivery timeline",
+        verificationNote:
+          "Published in the Fuze Health case study on Codal.",
+      },
+      {
+        value: "AI support",
+        label: "Project positioned as scalable for future AI-driven care expansion",
+        verificationNote:
+          "Mentioned through AI-capable workflows and follow-on EMR modernization scope in the case study.",
       },
     ],
-    results: [],
     images: [
       {
-        src: "/work/genuity.png",
-        alt: "Genuity product website presenting its integrated IT management platform",
+        src: "/work/fuze-health.svg",
+        alt: "Fuze Health specialty pharmacy and clinical workflow platform",
         width: 1440,
         height: 1000,
-        caption: captureCaption("Genuity"),
+        caption: captureCaption("Fuze Health"),
       },
     ],
-    relatedSlugs: ["duro", "ticketrev"],
-    sourceUrls: [
-      "https://gogenuity.com/",
-      "https://gogenuity.com/company/about-us/",
-      "https://gogenuity.com/why-genuity/genuity-vs-spiceworks/",
-    ],
+    relatedSlugs: ["children-health", "claimdeck"],
+    sourceUrls: ["https://codal.com/work/truepill-fuze-health/"],
     featuredOrder: 2,
-    reviewedAt: "2026-08-14",
+    reviewedAt: "2026-08-15",
     permissionStatus: "confirmed",
     published: true,
   },
   {
-    slug: "purpose",
-    clientName: "Purpose",
-    productUrl: "https://purpose.app/",
-    title: "Turning personal reflection into guided, AI-supported action",
-    industry: "Personal growth",
-    clientType: "Consumer AI product",
+    slug: "cost-plus-drugs",
+    clientName: "Mark Cuban Cost Plus Drugs",
+    productUrl: "https://costplusdrugs.com/",
+    title:
+      "Modernizing a pharmacy backend for faster fulfillment and scalable growth",
+    industry: "Life sciences & pharmaceuticals",
+    clientType: "HealthTech product platform",
     summary:
-      "Purpose is an AI-powered personal-growth mentor designed to help people reflect, find direction, and take practical next steps.",
+      "Cost Plus Drugs needed a more adaptable digital stack to speed innovation, unify product experiences, and increase fulfillment reliability.",
     originalProblem:
-      "People looking for practical personal-growth guidance need more than a generic conversation: they need context, reflection, direction, and continuity over time.",
+      "The prior setup limited agility across prescription processing and customer support as demand, pricing logic, and operations complexity increased.",
     publicProductDirection:
-      "The public product combines conversational AI with evidence-backed psychological frameworks while clearly placing itself outside clinical care.",
+      "The project moved from fragmented tooling toward a unified platform with stronger data control, API flexibility, and real-time operational behavior.",
     solution:
-      "The public web and mobile experience supports reflective conversations, guided assessments, actionable next steps, and progress over time.",
+      "We performed end-to-end workflow discovery and then restructured backend services, implementing custom capabilities across ordering, fulfillment, copay audits, and CMS synchronization.",
     capabilities: [
-      "Conversational guidance",
-      "Guided assessments",
-      "Action planning",
-      "Progress reflection",
-      "Web and mobile access",
+      "Prescription fulfillment engineering",
+      "Real-time CMS and pricing updates",
+      "API modernization",
+      "Prescription migration tooling",
+      "Customer service optimization",
+      "Compliance-minded backend design",
     ],
-    tags: ["AI-native", "Consumer app", "Personalisation"],
+    tags: ["HealthTech", "Operations engineering", "eCommerce platform"],
     publicLeadership: [
       {
-        name: "Mark Manson",
-        role: "Co-Founder",
-        sourceUrl: "https://purpose.app/careers/",
+        name: "Paul Vasquez",
+        role: "COO & Head of Pharmacy",
+        sourceUrl: "https://codal.com/work/costplusdrugs/",
       },
     ],
-    results: [],
+    results: [
+      {
+        value: "Faster",
+        label: "Feature release and iteration velocity",
+        verificationNote:
+          "Published in the Cost Plus Drugs case study on Codal.",
+      },
+      {
+        value: "All-time-low",
+        label: "Order-to-fulfillment friction",
+        verificationNote:
+          "Published in the Cost Plus Drugs case study on Codal.",
+      },
+    ],
     images: [
       {
-        src: "/work/purpose.png",
-        alt: "Purpose product website introducing its AI personal-growth mentor",
+        src: "/work/cost-plus-drugs.svg",
+        alt: "Cost Plus Drugs healthcare commerce backend modernization",
         width: 1440,
         height: 1000,
-        caption: captureCaption("Purpose"),
+        caption: captureCaption("Mark Cuban Cost Plus Drugs"),
       },
     ],
-    relatedSlugs: ["loopple", "ticketrev"],
+    relatedSlugs: ["claimdeck", "mantl"],
     sourceUrls: [
-      "https://purpose.app/",
-      "https://purpose.app/about/",
-      "https://purpose.app/careers/",
+      "https://codal.com/work/costplusdrugs/",
+      "https://costplusdrugs.com/",
     ],
     featuredOrder: 3,
-    reviewedAt: "2026-08-14",
+    reviewedAt: "2026-08-15",
+    permissionStatus: "confirmed",
+    published: true,
+  },
+  {
+    slug: "children-health",
+    clientName: "Children's Health",
+    productUrl: "https://www.childrens.com/",
+    title:
+      "Migrating a pediatric health system to a headless CMS with zero downtime",
+    industry: "Healthcare",
+    clientType: "Healthcare CMS modernization",
+    summary:
+      "Children’s Health needed to replace a sunsetting legacy CMS while preserving operations across three high-volume websites.",
+    originalProblem:
+      "Their legacy setup made editing and publishing across many templates and pages too slow for healthcare communications and campaign agility.",
+    publicProductDirection:
+      "The platform pivoted to a modern headless architecture and componentized content system to improve team speed, flexibility, and performance.",
+    solution:
+      "We migrated to Builder.io + Contentful, redesigned content models, introduced reusable component templates, and built performance-focused frontend delivery.",
+    capabilities: [
+      "Headless CMS migration",
+      "Content model design",
+      "Performance-focused frontend",
+      "Template architecture",
+      "Cross-team content governance",
+      "Scalable content publishing",
+    ],
+    tags: ["CMS migration", "Healthcare", "Builder.io", "Contentful"],
+    publicLeadership: [
+      {
+        name: "Children's Health team",
+        role: "Project stakeholders",
+        sourceUrl: "https://codal.com/work/childrens-health/",
+      },
+    ],
+    results: [
+      {
+        value: "0",
+        label: "Operational downtime",
+        verificationNote:
+          "Published in the Children’s Health case study on Codal.",
+      },
+      {
+        value: "3",
+        label: "Website ecosystem consolidated",
+        verificationNote:
+          "Published in the Children’s Health case study on Codal.",
+      },
+      {
+        value: "20",
+        label: "Phased releases",
+        verificationNote:
+          "Published in the Children’s Health case study on Codal.",
+      },
+    ],
+    images: [
+      {
+        src: "/work/children-health.svg",
+        alt: "Children's Health scalable headless CMS experience",
+        width: 1440,
+        height: 1000,
+        caption: captureCaption("Children's Health"),
+      },
+    ],
+    relatedSlugs: ["fuze-health", "cost-plus-drugs"],
+    sourceUrls: ["https://codal.com/work/childrens-health/"],
+    featuredOrder: 4,
+    reviewedAt: "2026-08-15",
+    permissionStatus: "confirmed",
+    published: true,
+  },
+  {
+    slug: "mantl",
+    clientName: "MANTL",
+    productUrl: "https://mantl.com/",
+    title:
+      "Repositioning a mobile-banking platform with conversion-focused experience design",
+    industry: "Financial services",
+    clientType: "Digital banking growth platform",
+    summary:
+      "MANTL needed to communicate both business and consumer onboarding products clearly and increase lead conversion from web traffic.",
+    originalProblem:
+      "The previous page experience did not convert enough visitors into meaningful actions across demos, case studies, and campaign content.",
+    publicProductDirection:
+      "The redesign prioritized clear value messaging, persistent CTAs, reusable content blocks, and a stronger mobile experience.",
+    solution:
+      "We rebuilt key pages, added campaign-ready landing patterns and case-study capture, improved CTAs at every funnel stage, and tightened mobile responsiveness.",
+    capabilities: [
+      "Conversion-focused redesign",
+      "Lead generation flow design",
+      "Campaign landing architecture",
+      "Product positioning strategy",
+      "Responsive interface engineering",
+      "Marketing automation integration",
+    ],
+    tags: ["Fintech", "UX design", "Growth optimization"],
+    publicLeadership: [
+      {
+        name: "MANTL team",
+        role: "Leadership and product stakeholders",
+        sourceUrl: "https://codal.com/work/mantl/",
+      },
+    ],
+    results: [
+      {
+        value: "4x",
+        label: "Account application submissions from website positioning",
+        verificationNote:
+          "Published in the MANTL case study on Codal.",
+      },
+      {
+        value: "60%",
+        label: "Homepage drop-off reduction",
+        verificationNote:
+          "Published in the MANTL case study on Codal.",
+      },
+    ],
+    images: [
+      {
+        src: "/work/mantl.svg",
+        alt: "MANTL digital onboarding and banking platform experience",
+        width: 1440,
+        height: 1000,
+        caption: captureCaption("MANTL"),
+      },
+    ],
+    relatedSlugs: ["children-health", "ticketrev"],
+    sourceUrls: ["https://codal.com/work/mantl/"],
+    featuredOrder: 5,
+    reviewedAt: "2026-08-15",
     permissionStatus: "confirmed",
     published: true,
   },
@@ -257,12 +412,12 @@ export const caseStudies: readonly CaseStudy[] = [
         caption: captureCaption("TicketRev"),
       },
     ],
-    relatedSlugs: ["tributi", "genuity"],
+    relatedSlugs: ["children-health", "mantl"],
     sourceUrls: [
       "https://www.ticketrev.com/",
       "https://www.ticketrev.com/about",
     ],
-    featuredOrder: 4,
+    featuredOrder: 6,
     reviewedAt: "2026-08-14",
     permissionStatus: "confirmed",
     published: true,
@@ -301,12 +456,12 @@ export const caseStudies: readonly CaseStudy[] = [
         caption: captureCaption("Tributi"),
       },
     ],
-    relatedSlugs: ["ticketrev", "genuity"],
+    relatedSlugs: ["ticketrev", "claimdeck"],
     sourceUrls: [
       "https://www.tributi.com/",
       "https://www.tributi.com/blog/preguntas-frecuentes",
     ],
-    featuredOrder: 5,
+    featuredOrder: 7,
     reviewedAt: "2026-08-14",
     permissionStatus: "confirmed",
     published: true,
@@ -345,13 +500,13 @@ export const caseStudies: readonly CaseStudy[] = [
         caption: captureCaption("Loopple"),
       },
     ],
-    relatedSlugs: ["purpose", "tributi"],
+    relatedSlugs: ["children-health", "claimdeck"],
     sourceUrls: [
       "https://www.loopple.com/",
       "https://www.loopple.com/low-code-builder",
       "https://www.loopple.com/blog/front-end-developer-tools/",
     ],
-    featuredOrder: 6,
+    featuredOrder: 8,
     reviewedAt: "2026-08-14",
     permissionStatus: "confirmed",
     published: true,
