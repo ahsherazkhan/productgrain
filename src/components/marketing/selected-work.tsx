@@ -23,8 +23,8 @@ export function SelectedWorkSection() {
         <div className="selected-work__heading">
           <SectionIntro
             eyebrow="Selected work"
-            title="Focused products, shaped around real operating problems."
-            copy="Products designed and built by NeedFoundry across AI, SaaS, healthcare, finance, and operational software."
+            title="Focused products built around real workflows."
+            copy="Selected products delivered by NeedFoundry across AI, SaaS, healthcare, finance, and operations."
           />
           <ButtonLink href="/work" variant="secondary">
             View all work

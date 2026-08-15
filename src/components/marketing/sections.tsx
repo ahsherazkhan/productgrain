@@ -98,12 +98,12 @@ export function FitSection() {
 
 export function AiOpportunitySection() {
   return (
-    <section className="section section--surface">
+    <section className="section section--surface ai-opportunity-section">
       <Container>
         <SectionIntro
           eyebrow="Where AI creates leverage"
-          title="Your industry knowledge could become an AI-native product."
-          copy="Many businesses have repetitive research, documents, decisions, and specialist knowledge. We help identify where those workflows can become focused software products, scalable services, or stronger capabilities inside existing systems."
+          title="Turn industry knowledge into focused software."
+          copy="We identify repetitive research, decisions, and specialist workflows that can become focused products, scalable services, or stronger existing software."
         />
         <div className="three-card-grid fit-scenarios">
           {aiOpportunityCards.map((card) => (

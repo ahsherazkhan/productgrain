@@ -76,12 +76,12 @@ export default function WorkPage() {
         eyebrow={hasPublishedWork ? "Selected work" : "Delivery standards"}
         title={
           hasPublishedWork
-            ? "Focused products, shaped around real operating problems."
+            ? "Focused products built around real workflows."
             : "Clear decisions before deeper delivery commitments."
         }
         copy={
           hasPublishedWork
-            ? "Products designed and built by NeedFoundry across AI, SaaS, healthcare, finance, and operational software."
+            ? "Selected products delivered by NeedFoundry across AI, SaaS, healthcare, finance, and operations."
             : `${siteConfig.brandName} makes scope, progress, responsibilities, and product risk visible before each commitment is made.`
         }
       >

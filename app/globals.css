@@ -3507,6 +3507,17 @@ p {
   max-width: 660px;
 }
 
+.ai-opportunity-section .section-intro h2,
+.selected-work .section-intro h2 {
+  font-size: clamp(2.15rem, 3.6vw, 3.75rem);
+}
+
+.ai-opportunity-section .section-intro__copy,
+.selected-work .section-intro__copy {
+  max-width: 640px;
+  line-height: 1.6;
+}
+
 .hero-disclosure {
   margin: 22px 0 0;
   color: var(--text-muted);

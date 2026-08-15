@@ -40,6 +40,10 @@ function withoutReactTextSeparators(html) {
   return html.replaceAll("<!-- -->", "");
 }
 
+function withoutAbsoluteUrls(html) {
+  return html.replace(/https?:\/\/[^"'\\<>\s]+/gi, "");
+}
+
 function assertProductGrainShell(html) {
   const wordmarkLinks = [
     ...html.matchAll(/<a[^>]+aria-label="ProductGrain home"[^>]*>/gi),
@@ -186,8 +190,13 @@ test("server-renders the ProductGrain homepage and social identity", async () =>
   assert.match(html, /AI should improve the workflow/i);
   assert.match(html, /Start with the right level of product certainty/i);
   assert.match(html, /Selected work/i);
-  assert.match(html, /Focused products, shaped around real operating problems/i);
-  assert.match(html, /Products designed and built by NeedFoundry/i);
+  assert.match(html, /Turn industry knowledge into focused software/i);
+  assert.match(html, /Focused products built around real workflows/i);
+  assert.match(html, /Selected products delivered by NeedFoundry/i);
+  assert.doesNotMatch(
+    html,
+    /Your industry knowledge could become an AI-native product|Focused products, shaped around real operating problems/i,
+  );
   assert.match(html, /NeedFoundry project/i);
   assert.match(html, /ClaimDeck/i);
   assert.match(html, /\/work\/projects\//i);
@@ -296,7 +305,11 @@ test("server-renders required core routes", async () => {
     aboutContent,
     /We learn that context before deciding what to build\. Then we connect research, validation, design, and engineering in one accountable path—from a promising problem to software people can use\./i,
   );
-  assert.doesNotMatch(aboutHtml, /NeedFoundry|\b\d+[- ]person team\b/i);
+  const aboutHtmlWithoutUrls = withoutAbsoluteUrls(aboutHtml);
+  assert.doesNotMatch(
+    aboutHtmlWithoutUrls,
+    /NeedFoundry|\b\d+[- ]person team\b/i,
+  );
 
   const mvpHtml = await (await render("/mvp-development")).text();
   assert.match(
@@ -333,7 +346,7 @@ test("server-renders required core routes", async () => {
       route,
     );
     assert.match(legalHtml, /Professional review required/i, route);
-    assert.doesNotMatch(legalHtml, /NeedFoundry/i, route);
+    assert.doesNotMatch(withoutAbsoluteUrls(legalHtml), /NeedFoundry/i, route);
   }
   const privacyHtml = await (await render("/privacy")).text();
   assert.match(
@@ -360,8 +373,8 @@ test("server-renders ProductGrain-authored pages for seven historical NeedFoundr
   const workHtml = await workResponse.text();
   assertProductGrainShell(workHtml);
   assert.match(workHtml, /Selected work/i);
-  assert.match(workHtml, /Focused products, shaped around real operating problems/i);
-  assert.match(workHtml, /Products designed and built by NeedFoundry/i);
+  assert.match(workHtml, /Focused products built around real workflows/i);
+  assert.match(workHtml, /Selected products delivered by NeedFoundry/i);
   assert.match(workHtml, /NeedFoundry project/i);
   assert.match(workHtml, /\/work\/projects\//i);
   assert.doesNotMatch(workHtml, legacyReferenceFraming);

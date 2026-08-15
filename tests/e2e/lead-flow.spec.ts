@@ -64,10 +64,11 @@ test("homepage keeps a concise lead-generation path", async ({ page }) => {
   await expect(page.getByRole("heading", { level: 1, name: "The product-first studio for AI-native software." })).toBeVisible();
   await expect(page.getByRole("link", { name: "Discuss your product idea — free" }).first()).toBeVisible();
   await expect(page.getByRole("heading", { name: "Start with the right level of product certainty." })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Focused products, shaped around real operating problems." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Turn industry knowledge into focused software." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Focused products built around real workflows." })).toBeVisible();
   await expect(page.getByRole("link", { name: "View the ClaimDeck case study" })).toBeVisible();
   await expect(page.locator("body")).toContainText("Selected work");
-  await expect(page.locator("body")).toContainText("Products designed and built by NeedFoundry");
+  await expect(page.locator("body")).toContainText("Selected products delivered by NeedFoundry");
   await expect(page.locator("body")).toContainText("NeedFoundry project");
   await expect(page.locator("body")).not.toContainText(legacyReferenceFraming);
   await expect(page.locator('img[src^="/work/projects/"]').first()).toBeAttached();
@@ -98,9 +99,9 @@ test("homepage keeps a concise lead-generation path", async ({ page }) => {
 test("work keeps historical NeedFoundry provenance under ProductGrain authorship", async ({ page, request }) => {
   await page.goto("/work");
   await page.getByRole("button", { name: "Necessary only" }).click();
-  await expect(page.getByRole("heading", { name: "Focused products, shaped around real operating problems." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Focused products built around real workflows." })).toBeVisible();
   await expect(page.locator("body")).toContainText("Selected work");
-  await expect(page.locator("body")).toContainText("Products designed and built by NeedFoundry");
+  await expect(page.locator("body")).toContainText("Selected products delivered by NeedFoundry");
   await expect(page.locator("body")).toContainText("NeedFoundry project");
   await expect(page.locator("body")).not.toContainText(legacyReferenceFraming);
   await expect(page.locator('img[src^="/work/projects/"]').first()).toBeAttached();
