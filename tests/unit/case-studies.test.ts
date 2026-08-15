@@ -51,11 +51,6 @@ test("keeps project identifiers, order, sources, and media valid", () => {
       assert.ok(item.logo.src.startsWith("/work/"));
       assert.ok(existsSync(join(process.cwd(), "public", item.logo.src)));
     }
-    for (const video of item.videos ?? []) {
-      assert.match(video.embedUrl, /^https:\/\/player\.vimeo\.com\/video\//);
-      assert.ok(!video.embedUrl.includes("autoplay=1"));
-      assert.ok(item.sourceUrls.includes(video.sourceUrl));
-    }
     for (const result of item.results) {
       assert.ok(result.verificationNote.length > 0);
     }
@@ -89,12 +84,9 @@ test("keeps unapproved independent product profiles out of published work", () =
   );
 });
 
-test("includes sourced demos and business logic for the enriched projects", () => {
-  assert.equal(getPublishedCaseStudyBySlug("cpap")?.videos?.length, 1);
-  assert.equal(
-    getPublishedCaseStudyBySlug("cost-plus-drugs")?.videos?.length,
-    5,
-  );
+test("includes verified image galleries and business logic for enriched projects", () => {
+  assert.ok((getPublishedCaseStudyBySlug("cpap")?.images.length ?? 0) >= 6);
+  assert.ok((getPublishedCaseStudyBySlug("claimdeck")?.images.length ?? 0) >= 5);
   assert.ok(
     getPublishedCaseStudies()
       .filter((item) => item.workflow)

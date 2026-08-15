@@ -142,7 +142,7 @@ Core message:
 - Eight Codal-delivered projects—ClaimDeck, CPAP.com, CallPotential, BUILT BY GIRLS, Fuze Health, Cost Plus Drugs, Children's Health, and MANTL—are published as founder-authorized, attributed portfolio references. They are never described as NeedFoundry client engagements.
 - TicketRev, Tributi, and Loopple remain archived because they are independent public product profiles rather than delivered portfolio work.
 - Each published record carries typed provenance, the original Codal source URL, founder-confirmed publication status, credited media, and source notes for reported outcomes.
-- Project imagery is stored under `public/work/codal` for reliable rendering. CPAP.com includes one sourced Vimeo demo and Cost Plus Drugs includes five; embeds use do-not-track parameters, lazy loading, controls, source links, and no autoplay.
+- Project imagery is stored under `public/work/codal` for reliable rendering. External video embeds are intentionally excluded because they did not render consistently for visitors.
 - Detail pages add business-logic walkthroughs, published-outcome cards, and responsive media galleries. Structured data identifies Codal as creator and NeedFoundry as publisher.
 - If fewer than two approved profiles exist, the UI falls back to capability-led content.
 - Testimonials are intentionally empty until approval and permission are present.

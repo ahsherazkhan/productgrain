@@ -17,13 +17,6 @@ export type CaseStudyImage = {
   readonly caption?: string;
 };
 
-export type CaseStudyVideo = {
-  readonly embedUrl: string;
-  readonly title: string;
-  readonly caption: string;
-  readonly sourceUrl: string;
-};
-
 export type CaseStudyWorkflowStep = {
   readonly title: string;
   readonly description: string;
@@ -63,7 +56,6 @@ export type CaseStudy = {
   readonly results: readonly CaseStudyResult[];
   readonly logo?: CaseStudyImage;
   readonly images: readonly CaseStudyImage[];
-  readonly videos?: readonly CaseStudyVideo[];
   readonly workflow?: readonly CaseStudyWorkflowStep[];
   readonly provenance: CaseStudyProvenance;
   readonly relatedSlugs: readonly string[];
@@ -311,15 +303,6 @@ export const caseStudies: readonly CaseStudy[] = [
         width: 1728,
         height: 972,
         caption: codalMediaCaption("CPAP.com responsive storefront."),
-      },
-    ],
-    videos: [
-      {
-        embedUrl:
-          "https://player.vimeo.com/video/1078017296?dnt=1&title=0&byline=0&portrait=0",
-        title: "CPAP.com digital platform demonstration",
-        caption: "CPAP.com product demonstration published by Codal.",
-        sourceUrl: "https://codal.com/work/cpap-com/",
       },
     ],
     provenance: {
@@ -726,43 +709,6 @@ export const caseStudies: readonly CaseStudy[] = [
         width: 1728,
         height: 972,
         caption: codalMediaCaption("Cost Plus Drugs prescription experience."),
-      },
-    ],
-    videos: [
-      {
-        embedUrl:
-          "https://player.vimeo.com/video/1120947017?dnt=1&title=0&byline=0&portrait=0",
-        title: "Cost Plus Drugs homepage product demonstration",
-        caption: "Homepage product demonstration published by Codal.",
-        sourceUrl: "https://codal.com/work/costplusdrugs/",
-      },
-      {
-        embedUrl:
-          "https://player.vimeo.com/video/1120951096?dnt=1&title=0&byline=0&portrait=0",
-        title: "Cost Plus Drugs prescription manager demonstration",
-        caption: "Prescription-management workflow published by Codal.",
-        sourceUrl: "https://codal.com/work/costplusdrugs/",
-      },
-      {
-        embedUrl:
-          "https://player.vimeo.com/video/1120951765?dnt=1&title=0&byline=0&portrait=0",
-        title: "Cost Plus Drugs ordering workflow demonstration",
-        caption: "Ordering workflow demonstration published by Codal.",
-        sourceUrl: "https://codal.com/work/costplusdrugs/",
-      },
-      {
-        embedUrl:
-          "https://player.vimeo.com/video/1120954020?dnt=1&title=0&byline=0&portrait=0",
-        title: "Cost Plus Drugs interface demonstration",
-        caption: "Patient and pharmacy interface examples published by Codal.",
-        sourceUrl: "https://codal.com/work/costplusdrugs/",
-      },
-      {
-        embedUrl:
-          "https://player.vimeo.com/video/1120954586?dnt=1&title=0&byline=0&portrait=0",
-        title: "Cost Plus Drugs pricing calculator demonstration",
-        caption: "Pricing calculator demonstration published by Codal.",
-        sourceUrl: "https://codal.com/work/costplusdrugs/",
       },
     ],
     provenance: {

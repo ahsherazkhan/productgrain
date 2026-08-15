@@ -84,11 +84,12 @@ test("server-renders approved Codal references and keeps independent profiles re
 
   const cpapHtml = await (await render("/work/cpap")).text();
   assert.match(cpapHtml, /How the workflow fits together/i);
-  assert.match(cpapHtml, /player\.vimeo\.com\/video\/1078017296/i);
+  assert.match(cpapHtml, /cpap-ui\.webp/i);
+  assert.doesNotMatch(cpapHtml, /player\.vimeo\.com/i);
 
   const costPlusHtml = await (await render("/work/cost-plus-drugs")).text();
-  assert.match(costPlusHtml, /player\.vimeo\.com\/video\/1120951096/i);
-  assert.match(costPlusHtml, /player\.vimeo\.com\/video\/1120954020/i);
+  assert.match(costPlusHtml, /cost-plus-prescription\.webp/i);
+  assert.doesNotMatch(costPlusHtml, /player\.vimeo\.com/i);
 
   for (const slug of retiredWorkSlugs) {
     assert.doesNotMatch(workHtml, new RegExp(`/work/${slug}`));

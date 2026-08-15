@@ -282,44 +282,16 @@ export default async function CaseStudyPage({
         </section>
       ) : null}
 
-      {item.images.length > 1 || item.videos?.length ? (
+      {item.images.length > 1 ? (
         <section className="section section--surface case-study-media">
           <Container>
             <div className="case-study-media__heading">
               <p className="eyebrow">Product media</p>
-              <h2>Screens, demos and brand details.</h2>
+              <h2>Product screens and brand details.</h2>
               <p>
-                Published project media is shown with descriptive captions. Videos use privacy-aware embeds and do not autoplay.
+                Only locally verified project imagery is shown, with descriptive captions and original-source credit.
               </p>
             </div>
-            {item.videos?.length ? (
-              <div className="case-study-media__videos">
-                {item.videos.map((video) => (
-                  <figure className="case-study-media__video" key={video.embedUrl}>
-                    <div>
-                      <iframe
-                        src={video.embedUrl}
-                        title={video.title}
-                        loading="lazy"
-                        referrerPolicy="strict-origin-when-cross-origin"
-                        allow="fullscreen; picture-in-picture"
-                        allowFullScreen
-                      />
-                    </div>
-                    <figcaption>
-                      <span>{video.caption}</span>
-                      <a
-                        href={video.sourceUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        View original source ↗
-                      </a>
-                    </figcaption>
-                  </figure>
-                ))}
-              </div>
-            ) : null}
             <div className="case-study-media__grid">
               {item.images.slice(1).map((image) => (
                 <figure key={image.src}>
