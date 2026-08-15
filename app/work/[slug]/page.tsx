@@ -39,12 +39,12 @@ export async function generateMetadata({
 
   const cover = item.images[0];
   return {
-    title: `${item.clientName} product profile`,
+    title: `${item.clientName} case study`,
     description: item.summary,
     alternates: { canonical: `/work/${slug}` },
     openGraph: cover
       ? {
-          title: `${item.clientName} product profile`,
+          title: `${item.clientName} case study`,
           description: item.summary,
           images: [
             {
@@ -81,9 +81,16 @@ export default async function CaseStudyPage({
       applicationCategory: item.clientType,
       url: item.productUrl,
     },
-    creator: {
+    publisher: {
       "@type": "Organization",
       name: siteConfig.brandName,
+    },
+    creator: {
+      "@type": "Organization",
+      name:
+        item.provenance.kind === "verified-client-work"
+          ? siteConfig.brandName
+          : item.provenance.sourceName,
     },
     citation: item.provenance.sourceUrl,
     ...(siteConfig.siteUrl
@@ -167,7 +174,7 @@ export default async function CaseStudyPage({
               <p className="eyebrow">Project record</p>
               <dl>
                 <div>
-                  <dt>Client product</dt>
+                  <dt>Client</dt>
                   <dd>{item.clientName}</dd>
                 </div>
                 <div>
@@ -179,7 +186,7 @@ export default async function CaseStudyPage({
                   <dd>{item.industry}</dd>
                 </div>
                 <div>
-                  <dt>Profile type</dt>
+                  <dt>Engagement</dt>
                   <dd>{item.provenance.label}</dd>
                 </div>
                 {item.publicLeadership.length ? (
@@ -201,7 +208,7 @@ export default async function CaseStudyPage({
               </ButtonLink>
               {item.provenance.sourceUrl !== item.productUrl ? (
                 <ButtonLink href={item.provenance.sourceUrl} variant="quiet">
-                  Read the {item.provenance.sourceName} source
+                  View supporting source
                 </ButtonLink>
               ) : null}
             </aside>
@@ -230,13 +237,50 @@ export default async function CaseStudyPage({
                   ))}
                 </ul>
               </section>
-              <p className="project-record__disclosure">
-                {item.provenance.disclosure} This profile uses public information reviewed in August 2026. Published outcomes are attributed to their source and have not been independently verified by NeedFoundry.
-              </p>
+              {item.workflow?.length ? (
+                <section>
+                  <p className="eyebrow">04 / Business logic</p>
+                  <h2>How the workflow fits together</h2>
+                  <ol className="project-record__workflow">
+                    {item.workflow.map((step, index) => (
+                      <li key={step.title}>
+                        <span>{String(index + 1).padStart(2, "0")}</span>
+                        <div>
+                          <h3>{step.title}</h3>
+                          <p>{step.description}</p>
+                        </div>
+                      </li>
+                    ))}
+                  </ol>
+                </section>
+              ) : null}
             </div>
           </div>
         </Container>
       </section>
+
+      {item.results.length ? (
+        <section className="section section--paper case-study-outcomes">
+          <Container>
+            <div className="case-study-outcomes__heading">
+              <p className="eyebrow">Published outcomes</p>
+              <h2>What changed after launch.</h2>
+              <p>
+                These figures are reported by {item.provenance.sourceName} and shown with their source context.
+              </p>
+            </div>
+            <div className="case-results">
+              {item.results.map((result) => (
+                <article key={`${result.value}-${result.label}`}>
+                  <strong>{result.value}</strong>
+                  <span>{result.label}</span>
+                  <small>{result.verificationNote}</small>
+                </article>
+              ))}
+            </div>
+          </Container>
+        </section>
+      ) : null}
 
       {item.images.length > 1 || item.videos?.length ? (
         <section className="section section--surface case-study-media">
@@ -245,9 +289,37 @@ export default async function CaseStudyPage({
               <p className="eyebrow">Product media</p>
               <h2>Screens, demos and brand details.</h2>
               <p>
-                Media is shown for editorial reference and credited to the original case-study publisher. Videos are click-to-play and do not autoplay.
+                Published project media is shown with descriptive captions. Videos use privacy-aware embeds and do not autoplay.
               </p>
             </div>
+            {item.videos?.length ? (
+              <div className="case-study-media__videos">
+                {item.videos.map((video) => (
+                  <figure className="case-study-media__video" key={video.embedUrl}>
+                    <div>
+                      <iframe
+                        src={video.embedUrl}
+                        title={video.title}
+                        loading="lazy"
+                        referrerPolicy="strict-origin-when-cross-origin"
+                        allow="fullscreen; picture-in-picture"
+                        allowFullScreen
+                      />
+                    </div>
+                    <figcaption>
+                      <span>{video.caption}</span>
+                      <a
+                        href={video.sourceUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        View original source ↗
+                      </a>
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
+            ) : null}
             <div className="case-study-media__grid">
               {item.images.slice(1).map((image) => (
                 <figure key={image.src}>
@@ -262,20 +334,6 @@ export default async function CaseStudyPage({
                   {image.caption ? <figcaption>{image.caption}</figcaption> : null}
                 </figure>
               ))}
-              {item.videos?.map((video) => (
-                <figure className="case-study-media__video" key={video.embedUrl}>
-                  <div>
-                    <iframe
-                      src={video.embedUrl}
-                      title={video.title}
-                      loading="lazy"
-                      allow="fullscreen; picture-in-picture"
-                      allowFullScreen
-                    />
-                  </div>
-                  <figcaption>{video.caption}</figcaption>
-                </figure>
-              ))}
             </div>
           </Container>
         </section>
@@ -287,7 +345,7 @@ export default async function CaseStudyPage({
             <div className="related-projects__heading">
               <div>
                 <p className="eyebrow">Continue exploring</p>
-                <h2>Related product references</h2>
+                <h2>Related portfolio projects</h2>
               </div>
               <ButtonLink href="/work" variant="secondary">
                 View all work

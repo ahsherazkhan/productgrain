@@ -1,6 +1,23 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
+const publishedWorkSlugs = [
+  "claimdeck",
+  "cpap",
+  "callpotential",
+  "built-by-girls",
+  "cost-plus-drugs",
+  "fuze-health",
+  "children-health",
+  "mantl",
+];
+
+const retiredWorkSlugs = [
+  "ticketrev",
+  "tributi",
+  "loopple",
+];
+
 async function render(pathname = "/") {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
   workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}-${pathname}`);
@@ -23,8 +40,9 @@ test("server-renders the NeedFoundry homepage", async () => {
   assert.match(html, /Discuss your product idea/i);
   assert.match(html, /AI should improve the workflow/i);
   assert.match(html, /Start with the right level of product certainty/i);
-  assert.match(html, /Product references/i);
-  assert.match(html, /Building a litigation platform with AI-assisted workflows/i);
+  assert.match(html, /Digital products shaped around real operating problems/i);
+  assert.match(html, /ClaimDeck/i);
+  assert.match(html, /Founder-authorized Codal projects/i);
   assert.doesNotMatch(html, /decision-map|Founder and team|Product possibilities/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape|react-loading-skeleton/i);
 });
@@ -51,29 +69,34 @@ test("server-renders required core routes", async () => {
   }
 });
 
-test("server-renders the reference index and every published product profile", async () => {
+test("server-renders approved Codal references and keeps independent profiles retired", async () => {
   const workResponse = await render("/work");
   assert.equal(workResponse.status, 200);
   const workHtml = await workResponse.text();
-  for (const slug of ["claimdeck", "cpap", "callpotential", "built-by-girls", "cost-plus-drugs", "fuze-health", "children-health", "mantl", "ticketrev", "tributi", "loopple"]) {
+  assert.match(workHtml, /Project portfolio/i);
+  assert.match(workHtml, /delivered and documented by Codal/i);
+
+  for (const slug of publishedWorkSlugs) {
     assert.match(workHtml, new RegExp(`/work/${slug}`));
     const detailResponse = await render(`/work/${slug}`);
     assert.equal(detailResponse.status, 200, slug);
-    const detailHtml = await detailResponse.text();
-    assert.match(detailHtml, /Project record/);
-    assert.match(detailHtml, /Profile type/);
-    assert.match(detailHtml, /not (?:as|presented as) (?:verified )?NeedFoundry client work/i);
   }
 
-  const costPlusResponse = await render("/work/cost-plus-drugs");
-  const costPlusHtml = await costPlusResponse.text();
-  assert.match(costPlusHtml, /player\.vimeo\.com\/video\/1120947017/);
-  assert.doesNotMatch(costPlusHtml, /autoplay=1/);
+  const cpapHtml = await (await render("/work/cpap")).text();
+  assert.match(cpapHtml, /How the workflow fits together/i);
+  assert.match(cpapHtml, /player\.vimeo\.com\/video\/1078017296/i);
 
-  const cpapResponse = await render("/work/cpap");
-  const cpapHtml = await cpapResponse.text();
-  assert.match(cpapHtml, /player\.vimeo\.com\/video\/1078017296/);
-  assert.doesNotMatch(cpapHtml, /autoplay=1/);
+  const costPlusHtml = await (await render("/work/cost-plus-drugs")).text();
+  assert.match(costPlusHtml, /player\.vimeo\.com\/video\/1120951096/i);
+  assert.match(costPlusHtml, /player\.vimeo\.com\/video\/1120954020/i);
+
+  for (const slug of retiredWorkSlugs) {
+    assert.doesNotMatch(workHtml, new RegExp(`/work/${slug}`));
+    const detailResponse = await render(`/work/${slug}`);
+    assert.equal(detailResponse.status, 404, slug);
+    const detailHtml = await detailResponse.text();
+    assert.doesNotMatch(detailHtml, /Project record|Profile type/i);
+  }
 
   const missingResponse = await render("/work/not-a-real-project");
   assert.equal(missingResponse.status, 404);

@@ -69,7 +69,7 @@ export function WorkCard({
           ))}
         </ul>
         <ButtonLink href={`/work/${item.slug}`} variant="quiet">
-          Explore the reference profile
+          Read the case study
         </ButtonLink>
       </div>
     </article>

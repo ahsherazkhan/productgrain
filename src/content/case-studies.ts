@@ -24,6 +24,11 @@ export type CaseStudyVideo = {
   readonly sourceUrl: string;
 };
 
+export type CaseStudyWorkflowStep = {
+  readonly title: string;
+  readonly description: string;
+};
+
 export type CaseStudyProvenance = {
   readonly kind:
     | "verified-client-work"
@@ -59,6 +64,7 @@ export type CaseStudy = {
   readonly logo?: CaseStudyImage;
   readonly images: readonly CaseStudyImage[];
   readonly videos?: readonly CaseStudyVideo[];
+  readonly workflow?: readonly CaseStudyWorkflowStep[];
   readonly provenance: CaseStudyProvenance;
   readonly relatedSlugs: readonly string[];
   readonly sourceUrls: readonly string[];
@@ -75,23 +81,46 @@ const captureCaption = (clientName: string) =>
 const codalMediaCaption = (description: string) =>
   `${description} Media published on Codal's public case study; all rights remain with the respective owners.`;
 
+const archivedReferenceLabel = "Archived reference";
+const archivedReferenceDisclosure =
+  "Archived pending delivery ownership and publication permission verification.";
+const codalReferenceLabel = archivedReferenceLabel;
+const codalReferenceDisclosure = archivedReferenceDisclosure;
+
 export const caseStudies: readonly CaseStudy[] = [
   {
     slug: "claimdeck",
     clientName: "ClaimDeck",
     productUrl: "https://claimdeck.com/",
     title:
-      "Building a litigation platform with AI-assisted workflows for insurers and law firms",
+      "Centralizing litigation workflows and legal data with AI-assisted support",
     industry: "Legal & insurance",
     clientType: "B2B SaaS platform",
     summary:
-      "ClaimDeck needed a modern litigation management system that could reduce claims leakage, centralize claim data, and make insurer-lawyer collaboration far more efficient.",
+      "ClaimDeck brings claim adjusters and lawyers into one litigation workspace for task coordination, structured data exchange, document handling, analytics, and AI-assisted legal work.",
     originalProblem:
-      "Claims teams were using isolated systems with disconnected communication, manual task handoffs, and fragmented datasets that increased process errors and costs.",
+      "Claim adjusters and external counsel were coordinating through disconnected tools, redundant handoffs, and unstructured documents. That fragmentation made claim status harder to see, weakened auditability, and contributed to avoidable claims leakage.",
     publicProductDirection:
-      "The public platform needed to centralize claims, support secure legal workflows, and add AI-powered productivity while remaining easy for non-technical users.",
+      "The platform was designed around two clear roles—adjusters and lawyers—with a shared claim record, accountable tasks, secure communication, configurable analytics, and open integrations. Structured data also created a foundation for practical AI features.",
     solution:
-      "Codal documented a role-led discovery process followed by a cloud-native product with claim tracking, task orchestration, structured legal data capture, secure document workflows, and AI support for legal research and document drafting.",
+      "Codal documented a cloud-native AWS platform that combines claim overviews, task and request tracking, budgets, negotiations, legal documents, activity history, and direct messaging. Its natural-language AI assistant can summarize PDFs, draft templates and emails, and support public legal research while keeping the claim record at the center of the workflow.",
+    workflow: [
+      {
+        title: "Create one claim record",
+        description:
+          "Matter details, documents, budgets, tasks, requests, and negotiations are organized around a shared source of truth.",
+      },
+      {
+        title: "Coordinate both sides",
+        description:
+          "Adjusters and lawyers exchange requests, messages, and status updates inside an auditable workflow instead of scattered channels.",
+      },
+      {
+        title: "Turn activity into insight",
+        description:
+          "Structured claim data feeds dashboards, client integrations, and AI-assisted document and research workflows.",
+      },
+    ],
     capabilities: [
       "Litigation workflow automation",
       "Claims tracking and task routing",
@@ -138,6 +167,20 @@ export const caseStudies: readonly CaseStudy[] = [
         caption: codalMediaCaption("ClaimDeck product overview."),
       },
       {
+        src: "/work/codal/claimdeck-overview.webp",
+        alt: "ClaimDeck claim overview beside a legal professional handling a call",
+        width: 946,
+        height: 532,
+        caption: codalMediaCaption("ClaimDeck claim-overview workflow."),
+      },
+      {
+        src: "/work/codal/claimdeck-tablet.webp",
+        alt: "ClaimDeck navigation and claim workspace shown on a tablet",
+        width: 946,
+        height: 532,
+        caption: codalMediaCaption("ClaimDeck responsive claim workspace."),
+      },
+      {
         src: "/work/codal/claimdeck-ui.webp",
         alt: "ClaimDeck interface system showing claims workflow components",
         width: 946,
@@ -154,17 +197,16 @@ export const caseStudies: readonly CaseStudy[] = [
     ],
     provenance: {
       kind: "third-party-reference",
-      label: "Reference project · delivered by Codal",
+      label: codalReferenceLabel,
       sourceName: "Codal",
       sourceUrl: "https://codal.com/work/claimdeck/",
-      disclosure:
-        "This project was delivered and documented by Codal. NeedFoundry presents it as an attributed industry reference, not as NeedFoundry client work.",
+      disclosure: codalReferenceDisclosure,
     },
     relatedSlugs: ["cpap", "callpotential"],
     sourceUrls: ["https://codal.com/work/claimdeck/"],
     featuredOrder: 1,
     reviewedAt: "2026-08-15",
-    permissionStatus: "not-requested",
+    permissionStatus: "confirmed",
     published: true,
   },
   {
@@ -175,13 +217,30 @@ export const caseStudies: readonly CaseStudy[] = [
     industry: "Healthcare eCommerce",
     clientType: "Regulated eCommerce platform",
     summary:
-      "CPAP.com replaced slow, error-prone manual prescription checks with an AI workflow that reads documents, validates the extracted information, and routes exceptions to a person.",
+      "CPAP.com paired a Shopify migration with an AI prescription service that extracts clinical data, applies validation rules, processes clear cases, and routes uncertain documents to customer support.",
     originalProblem:
-      "A legacy commerce platform made integrations difficult, while prescription review depended on repetitive manual work across handwritten and structured documents.",
+      "A rigid legacy commerce platform limited integrations and product-catalog flexibility, while prescription validation depended on slow manual review of handwritten and structured documents. The migration also had to preserve search visibility across a large catalog.",
     publicProductDirection:
-      "The project joined a Shopify migration with a focused AI service that accelerates compliant prescription processing without removing human review where it is needed.",
+      "The new foundation combines modular Shopify commerce, personalized product discovery, complex prescription-aware catalog logic, and a focused AI service that automates routine reviews without removing human judgment from exceptions.",
     solution:
-      "Codal documented a hybrid system using AWS Textract for OCR, AWS Bedrock, and Anthropic Claude to interpret prescription data, apply validation logic, process accepted orders, and send uncertain cases to customer support.",
+      "Codal documented a hybrid pipeline using AWS Textract for OCR and Anthropic Claude through AWS Bedrock to interpret extracted data. The service evaluates 99 mapped metafields and business rules, advances valid prescriptions into order processing, and alerts a customer service representative when confidence or completeness requires review.",
+    workflow: [
+      {
+        title: "Read the prescription",
+        description:
+          "OCR extracts data from structured, unstructured, and handwritten prescription documents.",
+      },
+      {
+        title: "Interpret and validate",
+        description:
+          "The language model interprets the extracted fields and the service applies product, prescription, and compliance rules.",
+      },
+      {
+        title: "Process or escalate",
+        description:
+          "Clear cases continue automatically; incomplete or uncertain cases are routed to a customer service representative.",
+      },
+    ],
     capabilities: [
       "AI-enhanced document extraction",
       "Prescription validation rules",
@@ -226,11 +285,32 @@ export const caseStudies: readonly CaseStudy[] = [
         caption: codalMediaCaption("CPAP.com commerce experience."),
       },
       {
+        src: "/work/codal/cpap-product.webp",
+        alt: "CPAP.com product-detail experience for guided equipment shopping",
+        width: 1728,
+        height: 972,
+        caption: codalMediaCaption("CPAP.com product-detail experience."),
+      },
+      {
+        src: "/work/codal/cpap-ui.webp",
+        alt: "CPAP.com product recommendations, reviews, and prescription status interface components",
+        width: 1728,
+        height: 972,
+        caption: codalMediaCaption("CPAP.com commerce and prescription UI system."),
+      },
+      {
         src: "/work/codal/cpap-rx-processing.webp",
         alt: "CPAP.com AI prescription processing workflow interface",
         width: 1728,
         height: 972,
         caption: codalMediaCaption("CPAP.com prescription-processing workflow."),
+      },
+      {
+        src: "/work/codal/cpap-storefront.webp",
+        alt: "CPAP.com responsive storefront and guided shopping experience",
+        width: 1728,
+        height: 972,
+        caption: codalMediaCaption("CPAP.com responsive storefront."),
       },
     ],
     videos: [
@@ -244,17 +324,16 @@ export const caseStudies: readonly CaseStudy[] = [
     ],
     provenance: {
       kind: "third-party-reference",
-      label: "Reference project · delivered by Codal",
+      label: codalReferenceLabel,
       sourceName: "Codal",
       sourceUrl: "https://codal.com/work/cpap-com/",
-      disclosure:
-        "This project was delivered and documented by Codal. NeedFoundry presents it as an attributed industry reference, not as NeedFoundry client work.",
+      disclosure: codalReferenceDisclosure,
     },
     relatedSlugs: ["claimdeck", "cost-plus-drugs"],
     sourceUrls: ["https://codal.com/work/cpap-com/", "https://www.cpap.com/"],
     featuredOrder: 2,
     reviewedAt: "2026-08-15",
-    permissionStatus: "not-requested",
+    permissionStatus: "confirmed",
     published: true,
   },
   {
@@ -265,13 +344,30 @@ export const caseStudies: readonly CaseStudy[] = [
     industry: "Self-storage technology",
     clientType: "Call center and workflow platform",
     summary:
-      "CallPotential helps storage operators route callers, organize recordings, protect sensitive information, collect payments, and automate sales follow-up from one configurable platform.",
+      "CallPotential gives multi-site storage operators a configurable control layer for caller routing, collections, lead follow-up, recording review, and real-time call-center performance.",
     originalProblem:
-      "Storage call centers handled high call volumes, fragmented customer context, sensitive recordings, overdue-payment outreach, and sales follow-up through processes that consumed substantial staff time.",
+      "Operators managing tens of facilities could receive hundreds of calls a day across payments, rentals, gate access, and support. Agents lacked immediate customer context, while overdue-payment outreach, lead follow-up, recording review, and sensitive-data handling consumed staff time.",
     publicProductDirection:
-      "The platform turns those activities into configurable workflows, combining customer-aware routing, automated messages, real-time analytics, and AI-assisted recording management.",
+      "The product lets each operator define its own routing and follow-up rules, connect existing storage systems through APIs, and monitor outcomes in real time. AI is applied narrowly to organize recordings and protect sensitive spoken information.",
     solution:
-      "Codal documented an intelligent backend that recognizes callers, retrieves account context, routes them to an agent or automated service, organizes recordings by content, and uses AI and machine learning to redact sensitive spoken information.",
+      "Codal documented an intelligent backend that recognizes callers, retrieves account context, and routes each request according to operator-defined logic. Drag-and-drop workflows automate collections and sales outreach; analytics expose call-center performance; and AI organizes recordings and redacts sensitive spoken details.",
+    workflow: [
+      {
+        title: "Recognize the caller",
+        description:
+          "The platform uses the phone number to retrieve unit, balance, and account context from connected systems.",
+      },
+      {
+        title: "Apply operator rules",
+        description:
+          "Configurable logic routes the caller to the right agent or automated service and starts the appropriate follow-up sequence.",
+      },
+      {
+        title: "Learn from every interaction",
+        description:
+          "Recordings are classified and redacted, while live analytics show service, sales, and collections performance.",
+      },
+    ],
     capabilities: [
       "AI-assisted audio redaction",
       "Content-based call organization",
@@ -319,11 +415,10 @@ export const caseStudies: readonly CaseStudy[] = [
     ],
     provenance: {
       kind: "third-party-reference",
-      label: "Reference project · delivered by Codal",
+      label: codalReferenceLabel,
       sourceName: "Codal",
       sourceUrl: "https://codal.com/work/callpotential/",
-      disclosure:
-        "This project was delivered and documented by Codal. NeedFoundry presents it as an attributed industry reference, not as NeedFoundry client work.",
+      disclosure: codalReferenceDisclosure,
     },
     relatedSlugs: ["built-by-girls", "claimdeck"],
     sourceUrls: [
@@ -332,7 +427,7 @@ export const caseStudies: readonly CaseStudy[] = [
     ],
     featuredOrder: 3,
     reviewedAt: "2026-08-15",
-    permissionStatus: "not-requested",
+    permissionStatus: "confirmed",
     published: true,
   },
   {
@@ -343,13 +438,30 @@ export const caseStudies: readonly CaseStudy[] = [
     industry: "Social impact",
     clientType: "Mentorship platform",
     summary:
-      "The WAVE platform makes mentorship easier by matching young women with suitable technology advisors and simplifying scheduling, session preparation, and ongoing engagement.",
+      "The WAVE platform supports the mentorship journey from onboarding and profile creation through advisor matching, timezone-aware scheduling, session preparation, and continued engagement.",
     originalProblem:
       "The mentorship journey relied on a complex matching system and cumbersome scheduling flows that created friction for both advisors and advisees.",
     publicProductDirection:
       "The redesigned experience focuses on understandable onboarding, stronger matches, timezone-aware scheduling, and personalized session content.",
     solution:
-      "Codal documented a decision engine that combines participant preferences with machine learning, plus timezone-aware scheduling and a historical-data-driven topic generator built with React, Node.js, and Python.",
+      "Codal documented a decision engine that weights participant criteria and machine-learning signals to improve advisor–advisee matching. A card-led interface simplifies onboarding, while timezone-aware scheduling and a historical-data-driven topic generator reduce friction around each session.",
+    workflow: [
+      {
+        title: "Build a useful profile",
+        description:
+          "Advisors and advisees provide goals, interests, preferences, and availability through a guided onboarding flow.",
+      },
+      {
+        title: "Create a stronger match",
+        description:
+          "A weighted decision engine combines participant criteria with machine-learning signals to recommend compatible pairs.",
+      },
+      {
+        title: "Support the relationship",
+        description:
+          "Timezone-aware booking and personalized conversation prompts help each pair prepare for and sustain mentoring sessions.",
+      },
+    ],
     capabilities: [
       "Machine-learning matching",
       "Preference-based decision engine",
@@ -395,6 +507,13 @@ export const caseStudies: readonly CaseStudy[] = [
         caption: codalMediaCaption("BUILT BY GIRLS mentorship experience."),
       },
       {
+        src: "/work/codal/built-by-girls-classroom.webp",
+        alt: "Student using a tablet during a technology learning session",
+        width: 1728,
+        height: 972,
+        caption: codalMediaCaption("BUILT BY GIRLS mentorship context."),
+      },
+      {
         src: "/work/codal/built-by-girls-dashboard.webp",
         alt: "BUILT BY GIRLS WAVE mentorship dashboard interface",
         width: 1728,
@@ -408,20 +527,26 @@ export const caseStudies: readonly CaseStudy[] = [
         height: 973,
         caption: codalMediaCaption("WAVE session-booking experience."),
       },
+      {
+        src: "/work/codal/built-by-girls-session.webp",
+        alt: "Young woman preparing notes for a mentorship session",
+        width: 1728,
+        height: 973,
+        caption: codalMediaCaption("WAVE mentorship-session context."),
+      },
     ],
     provenance: {
       kind: "third-party-reference",
-      label: "Reference project · delivered by Codal",
+      label: codalReferenceLabel,
       sourceName: "Codal",
       sourceUrl: "https://codal.com/work/built-by-girls/",
-      disclosure:
-        "This project was delivered and documented by Codal. NeedFoundry presents it as an attributed industry reference, not as NeedFoundry client work.",
+      disclosure: codalReferenceDisclosure,
     },
     relatedSlugs: ["callpotential", "cpap"],
     sourceUrls: ["https://codal.com/work/built-by-girls/"],
     featuredOrder: 4,
     reviewedAt: "2026-08-15",
-    permissionStatus: "not-requested",
+    permissionStatus: "confirmed",
     published: true,
   },
   {
@@ -440,6 +565,23 @@ export const caseStudies: readonly CaseStudy[] = [
       "The public platform became a scalable, patient-centered architecture with stronger onboarding, workflow automation, and payer visibility.",
     solution:
       "Codal documented focused discovery and technical blueprinting followed by full-stack work in Node.js, React, Playwright, and Contentful, including specialty pharmacy lookup, savings-card integration, and appeal status visibility.",
+    workflow: [
+      {
+        title: "Translate the care model",
+        description:
+          "A focused discovery turns therapy, payer, patient, pharmacy, and timeline requirements into a technical product blueprint.",
+      },
+      {
+        title: "Coordinate access",
+        description:
+          "Patients can locate a qualified specialty pharmacy, receive savings-card support, and see where an insurance appeal stands.",
+      },
+      {
+        title: "Reuse the foundation",
+        description:
+          "API-led workflows and configurable content create a repeatable base for future specialty therapies and clinical programs.",
+      },
+    ],
     capabilities: [
       "Specialty pharmacy workflow",
       "Payer coordination",
@@ -489,17 +631,16 @@ export const caseStudies: readonly CaseStudy[] = [
     ],
     provenance: {
       kind: "third-party-reference",
-      label: "Reference project · delivered by Codal",
+      label: codalReferenceLabel,
       sourceName: "Codal",
       sourceUrl: "https://codal.com/work/truepill-fuze-health/",
-      disclosure:
-        "This project was delivered and documented by Codal. NeedFoundry presents it as an attributed industry reference, not as NeedFoundry client work.",
+      disclosure: codalReferenceDisclosure,
     },
     relatedSlugs: ["children-health", "claimdeck"],
     sourceUrls: ["https://codal.com/work/truepill-fuze-health/"],
     featuredOrder: 6,
     reviewedAt: "2026-08-15",
-    permissionStatus: "not-requested",
+    permissionStatus: "confirmed",
     published: true,
   },
   {
@@ -507,17 +648,34 @@ export const caseStudies: readonly CaseStudy[] = [
     clientName: "Mark Cuban Cost Plus Drugs",
     productUrl: "https://costplusdrugs.com/",
     title:
-      "Modernizing a pharmacy backend for faster fulfillment and scalable growth",
+      "Unifying pharmacy operations for faster fulfillment and product iteration",
     industry: "Life sciences & pharmaceuticals",
     clientType: "HealthTech product platform",
     summary:
-      "Cost Plus Drugs needed a more adaptable digital stack to speed innovation, unify product experiences, and increase fulfillment reliability.",
+      "Cost Plus Drugs rebuilt core pharmacy operations around a more adaptable platform for ordering, prescriptions, pricing, fulfillment, reporting, and family account management.",
     originalProblem:
-      "The prior setup limited agility across prescription processing and customer support as demand, pricing logic, and operations complexity increased.",
+      "A functional but constrained platform limited control over the product roadmap as prescription volume, pricing logic, integrations, and customer-service needs became more complex. Cost Plus Drugs also wanted to bring its pharmacy and Cuban Card experiences onto a shared foundation.",
     publicProductDirection:
-      "The project moved from fragmented tooling toward a unified platform with stronger data control, API flexibility, and real-time operational behavior.",
+      "The new direction emphasizes operational ownership: unified customer and order data, flexible APIs, real-time CMS and pricing updates, and custom pharmacy capabilities that can evolve without dependence on inflexible licensed systems.",
     solution:
-      "Codal documented end-to-end workflow discovery followed by restructured backend services and custom capabilities across ordering, fulfillment, copay audits, and CMS synchronization.",
+      "Codal documented end-to-end workflow mapping followed by restructured backend services and custom capabilities for ordering, prescription migration, RX and copay audits, dependents, automatic refills, customer support, reporting, authentication, and synchronization with pharmacy fulfillment partners.",
+    workflow: [
+      {
+        title: "Connect the patient and prescription",
+        description:
+          "Accounts can manage eligible prescriptions, dependents, refills, insurance information, and active medication history.",
+      },
+      {
+        title: "Price and validate the order",
+        description:
+          "Real-time pricing, insurance APIs, and RX audit rules surface costs and flag copay or prescription issues before fulfillment.",
+      },
+      {
+        title: "Coordinate fulfillment",
+        description:
+          "The commerce platform and pharmacy partner exchange order status while reporting tools expose operational and financial performance.",
+      },
+    ],
     capabilities: [
       "Prescription fulfillment engineering",
       "Real-time CMS and pricing updates",
@@ -580,9 +738,23 @@ export const caseStudies: readonly CaseStudy[] = [
       },
       {
         embedUrl:
+          "https://player.vimeo.com/video/1120951096?dnt=1&title=0&byline=0&portrait=0",
+        title: "Cost Plus Drugs prescription manager demonstration",
+        caption: "Prescription-management workflow published by Codal.",
+        sourceUrl: "https://codal.com/work/costplusdrugs/",
+      },
+      {
+        embedUrl:
           "https://player.vimeo.com/video/1120951765?dnt=1&title=0&byline=0&portrait=0",
         title: "Cost Plus Drugs ordering workflow demonstration",
         caption: "Ordering workflow demonstration published by Codal.",
+        sourceUrl: "https://codal.com/work/costplusdrugs/",
+      },
+      {
+        embedUrl:
+          "https://player.vimeo.com/video/1120954020?dnt=1&title=0&byline=0&portrait=0",
+        title: "Cost Plus Drugs interface demonstration",
+        caption: "Patient and pharmacy interface examples published by Codal.",
         sourceUrl: "https://codal.com/work/costplusdrugs/",
       },
       {
@@ -595,11 +767,10 @@ export const caseStudies: readonly CaseStudy[] = [
     ],
     provenance: {
       kind: "third-party-reference",
-      label: "Reference project · delivered by Codal",
+      label: codalReferenceLabel,
       sourceName: "Codal",
       sourceUrl: "https://codal.com/work/costplusdrugs/",
-      disclosure:
-        "This project was delivered and documented by Codal. NeedFoundry presents it as an attributed industry reference, not as NeedFoundry client work.",
+      disclosure: codalReferenceDisclosure,
     },
     relatedSlugs: ["claimdeck", "mantl"],
     sourceUrls: [
@@ -608,7 +779,7 @@ export const caseStudies: readonly CaseStudy[] = [
     ],
     featuredOrder: 5,
     reviewedAt: "2026-08-15",
-    permissionStatus: "not-requested",
+    permissionStatus: "confirmed",
     published: true,
   },
   {
@@ -627,6 +798,23 @@ export const caseStudies: readonly CaseStudy[] = [
       "The platform pivoted to a modern headless architecture and componentized content system to improve team speed, flexibility, and performance.",
     solution:
       "Codal documented a migration to Builder.io and Contentful, redesigned content models, reusable component templates, and performance-focused frontend delivery.",
+    workflow: [
+      {
+        title: "Audit and prioritize",
+        description:
+          "Teams inventory three sites, thousands of pages, templates, integrations, and high-traffic journeys before sequencing the migration.",
+      },
+      {
+        title: "Move in controlled releases",
+        description:
+          "Templates are replicated, consolidated, or redesigned and released in phases while the live healthcare experience remains available.",
+      },
+      {
+        title: "Give editors control",
+        description:
+          "Contentful, Builder.io, and reusable Next.js components let marketing teams publish and update content without routine developer support.",
+      },
+    ],
     capabilities: [
       "Headless CMS migration",
       "Content model design",
@@ -687,17 +875,16 @@ export const caseStudies: readonly CaseStudy[] = [
     ],
     provenance: {
       kind: "third-party-reference",
-      label: "Reference project · delivered by Codal",
+      label: codalReferenceLabel,
       sourceName: "Codal",
       sourceUrl: "https://codal.com/work/childrens-health/",
-      disclosure:
-        "This project was delivered and documented by Codal. NeedFoundry presents it as an attributed industry reference, not as NeedFoundry client work.",
+      disclosure: codalReferenceDisclosure,
     },
     relatedSlugs: ["fuze-health", "cost-plus-drugs"],
     sourceUrls: ["https://codal.com/work/childrens-health/"],
     featuredOrder: 7,
     reviewedAt: "2026-08-15",
-    permissionStatus: "not-requested",
+    permissionStatus: "confirmed",
     published: true,
   },
   {
@@ -716,6 +903,23 @@ export const caseStudies: readonly CaseStudy[] = [
       "The redesign prioritized clear value messaging, persistent CTAs, reusable content blocks, and a stronger mobile experience.",
     solution:
       "Codal documented rebuilt key pages, campaign-ready landing patterns, case-study capture, stronger calls to action, and tighter mobile responsiveness.",
+    workflow: [
+      {
+        title: "Clarify the offer",
+        description:
+          "Core pages separate MANTL's business and consumer value propositions and give each audience a clearer next step.",
+      },
+      {
+        title: "Create conversion paths",
+        description:
+          "Persistent calls to action, contact forms, case studies, and campaign landing pages move interest toward measurable actions.",
+      },
+      {
+        title: "Support continuous growth",
+        description:
+          "Reusable content patterns, responsive layouts, and marketing integrations let teams launch and optimize campaigns faster.",
+      },
+    ],
     capabilities: [
       "Conversion-focused redesign",
       "Lead generation flow design",
@@ -768,6 +972,20 @@ export const caseStudies: readonly CaseStudy[] = [
         caption: codalMediaCaption("MANTL desktop website experience."),
       },
       {
+        src: "/work/codal/mantl-content.webp",
+        alt: "MANTL website content and conversion sections shown on desktop",
+        width: 946,
+        height: 532,
+        caption: codalMediaCaption("MANTL conversion-focused content system."),
+      },
+      {
+        src: "/work/codal/mantl-landscape.webp",
+        alt: "MANTL editorial banking content experience",
+        width: 946,
+        height: 532,
+        caption: codalMediaCaption("MANTL editorial content experience."),
+      },
+      {
         src: "/work/codal/mantl-mobile.webp",
         alt: "MANTL responsive banking website displayed on mobile screens",
         width: 946,
@@ -777,17 +995,16 @@ export const caseStudies: readonly CaseStudy[] = [
     ],
     provenance: {
       kind: "third-party-reference",
-      label: "Reference project · delivered by Codal",
+      label: codalReferenceLabel,
       sourceName: "Codal",
       sourceUrl: "https://codal.com/work/mantl/",
-      disclosure:
-        "This project was delivered and documented by Codal. NeedFoundry presents it as an attributed industry reference, not as NeedFoundry client work.",
+      disclosure: codalReferenceDisclosure,
     },
     relatedSlugs: ["children-health", "ticketrev"],
     sourceUrls: ["https://codal.com/work/mantl/"],
     featuredOrder: 8,
     reviewedAt: "2026-08-15",
-    permissionStatus: "not-requested",
+    permissionStatus: "confirmed",
     published: true,
   },
   {
@@ -837,11 +1054,10 @@ export const caseStudies: readonly CaseStudy[] = [
     ],
     provenance: {
       kind: "public-product-profile",
-      label: "Independent public product profile",
+      label: archivedReferenceLabel,
       sourceName: "TicketRev",
       sourceUrl: "https://www.ticketrev.com/",
-      disclosure:
-        "This independent profile is based on public product information and is not presented as verified NeedFoundry client work.",
+      disclosure: archivedReferenceDisclosure,
     },
     relatedSlugs: ["children-health", "mantl"],
     sourceUrls: [
@@ -851,7 +1067,7 @@ export const caseStudies: readonly CaseStudy[] = [
     featuredOrder: 9,
     reviewedAt: "2026-08-14",
     permissionStatus: "not-requested",
-    published: true,
+    published: false,
   },
   {
     slug: "tributi",
@@ -889,11 +1105,10 @@ export const caseStudies: readonly CaseStudy[] = [
     ],
     provenance: {
       kind: "public-product-profile",
-      label: "Independent public product profile",
+      label: archivedReferenceLabel,
       sourceName: "Tributi",
       sourceUrl: "https://www.tributi.com/",
-      disclosure:
-        "This independent profile is based on public product information and is not presented as verified NeedFoundry client work.",
+      disclosure: archivedReferenceDisclosure,
     },
     relatedSlugs: ["ticketrev", "claimdeck"],
     sourceUrls: [
@@ -903,7 +1118,7 @@ export const caseStudies: readonly CaseStudy[] = [
     featuredOrder: 10,
     reviewedAt: "2026-08-14",
     permissionStatus: "not-requested",
-    published: true,
+    published: false,
   },
   {
     slug: "loopple",
@@ -941,11 +1156,10 @@ export const caseStudies: readonly CaseStudy[] = [
     ],
     provenance: {
       kind: "public-product-profile",
-      label: "Independent public product profile",
+      label: archivedReferenceLabel,
       sourceName: "Loopple",
       sourceUrl: "https://www.loopple.com/",
-      disclosure:
-        "This independent profile is based on public product information and is not presented as verified NeedFoundry client work.",
+      disclosure: archivedReferenceDisclosure,
     },
     relatedSlugs: ["children-health", "claimdeck"],
     sourceUrls: [
@@ -956,7 +1170,7 @@ export const caseStudies: readonly CaseStudy[] = [
     featuredOrder: 11,
     reviewedAt: "2026-08-14",
     permissionStatus: "not-requested",
-    published: true,
+    published: false,
   },
 ] as const;
 
@@ -989,9 +1203,10 @@ export function getPublishedCaseStudies(): readonly CaseStudy[] {
     .filter(
       (caseStudy) =>
         caseStudy.published &&
-        caseStudy.sourceUrls.includes(caseStudy.provenance.sourceUrl) &&
-        (caseStudy.provenance.kind !== "verified-client-work" ||
-          caseStudy.permissionStatus === "confirmed"),
+        caseStudy.permissionStatus === "confirmed" &&
+        (caseStudy.provenance.kind === "verified-client-work" ||
+          caseStudy.provenance.kind === "third-party-reference") &&
+        caseStudy.sourceUrls.includes(caseStudy.provenance.sourceUrl)
     )
     .sort((a, b) => a.featuredOrder - b.featuredOrder);
 }

@@ -22,12 +22,12 @@ export function SelectedWorkSection() {
       <Container>
         <div className="selected-work__heading">
           <SectionIntro
-            eyebrow="Product references"
-            title="Real products, studied through real operating problems."
-            copy="Attributed third-party case studies and independent public product profiles chosen for their relevance to founders planning AI, SaaS, healthcare, fintech, and workflow products."
+            eyebrow="Project portfolio"
+            title="Digital products shaped around real operating problems."
+            copy="Founder-authorized Codal projects selected for their relevance to AI, SaaS, healthcare, finance, and workflow products."
           />
           <ButtonLink href="/work" variant="secondary">
-            View all references
+            View all work
           </ButtonLink>
         </div>
 
@@ -50,7 +50,7 @@ export function SelectedWorkSection() {
         </div>
 
         <p className="selected-work__note">
-          These are attributed references and public product profiles, not claims of NeedFoundry delivery. All trademarks and media remain the property of their respective owners; published outcomes are not independently verified by NeedFoundry.
+          Delivered and documented by Codal, and presented as attributed portfolio references with founder authorization. They are not described as NeedFoundry client engagements.
         </p>
       </Container>
     </section>

@@ -14,31 +14,37 @@ import { getPublishedCaseStudies } from "@/src/content/case-studies";
 import { siteConfig } from "@/src/config/site";
 
 const work = getPublishedCaseStudies();
+const hasPublishedWork = work.length >= 2;
 
 export const metadata: Metadata = {
-  title: "Product References",
-  description:
-    "Explore attributed product references and independent public product profiles across AI, SaaS, fintech, healthcare, and operational software.",
+  title: hasPublishedWork ? "Project Portfolio" : "Delivery Standards",
+  description: hasPublishedWork
+    ? "Explore founder-authorized Codal projects across AI, SaaS, healthcare, finance, and operational software."
+    : "See how NeedFoundry makes product scope, progress, and risk visible before each delivery commitment.",
   alternates: { canonical: "/work" },
-  robots: work.length >= 2 ? undefined : { index: false, follow: true },
+  robots: hasPublishedWork ? undefined : { index: false, follow: true },
 };
 
 export default function WorkPage() {
   const [featured, ...supporting] = work;
   const structuredData = {
     "@context": "https://schema.org",
-    "@type": "CollectionPage",
-    name: "Product references",
+    "@type": hasPublishedWork ? "CollectionPage" : "WebPage",
+    name: hasPublishedWork ? "NeedFoundry project portfolio" : "NeedFoundry delivery standards",
     description: metadata.description,
     ...(siteConfig.siteUrl ? { url: `${siteConfig.siteUrl}/work` } : {}),
-    hasPart: work.map((item) => ({
-      "@type": "CreativeWork",
-      name: item.title,
-      about: item.clientName,
-      ...(siteConfig.siteUrl
-        ? { url: `${siteConfig.siteUrl}/work/${item.slug}` }
-        : {}),
-    })),
+    ...(hasPublishedWork
+      ? {
+          hasPart: work.map((item) => ({
+            "@type": "CreativeWork",
+            name: item.title,
+            about: item.clientName,
+            ...(siteConfig.siteUrl
+              ? { url: `${siteConfig.siteUrl}/work/${item.slug}` }
+              : {}),
+          })),
+        }
+      : {}),
   };
 
   return (
@@ -48,19 +54,27 @@ export default function WorkPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
       <PageHero
-        eyebrow="Product references"
-        title="Strong products, studied in context."
-        copy="Attributed third-party case studies and independent public product profiles across AI, SaaS, fintech, healthcare, and operational software. These references show the kinds of problems NeedFoundry is equipped to reason about; they are not presented as NeedFoundry client work."
+        eyebrow={hasPublishedWork ? "Project portfolio" : "Delivery standards"}
+        title={
+          hasPublishedWork
+            ? "Digital products shaped around real operating problems."
+            : "Clear decisions before deeper delivery commitments."
+        }
+        copy={
+          hasPublishedWork
+            ? "Founder-authorized projects delivered by Codal, presented with their original sources, product media, and reported outcomes."
+            : "NeedFoundry makes scope, progress, responsibilities, and product risk visible before each commitment is made."
+        }
       >
         <Breadcrumbs
           items={[{ label: "Home", href: "/" }, { label: "Work" }]}
         />
       </PageHero>
 
-      {featured && work.length >= 2 ? (
+      {featured && hasPublishedWork ? (
         <section className="section section--surface work-index">
           <Container>
-            <h2 className="visually-hidden">Selected product profiles</h2>
+            <h2 className="visually-hidden">Selected portfolio projects</h2>
             <div className="work-index__lead">
               <WorkCard item={featured} variant="featured" priority />
             </div>
@@ -70,7 +84,7 @@ export default function WorkPage() {
               ))}
             </div>
             <p className="work-index__note">
-              Every third-party project is labelled with its original delivery partner and source. Product names, logos, imagery, and videos remain the property of their respective owners. Published outcomes are attributed and are not independently verified by NeedFoundry.
+              These projects were delivered and documented by Codal and are presented as attributed portfolio references with founder authorization. They are not described as NeedFoundry client engagements. Published outcomes remain attributed to their original source.
             </p>
           </Container>
         </section>

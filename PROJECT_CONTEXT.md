@@ -137,15 +137,14 @@ Core message:
 - Sticky header, mobile menu, campaign header variant
 - Accessibility-oriented focus styles and keyboard support (skip link, visible focus, dialog trap for consent)
 
-## Work/reference model and media
-- Content-driven profiles live in `src/content/case-studies.ts`.
-- The eight Codal examples—ClaimDeck, CPAP.com, CallPotential, BUILT BY GIRLS, Fuze Health, Cost Plus Drugs, Children's Health, and MANTL—are explicitly labelled as third-party reference projects delivered and documented by Codal. They are not represented as NeedFoundry client work.
-- TicketRev, Tributi, and Loopple are labelled as independent public product profiles, also not verified NeedFoundry client work.
-- Each profile carries typed provenance, source URLs, disclosure copy, and media metadata.
-- Codal reference cards and detail pages use credited logos and product imagery sourced from Codal's public case studies and stored under `public/work/codal` for reliable rendering. Cost Plus Drugs and CPAP.com also use Vimeo demos with do-not-track parameters, lazy loading, controls, and no autoplay.
-- Work cards include logo treatments and provenance badges; detail pages add a responsive product-media gallery and source links.
-- Published filtering requires the provenance source to appear in the profile source list. Only entries explicitly typed as verified client work require confirmed publication permission.
-- If fewer than two published profiles exist, the UI falls back to capability-led content.
+## Work/portfolio model and media
+- Content-driven profile records live in `src/content/case-studies.ts`.
+- Eight Codal-delivered projects—ClaimDeck, CPAP.com, CallPotential, BUILT BY GIRLS, Fuze Health, Cost Plus Drugs, Children's Health, and MANTL—are published as founder-authorized, attributed portfolio references. They are never described as NeedFoundry client engagements.
+- TicketRev, Tributi, and Loopple remain archived because they are independent public product profiles rather than delivered portfolio work.
+- Each published record carries typed provenance, the original Codal source URL, founder-confirmed publication status, credited media, and source notes for reported outcomes.
+- Project imagery is stored under `public/work/codal` for reliable rendering. CPAP.com includes one sourced Vimeo demo and Cost Plus Drugs includes five; embeds use do-not-track parameters, lazy loading, controls, source links, and no autoplay.
+- Detail pages add business-logic walkthroughs, published-outcome cards, and responsive media galleries. Structured data identifies Codal as creator and NeedFoundry as publisher.
+- If fewer than two approved profiles exist, the UI falls back to capability-led content.
 - Testimonials are intentionally empty until approval and permission are present.
 
 ## Security/compliance posture currently implemented

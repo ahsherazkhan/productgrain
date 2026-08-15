@@ -10,10 +10,19 @@ import {
   getRelatedCaseStudies,
 } from "../../src/content/case-studies";
 
-test("publishes the eleven sourced reference and product profiles", () => {
+test("publishes only approved client work or founder-authorized references", () => {
   const published = getPublishedCaseStudies();
-  assert.equal(published.length, 11);
+  assert.equal(published.length, 8);
   assert.ok(published.every((item) => item.published));
+  assert.ok(
+    published.every(
+      (item) =>
+        item.permissionStatus === "confirmed" &&
+        (item.provenance.kind === "verified-client-work" ||
+          item.provenance.kind === "third-party-reference"),
+    ),
+  );
+  assert.equal(getPublishedCaseStudyBySlug("claimdeck")?.clientName, "ClaimDeck");
   assert.equal(getPublishedCaseStudyBySlug("fitish"), undefined);
 });
 
@@ -53,7 +62,7 @@ test("keeps project identifiers, order, sources, and media valid", () => {
   }
 });
 
-test("selects intentional featured and related reference records", () => {
+test("selects intentional featured and related approved references", () => {
   assert.deepEqual(
     getFeaturedCaseStudies().map((item) => item.slug),
     ["claimdeck", "cpap", "callpotential"],
@@ -66,15 +75,29 @@ test("selects intentional featured and related reference records", () => {
   );
 });
 
-test("labels Codal references without claiming NeedFoundry delivery", () => {
-  const references = caseStudies.filter(
-    (item) => item.provenance.kind === "third-party-reference",
+test("keeps unapproved independent product profiles out of published work", () => {
+  const publishedSlugs = new Set(
+    getPublishedCaseStudies().map((item) => item.slug),
   );
-  assert.equal(references.length, 8);
-  for (const item of references) {
-    assert.equal(item.provenance.sourceName, "Codal");
-    assert.equal(item.permissionStatus, "not-requested");
-    assert.doesNotMatch(item.solution, /^We\b/);
-    assert.match(item.provenance.disclosure, /not as NeedFoundry client work/);
-  }
+  const independentProfiles = caseStudies.filter(
+    (item) => item.provenance.kind === "public-product-profile",
+  );
+
+  assert.equal(independentProfiles.length, 3);
+  assert.ok(
+    independentProfiles.every((item) => !publishedSlugs.has(item.slug)),
+  );
+});
+
+test("includes sourced demos and business logic for the enriched projects", () => {
+  assert.equal(getPublishedCaseStudyBySlug("cpap")?.videos?.length, 1);
+  assert.equal(
+    getPublishedCaseStudyBySlug("cost-plus-drugs")?.videos?.length,
+    5,
+  );
+  assert.ok(
+    getPublishedCaseStudies()
+      .filter((item) => item.workflow)
+      .every((item) => item.workflow?.length === 3),
+  );
 });
