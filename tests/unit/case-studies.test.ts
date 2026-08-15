@@ -35,13 +35,13 @@ test("keeps project identifiers, order, sources, and media valid", () => {
     assert.ok(item.images.length > 0);
     for (const image of item.images) {
       assert.ok(image.alt.length > 20);
-      if (image.src.startsWith("/work/")) {
-        assert.ok(existsSync(join(process.cwd(), "public", image.src)));
-      } else {
-        assert.match(image.src, /^https:\/\/codal\.com\/wp-content\/uploads\//);
-      }
+      assert.ok(image.src.startsWith("/work/"));
+      assert.ok(existsSync(join(process.cwd(), "public", image.src)));
     }
-    if (item.logo) assert.match(item.logo.src, /^https:\/\//);
+    if (item.logo) {
+      assert.ok(item.logo.src.startsWith("/work/"));
+      assert.ok(existsSync(join(process.cwd(), "public", item.logo.src)));
+    }
     for (const video of item.videos ?? []) {
       assert.match(video.embedUrl, /^https:\/\/player\.vimeo\.com\/video\//);
       assert.ok(!video.embedUrl.includes("autoplay=1"));
