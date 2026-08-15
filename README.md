@@ -4,7 +4,7 @@ NeedFoundry is a founder-led product strategy, MVP development, and custom softw
 
 The project uses the App Router on the Cloudflare-compatible [vinext](https://github.com/cloudflare/vinext) starter. It is designed for OpenAI Sites/Cloudflare Workers and keeps external services optional so missing analytics or email credentials never take down the core website.
 
-> Launch note: the work area contains eight founder-authorized portfolio references delivered and documented by Codal. They remain visibly attributed to Codal and are not presented as NeedFoundry client work. The AI-focused selection includes ClaimDeck, CPAP.com, CallPotential, and BUILT BY GIRLS. Credited logos and verified project imagery are stored locally so the portfolio does not depend on unreliable third-party media embeds. Three independent public product profiles remain archived. Testimonials and unsupported NeedFoundry delivery claims remain intentionally absent. Founder/team assets, legal copy, service credentials, and production contact details still require review before launch. See [the content replacement checklist](docs/content-replacement-checklist.md) and [the deployment checklist](docs/deployment-checklist.md).
+> Launch note: the `/work` page currently presents capability-led delivery content rather than project profiles. Ten third-party or otherwise unverified records remain archived and unpublished: seven Codal references and three independent public product profiles. None is presented as NeedFoundry client work. A project can be published only after NeedFoundry delivery is verified and publication permission is recorded. Archived third-party media and reported outcomes are not exposed as customer proof. Testimonials and unsupported NeedFoundry delivery claims remain intentionally absent. Founder/team assets, legal copy, service credentials, and production contact details still require review before launch. See [the content replacement checklist](docs/content-replacement-checklist.md) and [the deployment checklist](docs/deployment-checklist.md).
 
 ## Technology
 
@@ -20,7 +20,7 @@ The project uses the App Router on the Cloudflare-compatible [vinext](https://gi
 
 The product surface includes:
 
-- Main marketing: `/`, `/services`, `/process`, `/pricing`, `/work`, `/work/[slug]`, and `/about`.
+- Main marketing: `/`, `/services`, `/process`, `/pricing`, `/work`, and `/about`. The `/work/[slug]` route scaffold has no published profiles until an eligible record is approved.
 - Market acquisition: `/mvp-development`, `/mvp-development/uk`, and `/mvp-development/us`.
 - Conversion: `/apply` and `/thank-you`.
 - Legal/system: `/privacy`, `/terms`, `/cookies`, sitemap, robots, not-found, and error states.
@@ -222,7 +222,7 @@ The build produces Cloudflare Worker-compatible ESM output. Vercel may require a
 
 ## Launch content and legal review
 
-Customer proof may appear only when delivery evidence and publication permission are recorded. The published portfolio currently consists of eight founder-authorized Codal projects, clearly attributed to Codal rather than presented as NeedFoundry client work. Three independent product profiles remain archived. Third-party logos, imagery, demos, outcomes, and trademarks are credited to their original sources and owners. Testimonials disappear cleanly because none have been supplied and approved. If fewer than two publishable profiles remain, the capability-led content appears instead. Initial-based avatars are preferred over stock team photography.
+Customer proof may appear only when NeedFoundry delivery has been verified and publication permission is recorded. No case studies are currently published. Ten retained records—seven Codal references and three independent public product profiles—remain archived and unpublished; they are not NeedFoundry delivery evidence. The work page renders capability-led delivery content, and archived project detail routes are unavailable. Third-party logos, imagery, demos, outcomes, and trademarks are not rendered as customer proof. Testimonials disappear cleanly because none have been supplied and approved. Initial-based avatars are preferred over stock team photography.
 
 The privacy, terms, cookie, retention, international-transfer, advertising-consent, and data-subject request language requires review by a qualified professional for the actual UK/US operation. Generated policy placeholders are not legal advice and do not guarantee compliance.
 

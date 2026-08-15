@@ -139,12 +139,11 @@ Core message:
 
 ## Work/portfolio model and media
 - Content-driven profile records live in `src/content/case-studies.ts`.
-- Eight Codal-delivered projects—ClaimDeck, CPAP.com, CallPotential, BUILT BY GIRLS, Fuze Health, Cost Plus Drugs, Children's Health, and MANTL—are published as founder-authorized, attributed portfolio references. They are never described as NeedFoundry client engagements.
-- TicketRev, Tributi, and Loopple remain archived because they are independent public product profiles rather than delivered portfolio work.
-- Each published record carries typed provenance, the original Codal source URL, founder-confirmed publication status, credited media, and source notes for reported outcomes.
-- Project imagery is stored under `public/work/codal` for reliable rendering. External video embeds are intentionally excluded because they did not render consistently for visitors.
-- Detail pages add business-logic walkthroughs, published-outcome cards, and responsive media galleries. Structured data identifies Codal as creator and NeedFoundry as publisher.
-- If fewer than two approved profiles exist, the UI falls back to capability-led content.
+- Seven Codal references—ClaimDeck, CPAP.com, CallPotential, BUILT BY GIRLS, Fuze Health, Children's Health, and MANTL—and three independent public product profiles—TicketRev, Tributi, and Loopple—remain archived and unpublished.
+- These ten records are retained only as third-party or otherwise unverified reference material. None is represented as NeedFoundry client work or delivery evidence.
+- The publication filter accepts only records with verified NeedFoundry delivery and confirmed publication permission. No current record meets that gate.
+- The `/work` page therefore renders capability-led delivery content. Archived profile slugs do not generate public detail pages, project structured data, or sitemap entries.
+- Archived project imagery remains stored locally but is not rendered as customer proof. External video embeds remain excluded.
 - Testimonials are intentionally empty until approval and permission are present.
 
 ## Security/compliance posture currently implemented

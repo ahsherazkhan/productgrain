@@ -1,22 +1,21 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-const publishedWorkSlugs = [
+const archivedWorkSlugs = [
   "claimdeck",
   "cpap",
   "callpotential",
   "built-by-girls",
-  "cost-plus-drugs",
   "fuze-health",
   "children-health",
   "mantl",
-];
-
-const retiredWorkSlugs = [
   "ticketrev",
   "tributi",
   "loopple",
 ];
+const formerWorkSlugs = [...archivedWorkSlugs, "cost-plus-drugs"];
+const legacyReferenceCopy =
+  /Codal|founder-authorized|portfolio references?|attributed industry reference|delivered and documented|project delivered by|not as NeedFoundry client work|public information reviewed|not been independently verified/i;
 
 async function render(pathname = "/") {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
@@ -40,9 +39,14 @@ test("server-renders the NeedFoundry homepage", async () => {
   assert.match(html, /Discuss your product idea/i);
   assert.match(html, /AI should improve the workflow/i);
   assert.match(html, /Start with the right level of product certainty/i);
-  assert.match(html, /Digital products shaped around real operating problems/i);
-  assert.match(html, /ClaimDeck/i);
-  assert.match(html, /Founder-authorized Codal projects/i);
+  assert.match(html, /Know what you are committing to before development begins/i);
+  assert.match(html, /Scope before spend/i);
+  assert.match(html, /Visible progress/i);
+  assert.match(html, /Honest product risk/i);
+  assert.doesNotMatch(html, legacyReferenceCopy);
+  for (const slug of formerWorkSlugs) {
+    assert.doesNotMatch(html, new RegExp(`/work/${slug}`), slug);
+  }
   assert.doesNotMatch(html, /decision-map|Founder and team|Product possibilities/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape|react-loading-skeleton/i);
 });
@@ -69,34 +73,24 @@ test("server-renders required core routes", async () => {
   }
 });
 
-test("server-renders approved Codal references and keeps independent profiles retired", async () => {
+test("server-renders the capability fallback and retires every former project route", async () => {
   const workResponse = await render("/work");
   assert.equal(workResponse.status, 200);
   const workHtml = await workResponse.text();
-  assert.match(workHtml, /Project portfolio/i);
-  assert.match(workHtml, /delivered and documented by Codal/i);
+  assert.match(workHtml, /Delivery standards/i);
+  assert.match(workHtml, /Clear decisions before deeper delivery commitments/i);
+  assert.match(workHtml, /Know what you are committing to before development begins/i);
+  assert.match(workHtml, /Scope before spend/i);
+  assert.match(workHtml, /Visible progress/i);
+  assert.match(workHtml, /Honest product risk/i);
+  assert.doesNotMatch(workHtml, legacyReferenceCopy);
 
-  for (const slug of publishedWorkSlugs) {
-    assert.match(workHtml, new RegExp(`/work/${slug}`));
-    const detailResponse = await render(`/work/${slug}`);
-    assert.equal(detailResponse.status, 200, slug);
-  }
-
-  const cpapHtml = await (await render("/work/cpap")).text();
-  assert.match(cpapHtml, /How the workflow fits together/i);
-  assert.match(cpapHtml, /cpap-ui\.webp/i);
-  assert.doesNotMatch(cpapHtml, /player\.vimeo\.com/i);
-
-  const costPlusHtml = await (await render("/work/cost-plus-drugs")).text();
-  assert.match(costPlusHtml, /cost-plus-prescription\.webp/i);
-  assert.doesNotMatch(costPlusHtml, /player\.vimeo\.com/i);
-
-  for (const slug of retiredWorkSlugs) {
+  for (const slug of formerWorkSlugs) {
     assert.doesNotMatch(workHtml, new RegExp(`/work/${slug}`));
     const detailResponse = await render(`/work/${slug}`);
     assert.equal(detailResponse.status, 404, slug);
     const detailHtml = await detailResponse.text();
-    assert.doesNotMatch(detailHtml, /Project record|Profile type/i);
+    assert.doesNotMatch(detailHtml, /Project record|Profile type|Published outcomes/i);
   }
 
   const missingResponse = await render("/work/not-a-real-project");

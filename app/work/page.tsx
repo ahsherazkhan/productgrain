@@ -17,9 +17,9 @@ const work = getPublishedCaseStudies();
 const hasPublishedWork = work.length >= 2;
 
 export const metadata: Metadata = {
-  title: hasPublishedWork ? "Project Portfolio" : "Delivery Standards",
+  title: hasPublishedWork ? "Client Work" : "Delivery Standards",
   description: hasPublishedWork
-    ? "Explore founder-authorized Codal projects across AI, SaaS, healthcare, finance, and operational software."
+    ? "Explore approved NeedFoundry client work across focused software products and AI-enabled workflows."
     : "See how NeedFoundry makes product scope, progress, and risk visible before each delivery commitment.",
   alternates: { canonical: "/work" },
   robots: hasPublishedWork ? undefined : { index: false, follow: true },
@@ -30,7 +30,7 @@ export default function WorkPage() {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": hasPublishedWork ? "CollectionPage" : "WebPage",
-    name: hasPublishedWork ? "NeedFoundry project portfolio" : "NeedFoundry delivery standards",
+    name: hasPublishedWork ? "NeedFoundry client work" : "NeedFoundry delivery standards",
     description: metadata.description,
     ...(siteConfig.siteUrl ? { url: `${siteConfig.siteUrl}/work` } : {}),
     ...(hasPublishedWork
@@ -54,15 +54,15 @@ export default function WorkPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
       <PageHero
-        eyebrow={hasPublishedWork ? "Project portfolio" : "Delivery standards"}
+        eyebrow={hasPublishedWork ? "Selected work" : "Delivery standards"}
         title={
           hasPublishedWork
-            ? "Digital products shaped around real operating problems."
+            ? "Focused products, shaped around real operating problems."
             : "Clear decisions before deeper delivery commitments."
         }
         copy={
           hasPublishedWork
-            ? "Founder-authorized projects delivered by Codal, presented with their original sources, product media, and reported outcomes."
+            ? "Approved NeedFoundry client projects, published with permission and reviewed for accurate scope and outcomes."
             : "NeedFoundry makes scope, progress, responsibilities, and product risk visible before each commitment is made."
         }
       >
@@ -74,7 +74,7 @@ export default function WorkPage() {
       {featured && hasPublishedWork ? (
         <section className="section section--surface work-index">
           <Container>
-            <h2 className="visually-hidden">Selected portfolio projects</h2>
+            <h2 className="visually-hidden">Selected client work</h2>
             <div className="work-index__lead">
               <WorkCard item={featured} variant="featured" priority />
             </div>
@@ -84,7 +84,7 @@ export default function WorkPage() {
               ))}
             </div>
             <p className="work-index__note">
-              These projects were delivered and documented by Codal and are presented as attributed portfolio references with founder authorization. They are not described as NeedFoundry client engagements. Published outcomes remain attributed to their original source.
+              Only client work with confirmed publication permission is shown. Results are included only when their source, timeframe, and approval are recorded.
             </p>
           </Container>
         </section>

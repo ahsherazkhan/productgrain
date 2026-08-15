@@ -317,7 +317,7 @@ export default async function CaseStudyPage({
             <div className="related-projects__heading">
               <div>
                 <p className="eyebrow">Continue exploring</p>
-                <h2>Related portfolio projects</h2>
+                <h2>Related client work</h2>
               </div>
               <ButtonLink href="/work" variant="secondary">
                 View all work

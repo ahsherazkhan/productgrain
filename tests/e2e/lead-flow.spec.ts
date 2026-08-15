@@ -1,5 +1,19 @@
 import { expect, test } from "@playwright/test";
 
+const formerWorkSlugs = [
+  "claimdeck",
+  "cpap",
+  "callpotential",
+  "built-by-girls",
+  "fuze-health",
+  "children-health",
+  "mantl",
+  "ticketrev",
+  "tributi",
+  "loopple",
+  "cost-plus-drugs",
+];
+
 test("homepage keeps a concise lead-generation path", async ({ page }) => {
   await page.goto("/");
   await page.getByRole("button", { name: "Necessary only" }).click();
@@ -7,6 +21,9 @@ test("homepage keeps a concise lead-generation path", async ({ page }) => {
   await expect(page.getByRole("link", { name: "Discuss your product idea — free" }).first()).toBeVisible();
   await expect(page.getByRole("heading", { name: "Start with the right level of product certainty." })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Know what you are committing to before development begins" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Scope before spend" })).toBeVisible();
+  await expect(page.locator("body")).not.toContainText(/Codal|founder-authorized|portfolio reference/i);
+  await expect(page.locator('a[href^="/work/"]')).toHaveCount(0);
   await expect(page.getByRole("link", { name: "Explore your AI product opportunity" }).locator("svg")).toHaveCount(1);
   await expect(page.locator(".decision-map")).toHaveCount(0);
   const mobileMenu = page.getByRole("button", { name: "Open navigation" });
@@ -23,17 +40,24 @@ test("homepage keeps a concise lead-generation path", async ({ page }) => {
   await expect(page).toHaveURL(/\/work$/);
 });
 
-test("work shows approved portfolio references and sourced project media", async ({ page }) => {
+test("work shows capability commitments and retires former project routes", async ({ page }) => {
   await page.goto("/work");
   await page.getByRole("button", { name: "Necessary only" }).click();
-  await expect(page.getByRole("heading", { name: "Digital products shaped around real operating problems." })).toBeVisible();
-  await expect(page.getByRole("link", { name: "View the ClaimDeck project profile" })).toBeVisible();
-  await expect(page.locator("body")).toContainText("Project delivered by Codal");
+  await expect(page.getByRole("heading", { name: "Clear decisions before deeper delivery commitments." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Know what you are committing to before development begins" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Scope before spend" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Visible progress" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Honest product risk" })).toBeVisible();
+  await expect(page.locator('a[href^="/work/"]')).toHaveCount(0);
+  await expect(page.locator("body")).not.toContainText(
+    /Codal|founder-authorized|portfolio reference|attributed industry reference|delivered and documented|Project delivered by/i,
+  );
 
-  const response = await page.goto("/work/claimdeck");
-  expect(response?.status()).toBe(200);
-  await expect(page.getByText("Project record")).toBeVisible();
-  await expect(page.getByRole("heading", { name: "How the workflow fits together" })).toBeVisible();
+  for (const slug of formerWorkSlugs) {
+    const response = await page.goto(`/work/${slug}`);
+    expect(response?.status(), slug).toBe(404);
+    await expect(page.getByText("Project record")).toHaveCount(0);
+  }
 });
 
 test("UK landing shows configured pricing and reaches a qualified booking result", async ({ page }) => {

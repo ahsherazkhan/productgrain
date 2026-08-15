@@ -198,8 +198,8 @@ export const caseStudies: readonly CaseStudy[] = [
     sourceUrls: ["https://codal.com/work/claimdeck/"],
     featuredOrder: 1,
     reviewedAt: "2026-08-15",
-    permissionStatus: "confirmed",
-    published: true,
+    permissionStatus: "not-requested",
+    published: false,
   },
   {
     slug: "cpap",
@@ -312,12 +312,12 @@ export const caseStudies: readonly CaseStudy[] = [
       sourceUrl: "https://codal.com/work/cpap-com/",
       disclosure: codalReferenceDisclosure,
     },
-    relatedSlugs: ["claimdeck", "cost-plus-drugs"],
+    relatedSlugs: ["claimdeck", "fuze-health"],
     sourceUrls: ["https://codal.com/work/cpap-com/", "https://www.cpap.com/"],
     featuredOrder: 2,
     reviewedAt: "2026-08-15",
-    permissionStatus: "confirmed",
-    published: true,
+    permissionStatus: "not-requested",
+    published: false,
   },
   {
     slug: "callpotential",
@@ -410,8 +410,8 @@ export const caseStudies: readonly CaseStudy[] = [
     ],
     featuredOrder: 3,
     reviewedAt: "2026-08-15",
-    permissionStatus: "confirmed",
-    published: true,
+    permissionStatus: "not-requested",
+    published: false,
   },
   {
     slug: "built-by-girls",
@@ -529,8 +529,8 @@ export const caseStudies: readonly CaseStudy[] = [
     sourceUrls: ["https://codal.com/work/built-by-girls/"],
     featuredOrder: 4,
     reviewedAt: "2026-08-15",
-    permissionStatus: "confirmed",
-    published: true,
+    permissionStatus: "not-requested",
+    published: false,
   },
   {
     slug: "fuze-health",
@@ -623,110 +623,8 @@ export const caseStudies: readonly CaseStudy[] = [
     sourceUrls: ["https://codal.com/work/truepill-fuze-health/"],
     featuredOrder: 6,
     reviewedAt: "2026-08-15",
-    permissionStatus: "confirmed",
-    published: true,
-  },
-  {
-    slug: "cost-plus-drugs",
-    clientName: "Mark Cuban Cost Plus Drugs",
-    productUrl: "https://costplusdrugs.com/",
-    title:
-      "Unifying pharmacy operations for faster fulfillment and product iteration",
-    industry: "Life sciences & pharmaceuticals",
-    clientType: "HealthTech product platform",
-    summary:
-      "Cost Plus Drugs rebuilt core pharmacy operations around a more adaptable platform for ordering, prescriptions, pricing, fulfillment, reporting, and family account management.",
-    originalProblem:
-      "A functional but constrained platform limited control over the product roadmap as prescription volume, pricing logic, integrations, and customer-service needs became more complex. Cost Plus Drugs also wanted to bring its pharmacy and Cuban Card experiences onto a shared foundation.",
-    publicProductDirection:
-      "The new direction emphasizes operational ownership: unified customer and order data, flexible APIs, real-time CMS and pricing updates, and custom pharmacy capabilities that can evolve without dependence on inflexible licensed systems.",
-    solution:
-      "Codal documented end-to-end workflow mapping followed by restructured backend services and custom capabilities for ordering, prescription migration, RX and copay audits, dependents, automatic refills, customer support, reporting, authentication, and synchronization with pharmacy fulfillment partners.",
-    workflow: [
-      {
-        title: "Connect the patient and prescription",
-        description:
-          "Accounts can manage eligible prescriptions, dependents, refills, insurance information, and active medication history.",
-      },
-      {
-        title: "Price and validate the order",
-        description:
-          "Real-time pricing, insurance APIs, and RX audit rules surface costs and flag copay or prescription issues before fulfillment.",
-      },
-      {
-        title: "Coordinate fulfillment",
-        description:
-          "The commerce platform and pharmacy partner exchange order status while reporting tools expose operational and financial performance.",
-      },
-    ],
-    capabilities: [
-      "Prescription fulfillment engineering",
-      "Real-time CMS and pricing updates",
-      "API modernization",
-      "Prescription migration tooling",
-      "Customer service optimization",
-      "Compliance-minded backend design",
-    ],
-    tags: ["HealthTech", "Operations engineering", "eCommerce platform"],
-    publicLeadership: [
-      {
-        name: "Paul Vasquez",
-        role: "COO & Head of Pharmacy",
-        sourceUrl: "https://codal.com/work/costplusdrugs/",
-      },
-    ],
-    results: [
-      {
-        value: "Faster",
-        label: "Feature release and iteration velocity",
-        verificationNote:
-          "Published in the Cost Plus Drugs case study on Codal.",
-      },
-      {
-        value: "All-time-low",
-        label: "Order-to-fulfillment friction",
-        verificationNote:
-          "Published in the Cost Plus Drugs case study on Codal.",
-      },
-    ],
-    logo: {
-      src: "/work/codal/cost-plus-logo.svg",
-      alt: "Mark Cuban Cost Plus Drug Company logo",
-      width: 420,
-      height: 120,
-    },
-    images: [
-      {
-        src: "/work/codal/cost-plus-cover.webp",
-        alt: "Cost Plus Drugs pharmacy storefront displayed on a desktop screen",
-        width: 1728,
-        height: 1163,
-        caption: codalMediaCaption("Cost Plus Drugs platform overview."),
-      },
-      {
-        src: "/work/codal/cost-plus-prescription.webp",
-        alt: "Cost Plus Drugs online prescription experience interface",
-        width: 1728,
-        height: 972,
-        caption: codalMediaCaption("Cost Plus Drugs prescription experience."),
-      },
-    ],
-    provenance: {
-      kind: "third-party-reference",
-      label: codalReferenceLabel,
-      sourceName: "Codal",
-      sourceUrl: "https://codal.com/work/costplusdrugs/",
-      disclosure: codalReferenceDisclosure,
-    },
-    relatedSlugs: ["claimdeck", "mantl"],
-    sourceUrls: [
-      "https://codal.com/work/costplusdrugs/",
-      "https://costplusdrugs.com/",
-    ],
-    featuredOrder: 5,
-    reviewedAt: "2026-08-15",
-    permissionStatus: "confirmed",
-    published: true,
+    permissionStatus: "not-requested",
+    published: false,
   },
   {
     slug: "children-health",
@@ -826,12 +724,12 @@ export const caseStudies: readonly CaseStudy[] = [
       sourceUrl: "https://codal.com/work/childrens-health/",
       disclosure: codalReferenceDisclosure,
     },
-    relatedSlugs: ["fuze-health", "cost-plus-drugs"],
+    relatedSlugs: ["fuze-health", "mantl"],
     sourceUrls: ["https://codal.com/work/childrens-health/"],
     featuredOrder: 7,
     reviewedAt: "2026-08-15",
-    permissionStatus: "confirmed",
-    published: true,
+    permissionStatus: "not-requested",
+    published: false,
   },
   {
     slug: "mantl",
@@ -950,8 +848,8 @@ export const caseStudies: readonly CaseStudy[] = [
     sourceUrls: ["https://codal.com/work/mantl/"],
     featuredOrder: 8,
     reviewedAt: "2026-08-15",
-    permissionStatus: "confirmed",
-    published: true,
+    permissionStatus: "not-requested",
+    published: false,
   },
   {
     slug: "ticketrev",
@@ -1149,9 +1047,8 @@ export function getPublishedCaseStudies(): readonly CaseStudy[] {
     .filter(
       (caseStudy) =>
         caseStudy.published &&
+        caseStudy.provenance.kind === "verified-client-work" &&
         caseStudy.permissionStatus === "confirmed" &&
-        (caseStudy.provenance.kind === "verified-client-work" ||
-          caseStudy.provenance.kind === "third-party-reference") &&
         caseStudy.sourceUrls.includes(caseStudy.provenance.sourceUrl)
     )
     .sort((a, b) => a.featuredOrder - b.featuredOrder);
