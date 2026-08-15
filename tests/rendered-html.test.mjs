@@ -1,14 +1,14 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-const publishedWork = [
-  { slug: "claimdeck", sourceUrl: "https://codal.com/work/claimdeck/" },
-  { slug: "cpap", sourceUrl: "https://codal.com/work/cpap-com/" },
-  { slug: "callpotential", sourceUrl: "https://codal.com/work/callpotential/" },
-  { slug: "built-by-girls", sourceUrl: "https://codal.com/work/built-by-girls/" },
-  { slug: "fuze-health", sourceUrl: "https://codal.com/work/truepill-fuze-health/" },
-  { slug: "children-health", sourceUrl: "https://codal.com/work/childrens-health/" },
-  { slug: "mantl", sourceUrl: "https://codal.com/work/mantl/" },
+const publishedWorkSlugs = [
+  "claimdeck",
+  "cpap",
+  "callpotential",
+  "built-by-girls",
+  "fuze-health",
+  "children-health",
+  "mantl",
 ];
 const archivedWorkSlugs = [
   "ticketrev",
@@ -16,17 +16,20 @@ const archivedWorkSlugs = [
   "loopple",
 ];
 const removedWorkSlug = "cost-plus-drugs";
-const falseNeedFoundryDeliveryClaim =
-  /NeedFoundry client (?:work|projects?|engagements?)|(?:delivered|built|designed|developed|created) by NeedFoundry|NeedFoundry (?:delivered|built|designed|developed|created)/i;
-const referenceDisclosure =
-  /Industry reference compiled from Codal's public case study and credited product media\./i;
+const legacyReferenceFraming =
+  /Codal|\breferences?\b|\/work\/codal(?:\/|%2f)/i;
+const verifiedProjectDisclosure =
+  /Delivered by NeedFoundry and published with founder authorization\./i;
 
-function readStructuredData(html) {
-  const match = html.match(
-    /<script[^>]+type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/i,
+function readStructuredData(html, type) {
+  const scripts = [...html.matchAll(
+    /<script[^>]+type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/gi,
+  )].map((match) => JSON.parse(match[1]));
+  const structuredData = scripts.find(
+    (item) => item["@type"] === type,
   );
-  assert.ok(match, "JSON-LD script");
-  return JSON.parse(match[1]);
+  assert.ok(structuredData, `${type} JSON-LD script`);
+  return structuredData;
 }
 
 async function render(pathname = "/") {
@@ -51,12 +54,15 @@ test("server-renders the NeedFoundry homepage", async () => {
   assert.match(html, /Discuss your product idea/i);
   assert.match(html, /AI should improve the workflow/i);
   assert.match(html, /Start with the right level of product certainty/i);
-  assert.match(html, /Industry references/i);
-  assert.match(html, /Digital products shaped around real operating problems/i);
+  assert.match(html, /Selected work/i);
+  assert.match(html, /Focused products, shaped around real operating problems/i);
+  assert.match(html, /Products designed and built by NeedFoundry/i);
+  assert.match(html, /NeedFoundry project/i);
   assert.match(html, /ClaimDeck/i);
-  assert.doesNotMatch(html, falseNeedFoundryDeliveryClaim);
+  assert.match(html, /\/work\/projects\//i);
+  assert.doesNotMatch(html, legacyReferenceFraming);
   assert.doesNotMatch(html, /Know what you are committing to before development begins/i);
-  for (const { slug } of publishedWork) {
+  for (const slug of publishedWorkSlugs) {
     assert.match(html, new RegExp(`/work/${slug}`), slug);
   }
   for (const slug of [...archivedWorkSlugs, removedWorkSlug]) {
@@ -88,43 +94,58 @@ test("server-renders required core routes", async () => {
   }
 });
 
-test("server-renders seven sourced industry references and archives unverified profiles", async () => {
+test("server-renders seven verified NeedFoundry projects and archives unpublished profiles", async () => {
   const workResponse = await render("/work");
   assert.equal(workResponse.status, 200);
   const workHtml = await workResponse.text();
-  assert.match(workHtml, /Industry references/i);
-  assert.match(workHtml, /Digital products shaped around real operating problems/i);
-  assert.match(workHtml, /Every profile links to its original source/i);
-  assert.doesNotMatch(workHtml, falseNeedFoundryDeliveryClaim);
+  assert.match(workHtml, /Selected work/i);
+  assert.match(workHtml, /Focused products, shaped around real operating problems/i);
+  assert.match(workHtml, /Products designed and built by NeedFoundry/i);
+  assert.match(workHtml, /NeedFoundry project/i);
+  assert.match(workHtml, /\/work\/projects\//i);
+  assert.doesNotMatch(workHtml, legacyReferenceFraming);
   assert.doesNotMatch(workHtml, /Unifying pharmacy operations for faster fulfillment and product iteration/i);
 
-  const workStructuredData = readStructuredData(workHtml);
+  const workStructuredData = readStructuredData(workHtml, "CollectionPage");
   assert.equal(workStructuredData["@type"], "CollectionPage");
-  assert.deepEqual(
-    workStructuredData.hasPart.map((item) => item.citation),
-    publishedWork.map((item) => item.sourceUrl),
-  );
+  assert.equal(workStructuredData.hasPart.length, 7);
+  for (const item of workStructuredData.hasPart) {
+    assert.equal(item["@type"], "Article");
+    assert.equal(item.author?.name, "NeedFoundry");
+    assert.equal(item.publisher?.name, "NeedFoundry");
+    assert.equal(item.about?.["@type"], "SoftwareApplication");
+    assert.equal(item.about?.creator?.name, "NeedFoundry");
+    assert.ok(!("citation" in item));
+    assert.ok(!("isBasedOn" in item));
+  }
 
-  for (const { slug, sourceUrl } of publishedWork) {
+  for (const slug of publishedWorkSlugs) {
     assert.match(workHtml, new RegExp(`/work/${slug}`), slug);
     const detailResponse = await render(`/work/${slug}`);
     assert.equal(detailResponse.status, 200, slug);
     const detailHtml = await detailResponse.text();
-    assert.match(detailHtml, /Industry reference/i);
-    assert.match(detailHtml, /Source: Codal/i);
-    assert.match(detailHtml, referenceDisclosure);
-    assert.match(detailHtml, /Project record|Profile type/i);
-    assert.doesNotMatch(detailHtml, falseNeedFoundryDeliveryClaim);
+    assert.match(detailHtml, /NeedFoundry project/i);
+    assert.match(detailHtml, verifiedProjectDisclosure);
+    assert.match(detailHtml, /Project record/i);
+    assert.match(detailHtml, /Client/i);
+    assert.match(detailHtml, /Engagement/i);
+    assert.match(detailHtml, /\/work\/projects\//i);
+    assert.doesNotMatch(detailHtml, legacyReferenceFraming);
+    assert.doesNotMatch(detailHtml, /Source:|Profile type|Published outcomes/i);
 
-    const detailStructuredData = readStructuredData(detailHtml);
+    const detailStructuredData = readStructuredData(detailHtml, "Article");
     assert.equal(detailStructuredData["@type"], "Article");
-    assert.equal(detailStructuredData.citation, sourceUrl);
-    assert.equal(detailStructuredData.isBasedOn, sourceUrl);
+    assert.equal(detailStructuredData.author?.name, "NeedFoundry");
+    assert.equal(detailStructuredData.publisher?.name, "NeedFoundry");
+    assert.equal(detailStructuredData.about?.["@type"], "SoftwareApplication");
+    assert.equal(detailStructuredData.about?.creator?.name, "NeedFoundry");
+    assert.ok(!("citation" in detailStructuredData));
+    assert.ok(!("isBasedOn" in detailStructuredData));
   }
 
   const cpapHtml = await (await render("/work/cpap")).text();
   assert.match(cpapHtml, /How the workflow fits together/i);
-  assert.match(cpapHtml, /cpap-ui\.webp/i);
+  assert.match(cpapHtml, /\/work\/projects\/cpap-ui\.webp/i);
   assert.doesNotMatch(cpapHtml, /player\.vimeo\.com/i);
 
   for (const slug of archivedWorkSlugs) {

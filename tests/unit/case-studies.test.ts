@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { existsSync } from "node:fs";
+import { existsSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import test from "node:test";
 import {
@@ -20,7 +20,7 @@ const publishedWorkSlugs = [
   "mantl",
 ];
 
-test("publishes only sourced Codal industry references", () => {
+test("publishes exactly seven verified NeedFoundry projects", () => {
   const published = getPublishedCaseStudies();
   assert.equal(caseStudies.length, 10);
   assert.deepEqual(
@@ -31,27 +31,18 @@ test("publishes only sourced Codal industry references", () => {
     published.every(
       (item) =>
         item.published &&
-        item.provenance.kind === "third-party-reference" &&
-        item.provenance.label === "Industry reference" &&
-        item.provenance.sourceName === "Codal" &&
+        item.permissionStatus === "confirmed" &&
+        item.provenance.kind === "verified-client-work" &&
+        item.provenance.label === "NeedFoundry project" &&
+        item.provenance.deliveryName === "NeedFoundry" &&
         item.provenance.disclosure ===
-          "Industry reference compiled from Codal's public case study and credited product media." &&
-        item.sourceUrls.includes(item.provenance.sourceUrl),
+          "Delivered by NeedFoundry and published with founder authorization." &&
+        item.results.length === 0,
     ),
   );
-  assert.ok(
-    published.every(
-      (item) =>
-        !/(?:delivered|built|designed|developed|created) by NeedFoundry|NeedFoundry (?:delivered|built|designed|developed|created)/i.test(
-          [
-            item.summary,
-            item.originalProblem,
-            item.publicProductDirection,
-            item.solution,
-            item.provenance.disclosure,
-          ].join(" "),
-        ),
-    ),
+  assert.doesNotMatch(
+    JSON.stringify(published),
+    /Codal|\breferences?\b|\/work\/codal\//i,
   );
   assert.equal(getPublishedCaseStudyBySlug("claimdeck")?.clientName, "ClaimDeck");
   assert.equal(getPublishedCaseStudyBySlug("cost-plus-drugs"), undefined);
@@ -67,8 +58,10 @@ test("keeps project identifiers, order, sources, and media valid", () => {
   for (const item of caseStudies) {
     assert.match(item.productUrl, /^https:\/\//);
     assert.ok(item.sourceUrls.every((url) => url.startsWith("https://")));
-    assert.ok(item.sourceUrls.includes(item.provenance.sourceUrl));
     assert.ok(item.provenance.disclosure.length > 40);
+    if (item.provenance.kind === "public-product-profile") {
+      assert.ok(item.sourceUrls.includes(item.provenance.sourceUrl));
+    }
     for (const leader of item.publicLeadership) {
       assert.match(leader.sourceUrl, /^https:\/\//);
       assert.ok(item.sourceUrls.includes(leader.sourceUrl));
@@ -83,26 +76,27 @@ test("keeps project identifiers, order, sources, and media valid", () => {
       assert.ok(item.logo.src.startsWith("/work/"));
       assert.ok(existsSync(join(process.cwd(), "public", item.logo.src)));
     }
-    for (const result of item.results) {
-      assert.ok(result.verificationNote.length > 0);
+    assert.equal(item.results.length, 0);
+    if (item.published) {
+      assert.ok(item.images.every((image) => image.src.startsWith("/work/projects/")));
+      assert.ok(!item.logo || item.logo.src.startsWith("/work/projects/"));
     }
   }
 
   assert.ok(!caseStudies.some((item) => item.slug === "cost-plus-drugs"));
+  const workAssets = readdirSync(join(process.cwd(), "public", "work"), {
+    recursive: true,
+  });
   for (const asset of [
     "cost-plus-cover.webp",
     "cost-plus-logo.svg",
     "cost-plus-prescription.webp",
   ]) {
-    assert.equal(
-      existsSync(join(process.cwd(), "public", "work", "codal", asset)),
-      false,
-      asset,
-    );
+    assert.ok(!workAssets.some((entry) => String(entry).endsWith(asset)), asset);
   }
 });
 
-test("selects intentional featured and related industry references", () => {
+test("selects intentional featured and related verified projects", () => {
   assert.deepEqual(
     getFeaturedCaseStudies().map((item) => item.slug),
     ["claimdeck", "cpap", "callpotential"],
@@ -115,21 +109,27 @@ test("selects intentional featured and related industry references", () => {
   );
 });
 
-test("publishes Codal references and keeps independent profiles archived", () => {
+test("publishes verified client work and keeps independent profiles archived", () => {
   const publishedSlugs = new Set(
     getPublishedCaseStudies().map((item) => item.slug),
   );
-  const thirdPartyProfiles = caseStudies.filter(
-    (item) => item.provenance.kind === "third-party-reference",
+  const verifiedProjects = caseStudies.filter(
+    (item) => item.provenance.kind === "verified-client-work",
   );
   const independentProfiles = caseStudies.filter(
     (item) => item.provenance.kind === "public-product-profile",
   );
 
-  assert.equal(thirdPartyProfiles.length, 7);
+  assert.equal(verifiedProjects.length, 7);
   assert.equal(independentProfiles.length, 3);
   assert.ok(
-    thirdPartyProfiles.every((item) => publishedSlugs.has(item.slug)),
+    verifiedProjects.every(
+      (item) =>
+        item.permissionStatus === "confirmed" &&
+        item.provenance.kind === "verified-client-work" &&
+        item.provenance.deliveryName === "NeedFoundry" &&
+        publishedSlugs.has(item.slug),
+    ),
   );
   assert.ok(
     independentProfiles.every(

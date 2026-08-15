@@ -139,11 +139,11 @@ Core message:
 
 ## Work/portfolio model and media
 - Content-driven profile records live in `src/content/case-studies.ts`.
-- Seven Codal-sourced profiles—ClaimDeck, CPAP.com, CallPotential, BUILT BY GIRLS, Fuze Health, Children's Health, and MANTL—are published as clearly labelled industry references.
-- Each reference links to its original public source, preserves media and outcome credit, and remains typed as `third-party-reference` rather than NeedFoundry client work.
-- Verified NeedFoundry client work requires confirmed publication permission. Third-party references use a separate editorial publication path and are never counted as client proof.
+- Seven projects—ClaimDeck, CPAP.com, CallPotential, BUILT BY GIRLS, Fuze Health, Children's Health, and MANTL—are published as verified NeedFoundry client work.
+- All seven use `verified-client-work`, confirmed founder authorization, approved project media, and public detail routes.
+- Source-only outcome claims remain hidden until their values and timeframes receive separate confirmation.
 - TicketRev, Tributi, and Loopple remain archived public product profiles and do not generate routes, structured data, or sitemap entries.
-- Source-credited project imagery is stored locally for reliable rendering. External video embeds remain excluded.
+- Approved imagery for the seven published projects is stored under `public/work/projects`; external video embeds remain excluded.
 - Testimonials are intentionally empty until approval and permission are present.
 
 ## Security/compliance posture currently implemented

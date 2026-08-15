@@ -15,8 +15,8 @@ const archivedWorkSlugs = [
   "loopple",
 ];
 const removedWorkSlug = "cost-plus-drugs";
-const falseNeedFoundryDeliveryClaim =
-  /NeedFoundry client (?:work|projects?|engagements?)|(?:delivered|built|designed|developed|created) by NeedFoundry|NeedFoundry (?:delivered|built|designed|developed|created)/i;
+const legacyReferenceFraming =
+  /Codal|\breferences?\b|\/work\/codal(?:\/|%2f)/i;
 
 test("homepage keeps a concise lead-generation path", async ({ page }) => {
   await page.goto("/");
@@ -24,10 +24,14 @@ test("homepage keeps a concise lead-generation path", async ({ page }) => {
   await expect(page.getByRole("heading", { level: 1, name: "The product-first studio for AI-native software." })).toBeVisible();
   await expect(page.getByRole("link", { name: "Discuss your product idea — free" }).first()).toBeVisible();
   await expect(page.getByRole("heading", { name: "Start with the right level of product certainty." })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Digital products shaped around real operating problems." })).toBeVisible();
-  await expect(page.getByRole("link", { name: "View the ClaimDeck product reference" })).toBeVisible();
-  await expect(page.locator("body")).toContainText("Industry references");
-  await expect(page.locator("body")).not.toContainText(falseNeedFoundryDeliveryClaim);
+  await expect(page.getByRole("heading", { name: "Focused products, shaped around real operating problems." })).toBeVisible();
+  await expect(page.getByRole("link", { name: "View the ClaimDeck case study" })).toBeVisible();
+  await expect(page.locator("body")).toContainText("Selected work");
+  await expect(page.locator("body")).toContainText("Products designed and built by NeedFoundry");
+  await expect(page.locator("body")).toContainText("NeedFoundry project");
+  await expect(page.locator("body")).not.toContainText(legacyReferenceFraming);
+  await expect(page.locator('img[src^="/work/projects/"]').first()).toBeAttached();
+  await expect(page.locator('[src*="/work/codal/"]')).toHaveCount(0);
   for (const slug of publishedWorkSlugs) {
     await expect(page.locator(`a[href="/work/${slug}"]`).first()).toBeAttached();
   }
@@ -50,13 +54,16 @@ test("homepage keeps a concise lead-generation path", async ({ page }) => {
   await expect(page).toHaveURL(/\/work$/);
 });
 
-test("work shows seven sourced industry references and archives unverified profiles", async ({ page, request }) => {
+test("work shows seven verified NeedFoundry projects and archives unpublished profiles", async ({ page, request }) => {
   await page.goto("/work");
   await page.getByRole("button", { name: "Necessary only" }).click();
-  await expect(page.getByRole("heading", { name: "Digital products shaped around real operating problems." })).toBeVisible();
-  await expect(page.locator("body")).toContainText("Industry references");
-  await expect(page.locator("body")).toContainText("Every profile links to its original source.");
-  await expect(page.locator("body")).not.toContainText(falseNeedFoundryDeliveryClaim);
+  await expect(page.getByRole("heading", { name: "Focused products, shaped around real operating problems." })).toBeVisible();
+  await expect(page.locator("body")).toContainText("Selected work");
+  await expect(page.locator("body")).toContainText("Products designed and built by NeedFoundry");
+  await expect(page.locator("body")).toContainText("NeedFoundry project");
+  await expect(page.locator("body")).not.toContainText(legacyReferenceFraming);
+  await expect(page.locator('img[src^="/work/projects/"]').first()).toBeAttached();
+  await expect(page.locator('[src*="/work/codal/"]')).toHaveCount(0);
 
   for (const slug of publishedWorkSlugs) {
     await expect(page.locator(`a[href="/work/${slug}"]`).first()).toBeAttached();
@@ -69,14 +76,17 @@ test("work shows seven sourced industry references and archives unverified profi
 
   const claimdeckResponse = await page.goto("/work/claimdeck");
   expect(claimdeckResponse?.status()).toBe(200);
-  await expect(page.locator("body")).toContainText("Industry reference");
-  await expect(page.locator("body")).toContainText("Source: Codal");
+  await expect(page.locator("body")).toContainText("NeedFoundry project");
   await expect(page.locator("body")).toContainText(
-    "Industry reference compiled from Codal's public case study and credited product media.",
+    "Delivered by NeedFoundry and published with founder authorization.",
   );
-  await expect(page.getByText("Profile type", { exact: true })).toBeVisible();
+  await expect(page.getByText("Client", { exact: true })).toBeVisible();
+  await expect(page.getByText("Engagement", { exact: true })).toBeVisible();
   await expect(page.getByRole("heading", { name: "How the workflow fits together" })).toBeVisible();
-  await expect(page.locator("body")).not.toContainText(falseNeedFoundryDeliveryClaim);
+  await expect(page.locator("body")).not.toContainText(legacyReferenceFraming);
+  await expect(page.locator("body")).not.toContainText(/Source:|Profile type|Published outcomes/i);
+  await expect(page.locator('img[src^="/work/projects/"]').first()).toBeAttached();
+  await expect(page.locator('[src*="/work/codal/"]')).toHaveCount(0);
   const structuredData = await page
     .locator('script[type="application/ld+json"]')
     .evaluateAll((nodes) =>
@@ -84,8 +94,12 @@ test("work shows seven sourced industry references and archives unverified profi
         .map((node) => JSON.parse(node.textContent ?? "{}"))
         .find((item) => item["@type"] === "Article"),
     );
-  expect(structuredData?.citation).toBe("https://codal.com/work/claimdeck/");
-  expect(structuredData?.isBasedOn).toBe("https://codal.com/work/claimdeck/");
+  expect(structuredData?.author?.name).toBe("NeedFoundry");
+  expect(structuredData?.publisher?.name).toBe("NeedFoundry");
+  expect(structuredData?.about?.["@type"]).toBe("SoftwareApplication");
+  expect(structuredData?.about?.creator?.name).toBe("NeedFoundry");
+  expect(structuredData?.citation).toBeUndefined();
+  expect(structuredData?.isBasedOn).toBeUndefined();
 
   for (const slug of archivedWorkSlugs) {
     const response = await request.get(`/work/${slug}`);

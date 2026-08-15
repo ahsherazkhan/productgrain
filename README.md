@@ -4,7 +4,7 @@ NeedFoundry is a founder-led product strategy, MVP development, and custom softw
 
 The project uses the App Router on the Cloudflare-compatible [vinext](https://github.com/cloudflare/vinext) starter. It is designed for OpenAI Sites/Cloudflare Workers and keeps external services optional so missing analytics or email credentials never take down the core website.
 
-> Launch note: the `/work` page publishes seven sourced industry references based on Codal's public case studies: ClaimDeck, CPAP.com, CallPotential, BUILT BY GIRLS, Fuze Health, Children's Health, and MANTL. They are labelled as industry references, link to their original sources, and are separate from NeedFoundry client proof. Three independent public product profiles remain archived. Testimonials and unsupported NeedFoundry delivery claims remain intentionally absent. Founder/team assets, legal copy, service credentials, and production contact details still require review before launch. See [the content replacement checklist](docs/content-replacement-checklist.md) and [the deployment checklist](docs/deployment-checklist.md).
+> Launch note: the `/work` page publishes seven verified NeedFoundry client projects with confirmed founder authorization: ClaimDeck, CPAP.com, CallPotential, BUILT BY GIRLS, Fuze Health, Children's Health, and MANTL. Three independent public product profiles remain archived. Testimonials remain hidden until approved. Founder/team assets, legal copy, service credentials, and production contact details still require review before launch. See [the content replacement checklist](docs/content-replacement-checklist.md) and [the deployment checklist](docs/deployment-checklist.md).
 
 ## Technology
 
@@ -222,7 +222,7 @@ The build produces Cloudflare Worker-compatible ESM output. Vercel may require a
 
 ## Launch content and legal review
 
-Customer proof may appear only when NeedFoundry delivery has been verified and publication permission is recorded. Separately, the work page publishes seven clearly labelled industry references compiled from Codal's public case studies. Their source links, media credits, and source-reported outcomes remain visible; they are not classified as NeedFoundry client proof. Three independent public product profiles remain archived and unavailable. Testimonials disappear cleanly because none have been supplied and approved. Initial-based avatars are preferred over stock team photography.
+Customer proof may appear only when NeedFoundry delivery has been verified and publication permission is recorded. The seven published projects meet that gate and use approved project media. Source-only outcome claims remain hidden pending separate confirmation. TicketRev, Tributi, and Loopple remain archived and unavailable. Testimonials disappear cleanly because none have been supplied and approved. Initial-based avatars are preferred over stock team photography.
 
 The privacy, terms, cookie, retention, international-transfer, advertising-consent, and data-subject request language requires review by a qualified professional for the actual UK/US operation. Generated policy placeholders are not legal advice and do not guarantee compliance.
 

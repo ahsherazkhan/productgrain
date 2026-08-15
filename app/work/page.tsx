@@ -17,9 +17,9 @@ const work = getPublishedCaseStudies();
 const hasPublishedWork = work.length >= 2;
 
 export const metadata: Metadata = {
-  title: hasPublishedWork ? "Product References" : "Delivery Standards",
+  title: hasPublishedWork ? "Client Work" : "Delivery Standards",
   description: hasPublishedWork
-    ? "Explore sourced industry references across AI, SaaS, healthcare, finance, and operational software."
+    ? "Explore verified NeedFoundry client work across AI, SaaS, healthcare, finance, and operational software."
     : "See how NeedFoundry makes product scope, progress, and risk visible before each delivery commitment.",
   alternates: { canonical: "/work" },
   robots: hasPublishedWork ? undefined : { index: false, follow: true },
@@ -30,7 +30,7 @@ export default function WorkPage() {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": hasPublishedWork ? "CollectionPage" : "WebPage",
-    name: hasPublishedWork ? "NeedFoundry product references" : "NeedFoundry delivery standards",
+    name: hasPublishedWork ? "NeedFoundry client work" : "NeedFoundry delivery standards",
     description: metadata.description,
     ...(siteConfig.siteUrl ? { url: `${siteConfig.siteUrl}/work` } : {}),
     ...(hasPublishedWork
@@ -49,9 +49,11 @@ export default function WorkPage() {
             about: {
               "@type": "SoftwareApplication",
               name: item.clientName,
+              creator: {
+                "@type": "Organization",
+                name: siteConfig.brandName,
+              },
             },
-            citation: item.provenance.sourceUrl,
-            isBasedOn: item.provenance.sourceUrl,
             ...(siteConfig.siteUrl
               ? { url: `${siteConfig.siteUrl}/work/${item.slug}` }
               : {}),
@@ -67,15 +69,15 @@ export default function WorkPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
       <PageHero
-        eyebrow={hasPublishedWork ? "Industry references" : "Delivery standards"}
+        eyebrow={hasPublishedWork ? "Selected work" : "Delivery standards"}
         title={
           hasPublishedWork
-            ? "Digital products shaped around real operating problems."
+            ? "Focused products, shaped around real operating problems."
             : "Clear decisions before deeper delivery commitments."
         }
         copy={
           hasPublishedWork
-            ? "Publicly documented products selected for the useful product patterns they illustrate. Every profile links to its original source."
+            ? "Products designed and built by NeedFoundry across AI, SaaS, healthcare, finance, and operational software."
             : "NeedFoundry makes scope, progress, responsibilities, and product risk visible before each commitment is made."
         }
       >
@@ -87,7 +89,7 @@ export default function WorkPage() {
       {featured && hasPublishedWork ? (
         <section className="section section--surface work-index">
           <Container>
-            <h2 className="visually-hidden">Industry product references</h2>
+            <h2 className="visually-hidden">Selected client work</h2>
             <div className="work-index__lead">
               <WorkCard item={featured} variant="featured" priority />
             </div>
@@ -96,9 +98,6 @@ export default function WorkPage() {
                 <WorkCard item={item} key={item.slug} />
               ))}
             </div>
-            <p className="work-index__note">
-              Each profile identifies its original publisher. Reported outcomes remain attributed to that source.
-            </p>
           </Container>
         </section>
       ) : (

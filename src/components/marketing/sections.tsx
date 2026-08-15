@@ -48,7 +48,7 @@ export function TrustStrip() {
   if (!caseStudies.length && !testimonials.length) return null;
 
   const counts = [
-    { label: "Published project references", value: caseStudies.length },
+    { label: "Verified case studies", value: caseStudies.length },
     { label: "Verified testimonials", value: testimonials.length },
     { label: "Markets covered", value: new Set(caseStudies.map((item) => item.industry)).size || "n/a" },
   ];

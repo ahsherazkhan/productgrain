@@ -22,9 +22,9 @@ export function SelectedWorkSection() {
       <Container>
         <div className="selected-work__heading">
           <SectionIntro
-            eyebrow="Industry references"
-            title="Digital products shaped around real operating problems."
-            copy="Publicly documented products selected for the useful product patterns they illustrate. Every profile links to its original source."
+            eyebrow="Selected work"
+            title="Focused products, shaped around real operating problems."
+            copy="Products designed and built by NeedFoundry across AI, SaaS, healthcare, finance, and operational software."
           />
           <ButtonLink href="/work" variant="secondary">
             View all work
@@ -49,9 +49,6 @@ export function SelectedWorkSection() {
           </div>
         </div>
 
-        <p className="selected-work__note">
-          Each profile identifies its original publisher and retains source credit.
-        </p>
       </Container>
     </section>
   );

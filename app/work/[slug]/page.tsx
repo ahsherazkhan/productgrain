@@ -39,10 +39,7 @@ export async function generateMetadata({
   }
 
   const cover = item.images[0];
-  const pageTitle =
-    item.provenance.kind === "verified-client-work"
-      ? `${item.clientName} case study`
-      : `${item.clientName} product reference`;
+  const pageTitle = `${item.clientName} case study`;
   const requestHeaders = await headers();
   const host =
     requestHeaders.get("x-forwarded-host") ?? requestHeaders.get("host");
@@ -98,6 +95,10 @@ export default async function CaseStudyPage({
       name: item.clientName,
       applicationCategory: item.clientType,
       url: item.productUrl,
+      creator: {
+        "@type": "Organization",
+        name: siteConfig.brandName,
+      },
     },
     publisher: {
       "@type": "Organization",
@@ -107,8 +108,6 @@ export default async function CaseStudyPage({
       "@type": "Organization",
       name: siteConfig.brandName,
     },
-    citation: item.provenance.sourceUrl,
-    isBasedOn: item.provenance.sourceUrl,
     ...(siteConfig.siteUrl
       ? { url: `${siteConfig.siteUrl}/work/${item.slug}` }
       : {}),
@@ -127,7 +126,7 @@ export default async function CaseStudyPage({
       />
 
       <PageHero
-        eyebrow={`${item.provenance.label} · Source: ${item.provenance.sourceName} · ${item.industry}`}
+        eyebrow={`${item.provenance.label} · ${item.industry}`}
         title={item.title}
         copy={item.summary}
       >
@@ -152,9 +151,7 @@ export default async function CaseStudyPage({
         ) : null}
         <div className="button-row case-study-hero__actions">
           <ButtonLink href={item.productUrl} variant="secondary">
-            {item.productUrl === item.provenance.sourceUrl
-              ? "View source profile"
-              : `Visit ${item.clientName}`}
+            Visit {item.clientName}
           </ButtonLink>
           <ButtonLink href="/apply">Discuss a similar product</ButtonLink>
         </div>
@@ -192,11 +189,7 @@ export default async function CaseStudyPage({
               <p className="eyebrow">Project record</p>
               <dl>
                 <div>
-                  <dt>
-                    {item.provenance.kind === "verified-client-work"
-                      ? "Client"
-                      : "Product"}
-                  </dt>
+                  <dt>Client</dt>
                   <dd>{item.clientName}</dd>
                 </div>
                 <div>
@@ -208,11 +201,7 @@ export default async function CaseStudyPage({
                   <dd>{item.industry}</dd>
                 </div>
                 <div>
-                  <dt>
-                    {item.provenance.kind === "verified-client-work"
-                      ? "Engagement"
-                      : "Profile type"}
-                  </dt>
+                  <dt>Engagement</dt>
                   <dd>{item.provenance.label}</dd>
                 </div>
                 {item.publicLeadership.length ? (
@@ -232,11 +221,6 @@ export default async function CaseStudyPage({
               <ButtonLink href={item.productUrl} variant="quiet">
                 Open the live product
               </ButtonLink>
-              {item.provenance.sourceUrl !== item.productUrl ? (
-                <ButtonLink href={item.provenance.sourceUrl} variant="quiet">
-                  View supporting source
-                </ButtonLink>
-              ) : null}
               <p className="project-record__disclosure">
                 {item.provenance.disclosure}
               </p>
@@ -293,13 +277,9 @@ export default async function CaseStudyPage({
           <Container>
             <div className="case-study-outcomes__heading">
               <p className="eyebrow">Published outcomes</p>
-              <h2>
-                {item.provenance.kind === "verified-client-work"
-                  ? "What changed after launch."
-                  : "What the source reports."}
-              </h2>
+              <h2>What changed after launch.</h2>
               <p>
-                These figures are reported by {item.provenance.sourceName} and shown with their source context.
+                Confirmed outcomes are published only after founder review.
               </p>
             </div>
             <div className="case-results">
@@ -322,7 +302,7 @@ export default async function CaseStudyPage({
               <p className="eyebrow">Product media</p>
               <h2>Product screens and brand details.</h2>
               <p>
-                Source-credited project imagery is shown with descriptive captions.
+                Approved project imagery is shown with descriptive captions.
               </p>
             </div>
             <div className="case-study-media__grid">
@@ -350,7 +330,7 @@ export default async function CaseStudyPage({
             <div className="related-projects__heading">
               <div>
                 <p className="eyebrow">Continue exploring</p>
-                <h2>Related product references</h2>
+                <h2>Related client work</h2>
               </div>
               <ButtonLink href="/work" variant="secondary">
                 View all work
