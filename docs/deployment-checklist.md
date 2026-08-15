@@ -192,8 +192,7 @@ Do not weaken a failing check merely to release. Record intentionally waived non
 - [ ] Desktop/mobile navigation and campaign anchor navigation work.
 - [ ] All main/package CTAs enter the application at the intended market.
 - [ ] No broken internal/external links remain.
-- [ ] Form supports keyboard-only use, clear labels, announced progress, validation summary, and focus movement.
-- [ ] Session-local progress restores correctly and clears at the appropriate completion/reset point.
+- [ ] The concise form supports keyboard-only use, clear labels, validation summary, and focus movement.
 - [ ] Contact consent is required; marketing consent defaults unchecked.
 - [ ] Qualified, review, and nurture outcomes show correct copy and booking visibility.
 - [ ] Submission, email, webhook, booking, Meta-missing, founder-photo-missing, no-case-study, and no-testimonial fallbacks are polished.
@@ -207,7 +206,7 @@ Do not weaken a failing check merely to release. Record intentionally waived non
 - [ ] Skip link, landmarks, and meaningful link/button names work.
 - [ ] Keyboard focus is visible and never trapped in menu, cookie settings, accordion, or form.
 - [ ] Mobile menu and accordion expose correct accessible state.
-- [ ] Form instructions, required state, errors, summary, and progress are screen-reader understandable.
+- [ ] Form instructions, required state, errors, and summary are screen-reader understandable.
 - [ ] Color contrast passes and no status/instruction is color-only.
 - [ ] Images have useful alt text or are correctly decorative.
 - [ ] Founder video has accurate captions and keyboard-accessible controls.

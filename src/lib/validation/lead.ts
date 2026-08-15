@@ -152,7 +152,14 @@ function requiredSingleLine(min: number, max: number, label: string) {
 }
 
 function optionalSingleLine(max: number) {
-  return optionalText(max).transform((value) => value?.replace(/\s*\n\s*/g, " "));
+  return z
+    .string()
+    .max(max)
+    .transform((value) => {
+      const normalized = normalizeText(value).replace(/\s*\n\s*/g, " ");
+      return normalized.length > 0 ? normalized : undefined;
+    })
+    .optional();
 }
 
 const trackingValue = optionalText(200);
@@ -192,23 +199,23 @@ export const leadSubmissionSchema = z
     email: z.email("Enter a valid work email.").max(254).transform((email) => email.toLowerCase()),
     phone: phoneSchema,
     company: optionalSingleLine(120),
-    country: requiredSingleLine(2, 80, "Country"),
-    market: z.enum(markets).default("international"),
-    role: z.enum(roles),
-    industry: requiredSingleLine(2, 120, "Industry"),
-    projectType: z.enum(projectTypes),
+    country: optionalSingleLine(80),
+    market: z.enum(markets),
+    role: z.enum(roles).optional(),
+    industry: optionalSingleLine(120),
+    projectType: z.enum(projectTypes).optional(),
     aiExpectation: z.enum(aiExpectationLevels).optional(),
     packageInterest: z.enum(["blueprint-prototype", "focused-mvp", "custom-product"]).optional(),
-    problemDescription: requiredText(20, 2_000, "Problem description"),
-    currentWorkaround: requiredText(2, 1_200, "Current workaround"),
-    intendedUsers: requiredText(2, 800, "Intended users"),
-    userDiscussions: z.enum(discussionLevels),
-    userAccess: z.enum(userAccessLevels),
-    problemImpact: z.enum(problemImpacts),
-    productStage: z.enum(productStages),
+    problemDescription: requiredText(20, 1_200, "Problem description"),
+    currentWorkaround: optionalText(1_200),
+    intendedUsers: optionalText(800),
+    userDiscussions: z.enum(discussionLevels).optional(),
+    userAccess: z.enum(userAccessLevels).optional(),
+    problemImpact: z.enum(problemImpacts).optional(),
+    productStage: z.enum(productStages).optional(),
     budgetRange: z.enum(budgetRanges),
     timeline: z.enum(timelines),
-    decisionAuthority: z.enum(decisionAuthorities),
+    decisionAuthority: z.enum(decisionAuthorities).optional(),
     landingPage: pageValue,
     referrer: pageValue,
     utmSource: trackingValue,

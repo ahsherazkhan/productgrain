@@ -11,7 +11,7 @@ import type {
   LeadNotificationSink,
 } from "../../src/lib/leads/types";
 import { MemoryLeadRepository } from "../../src/lib/leads/repositories";
-import { validLead } from "../fixtures/lead";
+import { enrichedLead, validLead } from "../fixtures/lead";
 
 const fixedId = "a46bfdd6-ce5e-461a-b339-59d67d0338e0";
 const fixedNow = new Date("2026-08-14T12:00:00.000Z");
@@ -79,12 +79,23 @@ test("valid submission is scored, saved, notified, and routed", async () => {
       "Your project looks like a potential fit. Choose a suitable time for a free product discussion.",
   });
   assert.equal(repository.records.length, 1);
-  assert.equal(repository.records[0].score, 100);
+  assert.equal(repository.records[0].score, 70);
+  assert.deepEqual(repository.records[0].scoreBreakdown, {
+    budget: 50,
+    timeline: 20,
+  });
   assert.equal(repository.records[0].qualificationStatus, "qualified");
+  assert.equal(repository.records[0].role, undefined);
+  assert.equal(repository.records[0].productStage, undefined);
+  assert.equal(repository.records[0].decisionAuthority, undefined);
   assert.equal(repository.records[0].retentionUntil, "2027-08-14T12:00:00.000Z");
   assert.equal(email.messages.length, 2);
   assert.equal(email.messages[0].to[0], "alex@example.com");
-  assert.doesNotMatch(email.messages[1].text, /problem repeatedly transfers/i);
+  assert.doesNotMatch(
+    email.messages[1].text,
+    /repeatedly transfers the same project details/i,
+  );
+  assert.doesNotMatch(email.messages[1].text, /undefined/i);
 });
 
 test("Turnstile rejection stops before storage", async () => {
@@ -127,12 +138,8 @@ test("invalid form data stops before verification and storage", async () => {
 test("routes a review application without exposing a booking URL", async () => {
   const result = await submitLeadApplication(
     validLead({
-      role: "technical-founder",
-      productStage: "early-idea",
       budgetRange: "not-sure",
-      timeline: "within-six-months",
-      userAccess: "probably",
-      problemImpact: "moderate-inefficiency",
+      timeline: "exploring",
     }),
     dependencies(),
   );
@@ -144,19 +151,31 @@ test("routes a review application without exposing a booking URL", async () => {
 test("routes a nurture application without exposing a booking URL", async () => {
   const result = await submitLeadApplication(
     validLead({
-      role: "student-researcher",
-      productStage: "early-idea",
       budgetRange: "us-under-2500",
       timeline: "exploring",
-      userAccess: "not-currently",
-      userDiscussions: "not-yet",
-      problemImpact: "opportunity",
     }),
     dependencies(),
   );
 
   assert.equal(result.status, "nurture");
   assert.equal(result.bookingUrl, undefined);
+});
+
+test("continues to store optional legacy enrichment when it is provided", async () => {
+  const repository = new MemoryLeadRepository();
+  await submitLeadApplication(enrichedLead(), dependencies(repository));
+
+  assert.equal(repository.records[0].role, "founder");
+  assert.equal(repository.records[0].projectType, "workflow-automation");
+  assert.equal(
+    repository.records[0].currentWorkaround,
+    "The operations team copies information between spreadsheets.",
+  );
+  assert.equal(repository.records[0].score, 70);
+  assert.deepEqual(repository.records[0].scoreBreakdown, {
+    budget: 50,
+    timeline: 20,
+  });
 });
 
 test("email, CRM, and analytics failures do not lose a saved lead", async () => {

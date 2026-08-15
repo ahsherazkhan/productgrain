@@ -14,7 +14,7 @@ export default function NotFound() {
             <h1>This page is not part of the current product path.</h1>
             <p>
               The link may be outdated, or the page may have moved. The homepage
-              and product application are still available.
+              and project enquiry are still available.
             </p>
             <div className="button-row">
               <Link href="/" className="button button--primary">

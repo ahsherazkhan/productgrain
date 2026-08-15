@@ -34,7 +34,7 @@ export function HomeHero() {
             <ButtonLink href="#how-it-works" variant="secondary">See how it works</ButtonLink>
           </div>
           <p className="hero-disclosure">
-            No technical specification required · Free 6–8 minute fit check · Milestone-based delivery
+            No technical specification required · Concise 2-minute enquiry · Milestone-based delivery
           </p>
         </div>
       </Container>

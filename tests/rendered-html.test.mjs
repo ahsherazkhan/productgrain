@@ -32,6 +32,30 @@ function readStructuredData(html, type) {
   return structuredData;
 }
 
+function assertConciseEnquiryForm(html, selectedCurrency) {
+  assert.match(html, /About 2 minutes/i);
+  assert.match(html, /No technical brief required/i);
+  assert.match(html, /Tell us what you(?:’|&#x27;)d like to build or improve/i);
+  assert.match(html, /Company or project name/i);
+  assert.match(html, /What would you like to build or improve\?/i);
+  assert.match(html, /Approximate first-phase budget/i);
+  assert.match(html, /When would you like to start\?/i);
+  assert.match(html, /I consent to NeedFoundry contacting me about this enquiry/i);
+  assert.match(html, /Optional and unchecked by default/i);
+  assert.match(html, /Send project enquiry/i);
+  assert.match(
+    html,
+    new RegExp(`aria-pressed="true"[^>]*>${selectedCurrency}</button>`, "i"),
+  );
+  assert.equal([...html.matchAll(/<form\b/gi)].length, 1);
+  assert.equal([...html.matchAll(/aria-required="true"/gi)].length, 6);
+  assert.doesNotMatch(html, />Continue</i);
+  assert.doesNotMatch(
+    html,
+    /id="(?:country|role|industry|projectType|aiExpectation|currentWorkaround|intendedUsers|userDiscussions|userAccess|problemImpact|productStage|decisionAuthority)"/i,
+  );
+}
+
 async function render(pathname = "/") {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
   workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}-${pathname}`);
@@ -85,6 +109,12 @@ test("server-renders market-specific campaign pricing", async () => {
   assert.match(us, /From \$10,000/);
   assert.doesNotMatch(us, /From £8,000/);
   assert.doesNotMatch(uk, /workflow-window|A familiar starting point|Founder and team/);
+  assert.match(uk, /£8,000–£20,000/);
+  assert.doesNotMatch(uk, /\$10,000–\$25,000/);
+  assert.match(us, /\$10,000–\$25,000/);
+  assert.doesNotMatch(us, /£8,000–£20,000/);
+  assertConciseEnquiryForm(uk, "GBP");
+  assertConciseEnquiryForm(us, "USD");
 });
 
 test("server-renders required core routes", async () => {
@@ -92,6 +122,12 @@ test("server-renders required core routes", async () => {
     const response = await render(route);
     assert.equal(response.status, 200, route);
   }
+
+  const applyResponse = await render("/apply");
+  assert.equal(applyResponse.status, 200);
+  const applyHtml = await applyResponse.text();
+  assert.match(applyHtml, /A short note is enough to start/i);
+  assert.match(applyHtml, /No technical specification/i);
 });
 
 test("server-renders seven verified NeedFoundry projects and archives unpublished profiles", async () => {

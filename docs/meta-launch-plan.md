@@ -180,10 +180,10 @@ Before spending:
 - Each ad points to its matching market route with intact UTM parameters.
 - The page repeats the ad’s central promise without changing the offer.
 - Prices, budget fields, locale metadata, and qualified booking URL match the market.
-- The primary CTA starts the embedded application.
+- The primary CTA starts the embedded project enquiry.
 - The application explains that booking appears only after evaluation.
 - Required contact consent and optional marketing consent are separate.
-- Turnstile, validation, progress persistence, failure recovery, and all three qualification results work on mobile.
+- Turnstile, validation, failure recovery, and all three qualification results work on mobile.
 - No unsupported testimonial, logo, result, or founder/team claim appears.
 
 ## Tracking and funnel definitions

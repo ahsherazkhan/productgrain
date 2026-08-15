@@ -96,7 +96,7 @@ export async function POST(request: Request): Promise<Response> {
     return json({ error: "Content-Type must be application/json." }, 415);
   }
   if (process.env.NODE_ENV === "production" && (!process.env.TURNSTILE_SECRET_KEY || !process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY)) {
-    return json({ error: "Applications are temporarily unavailable. Please try again later." }, 503);
+    return json({ error: "Project enquiries are temporarily unavailable. Please try again later." }, 503);
   }
   const clientKey = requestClientKey(request);
   const rateLimit = rateLimiter.check(clientKey);
@@ -126,7 +126,7 @@ export async function POST(request: Request): Promise<Response> {
     repository = createRepository();
   } catch {
     return json(
-      { error: "Applications are temporarily unavailable. Please try again later." },
+      { error: "Project enquiries are temporarily unavailable. Please try again later." },
       503,
     );
   }
@@ -197,7 +197,7 @@ export async function POST(request: Request): Promise<Response> {
       }
     }
     return json(
-      { error: "We could not save your application. Please try again later." },
+      { error: "We could not save your enquiry. Please try again later." },
       503,
     );
   }

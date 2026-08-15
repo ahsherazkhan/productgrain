@@ -1,12 +1,82 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { leadSubmissionSchema } from "../../src/lib/validation/lead";
-import { validLead } from "../fixtures/lead";
+import {
+  leadSubmissionSchema,
+  type LeadSubmissionInput,
+} from "../../src/lib/validation/lead";
+import { enrichedLead, validLead } from "../fixtures/lead";
+
+test("accepts the concise enquiry contract and applies only consent defaults", () => {
+  const raw: Record<string, unknown> = { ...validLead() };
+  delete raw.marketingConsent;
+  delete raw.advertisingConsent;
+  const result = leadSubmissionSchema.parse(raw);
+
+  assert.equal(result.marketingConsent, false);
+  assert.equal(result.advertisingConsent, false);
+  for (const field of [
+    "phone",
+    "company",
+    "country",
+    "role",
+    "industry",
+    "projectType",
+    "aiExpectation",
+    "packageInterest",
+    "currentWorkaround",
+    "intendedUsers",
+    "userDiscussions",
+    "userAccess",
+    "problemImpact",
+    "productStage",
+    "decisionAuthority",
+  ] as const) {
+    assert.equal(result[field], undefined, field);
+  }
+});
+
+test("requires all five enquiry answers, market, and reply consent", () => {
+  const requiredFields = [
+    "fullName",
+    "email",
+    "problemDescription",
+    "budgetRange",
+    "timeline",
+    "market",
+    "contactConsent",
+  ] as const satisfies ReadonlyArray<keyof LeadSubmissionInput>;
+
+  for (const field of requiredFields) {
+    const raw: Record<string, unknown> = { ...validLead() };
+    delete raw[field];
+    const result = leadSubmissionSchema.safeParse(raw);
+    assert.equal(result.success, false, field);
+    if (!result.success) {
+      assert.ok(
+        result.error.issues.some((issue) => issue.path[0] === field),
+        field,
+      );
+    }
+  }
+});
+
+test("continues to accept optional legacy enrichment", () => {
+  const result = leadSubmissionSchema.parse(enrichedLead());
+
+  assert.equal(result.role, "founder");
+  assert.equal(result.projectType, "workflow-automation");
+  assert.equal(result.aiExpectation, "ai-enhancement");
+  assert.equal(
+    result.currentWorkaround,
+    "The operations team copies information between spreadsheets.",
+  );
+  assert.equal(result.decisionAuthority, "final-decision");
+});
 
 test("accepts and normalizes a complete application", () => {
   const result = leadSubmissionSchema.parse(
-    validLead({
+    enrichedLead({
       fullName: "  Alex\tMorgan  ",
       email: "ALEX@EXAMPLE.COM",
       company: "  Example   Works  ",
@@ -20,7 +90,7 @@ test("accepts and normalizes a complete application", () => {
 });
 
 test("normalizes single-line identity fields for safe headers", () => {
-  const result = leadSubmissionSchema.parse(validLead({
+  const result = leadSubmissionSchema.parse(enrichedLead({
     fullName: "Alex\nBcc: injected@example.test",
     company: "Example\r\nWorks",
   }));
@@ -33,7 +103,7 @@ test("rejects missing enquiry consent and capped free text", () => {
   const result = leadSubmissionSchema.safeParse({
     ...validLead(),
     contactConsent: false,
-    problemDescription: "x".repeat(2_001),
+    problemDescription: "x".repeat(1_201),
   });
 
   assert.equal(result.success, false);

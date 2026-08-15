@@ -61,7 +61,7 @@ export const TurnstileField = forwardRef<TurnstileHandle, { onToken: (token: str
   }), [onToken]);
 
   if (!siteKey) {
-    return <div className="turnstile-placeholder"><ShieldCheck aria-hidden="true" /><span><strong>Protected submission</strong>Secure verification runs before an application is accepted.</span></div>;
+    return <div className="turnstile-placeholder"><ShieldCheck aria-hidden="true" /><span><strong>Protected submission</strong>Secure verification runs before an enquiry is accepted.</span></div>;
   }
   return <div className="turnstile-widget" ref={containerRef} aria-label="Spam protection verification" />;
 });

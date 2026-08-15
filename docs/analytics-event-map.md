@@ -11,8 +11,7 @@ Consent and legal treatment must be reviewed for the production entity and marke
 | `page_view` | A public route becomes the active view; once per actual route view, not every component render. | Analytics and Meta (`PageView`) after applicable consent. |
 | `pricing_view` | The pricing section meaningfully enters the viewport or the standalone pricing route is viewed; deduplicate within the route view. | Analytics; Meta may receive `ViewContent` when marketing consent permits. |
 | `service_view` | The detailed services route becomes the active view. | Analytics; Meta may receive `ViewContent` when marketing consent permits. |
-| `form_start` | The first meaningful application interaction in a session (focus/change), not merely form rendering. | Analytics and Meta (`LeadFormStart`) after applicable consent. |
-| `form_step_complete` | A step passes validation and the user advances; once for each completion attempt that succeeds. | Analytics. |
+| `form_start` | The first meaningful interaction with a rendered enquiry form (focus/change), not merely form rendering. | Analytics and Meta (`LeadFormStart`) after applicable consent. |
 | `lead_submitted` | The server accepts a valid, Turnstile-verified application for processing. Do not fire on button click or client-only validation. | Analytics and Meta (`Lead`) after applicable consent. |
 | `qualified_lead` | Server scoring returns `qualified` (`score >= 60`). | Analytics, Meta (`QualifiedLead`), and CRM/lead operations after applicable consent. |
 | `booking_view` | A qualified result renders an available market booking action. | Analytics. |
@@ -38,7 +37,6 @@ Before enabling these events, define deduplication, consent/lawful-basis handlin
 | `page_view` | `page_view` | `PageView` | `PageView` when configured/consented |
 | `pricing_view` | `pricing_view` | Optional `ViewContent` | Optional deduplicated `ViewContent` |
 | `form_start` | `form_start` | `LeadFormStart` | Optional deduplicated `LeadFormStart` |
-| `form_step_complete` | `form_step_complete` | — | — |
 | `lead_submitted` | `lead_submitted` | `Lead` | Deduplicated `Lead` |
 | `qualified_lead` | `qualified_lead` | Optional `QualifiedLead` | Deduplicated `QualifiedLead` |
 | `booking_view` | `booking_view` | — | — |
@@ -63,9 +61,6 @@ Use a small typed allowlist. Suggested non-sensitive properties:
 | `landing_page` | `/mvp-development/uk` | Normalized path; never a free-form URL from the client. |
 | `cta_id` | `hero_apply` | Controlled identifier. |
 | `cta_location` | `hero` | Controlled identifier. |
-| `form_step` | `commercial_fit` | Controlled step name; do not attach answers. |
-| `form_step_number` | `4` | Number only. |
-| `project_type` | `b2b_saas` | Optional structured category; review before sending to an ad platform. Never send `other` free text. |
 | `qualification_status` | `qualified` | Analytics/operations only. Use the Meta event name, not raw score, to convey qualification. |
 | `lead_reference` | Opaque ID | Use only where required for operations/deduplication; never expose a sequential database ID. |
 | `case_study_slug` | `approved-slug` | Published slug only. |
@@ -96,8 +91,7 @@ For Meta Conversions API only, supported customer identifiers may be normalized 
 
 ### Application
 
-- `form_start` fires once on first meaningful interaction; prefilled attribution and local-progress restoration do not count.
-- `form_step_complete` fires after successful validation. It contains step identity only, never answers or validation messages.
+- `form_start` fires once on the first meaningful interaction with the enquiry form.
 - Client button clicks do not count as `lead_submitted`.
 - The server returns/creates the authoritative event reference only after validation and anti-spam verification.
 - A duplicate/replayed application must not create duplicate Lead/QualifiedLead events.
@@ -124,7 +118,7 @@ For Meta Conversions API only, supported customer identifiers may be normalized 
 
 | Consent state | Necessary operation | Analytics | Meta marketing |
 |---|---|---|---|
-| No choice / necessary only | Site, form progress needed for the user-requested journey, security, lead submission, and operational storage may function under the reviewed policy. | Do not load/fire optional analytics. | Do not load Pixel or send consent-dependent marketing events. |
+| No choice / necessary only | Site, private enquiry results, security, lead submission, and operational storage may function under the reviewed policy. | Do not load/fire optional analytics. | Do not load Pixel or send consent-dependent marketing events. |
 | Analytics accepted | Necessary operation plus the configured analytics provider. | Fire allowlisted analytics events. | Remains off unless marketing is also accepted. |
 | Marketing accepted | Necessary operation; analytics follows its separate category unless the UI explicitly and lawfully defines dependencies. | Follow analytics choice. | Pixel/CAPI events may fire under the reviewed configuration. |
 | Withdrawn | Preserve only what is required for necessary operation and the consent record. | Stop future optional analytics and clear/revoke provider state where supported. | Stop future marketing events and clear/revoke provider state where supported. |
@@ -159,8 +153,7 @@ Rules:
 - [ ] Each route generates one expected `page_view` and no hydration duplicate.
 - [ ] Anchor navigation does not create a fake route view.
 - [ ] Pricing visibility fires once per route view.
-- [ ] Form restoration does not fire `form_start`; first user interaction does.
-- [ ] Invalid steps do not fire `form_step_complete`.
+- [ ] Rendering the form does not fire `form_start`; first user interaction does.
 - [ ] Repeated submission does not create duplicate lead events.
 - [ ] Only score `>=60` fires `qualified_lead` and reveals booking.
 - [ ] A booking click does not report a completed/attended meeting.

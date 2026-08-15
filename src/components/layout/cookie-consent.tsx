@@ -130,13 +130,13 @@ export function CookieConsent() {
         <p className="eyebrow">Your choices</p>
         <h2 id="consent-title">{settings ? "Cookie settings" : "A calm, useful cookie notice"}</h2>
         <p>
-          Necessary storage keeps the site and application working. With your permission, analytics helps us understand use and marketing helps measure campaigns. You can change this later. See our <Link href="/cookies">cookie notice</Link>.
+          Necessary storage keeps the site and enquiry working. With your permission, analytics helps us understand use and marketing helps measure campaigns. You can change this later. See our <Link href="/cookies">cookie notice</Link>.
         </p>
 
         {settings ? (
           <div className="consent-options">
             <div className="consent-option">
-              <div><strong>Necessary</strong><span>Application progress, security, and saved choices.</span></div>
+              <div><strong>Necessary</strong><span>Enquiry results, security, and saved choices.</span></div>
               <span className="status-chip">Always active</span>
             </div>
             <label className="consent-option" htmlFor="consent-analytics">

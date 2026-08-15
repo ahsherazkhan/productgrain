@@ -21,7 +21,6 @@ export const analyticsEvents = [
   "pricing_view",
   "service_view",
   "form_start",
-  "form_step_complete",
   "lead_submitted",
   "qualified_lead",
   "booking_view",

@@ -7,7 +7,6 @@ import {
   CalendarCheck,
   CheckCircle2,
   Clock3,
-  Lightbulb,
   Mail,
 } from "lucide-react";
 import { ButtonLink } from "@/src/components/ui/primitives";
@@ -27,14 +26,14 @@ const copy = {
   review: {
     eyebrow: "Thoughtful review",
     title: "Your project may be suitable, and we’re reviewing the right starting point.",
-    body: "The details need a little human review before we recommend the right call or first phase. We will follow up using the work email in your application.",
+    body: "The details need a little human review before we recommend the right call or first phase. We will follow up using the work email in your enquiry.",
     icon: Clock3,
   },
   nurture: {
-    eyebrow: "A useful smaller step",
-    title: "The most useful next step may be more validation or a focused prototype.",
-    body: "Thank you for sharing the idea. We will follow up with a practical next step. This may be customer conversations, a product blueprint, or one smaller high-value workflow.",
-    icon: Lightbulb,
+    eyebrow: "Enquiry received",
+    title: "Thank you — we’ll review the most practical next step.",
+    body: "We will review your project note, budget range, and desired start, then follow up by email.",
+    icon: CheckCircle2,
   },
 } as const;
 
@@ -94,10 +93,10 @@ export function ThankYouResult({ reference }: { reference?: string }) {
     return (
       <div className="result-card result-card--generic">
         <CheckCircle2 aria-hidden="true" />
-        <p className="eyebrow">Brief received</p>
-        <h1>Thank you for sharing your product context.</h1>
+        <p className="eyebrow">Enquiry received</p>
+        <h1>Thank you for sharing your project.</h1>
         <p>
-          If you submitted an application in this browser, check your email for
+          If you submitted an enquiry in this browser, check your email for
           the next step. For privacy, qualification details are available only
           in the original submission session.
         </p>
@@ -142,7 +141,7 @@ export function ThankYouResult({ reference }: { reference?: string }) {
               <Mail aria-hidden="true" />
               <span>
                 <strong>Booking link unavailable</strong>
-                {siteConfig.email ? <>We’ll follow up by email. You can also contact <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>.</> : <>We’ll follow up using the work email in your application.</>}
+                {siteConfig.email ? <>We’ll follow up by email. You can also contact <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>.</> : <>We’ll follow up using the work email in your enquiry.</>}
               </span>
             </div>
           )}
@@ -155,7 +154,7 @@ export function ThankYouResult({ reference }: { reference?: string }) {
         <div className="result-next">
           <strong>What happens now</strong>
           <span>
-            We review the complete context and reply by email with the most
+            We review your project note and reply by email with the most
             practical recommendation.
           </span>
           {siteConfig.email ? <a href={`mailto:${siteConfig.email}`}>Contact {siteConfig.email}</a> : null}

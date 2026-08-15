@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { after, before, test } from "node:test";
 
 import { POST } from "../../app/api/leads/route";
-import { validLead } from "../fixtures/lead";
+import { enrichedLead, validLead } from "../fixtures/lead";
 
 const originalFetch = globalThis.fetch;
 const mutableEnvironment = process.env as unknown as Record<string, string | undefined>;
@@ -72,6 +72,66 @@ test("POST /api/leads returns the public result after storage", async () => {
   assert.equal(requests.length, 1);
   assert.equal(requests[0].url, "https://crm.example.test/leads");
   assert.ok(new Headers(requests[0].init?.headers).has("x-needfoundry-signature"));
+  const stored = JSON.parse(String(requests[0].init?.body)) as {
+    type: string;
+    lead: Record<string, unknown>;
+  };
+  assert.equal(stored.type, "lead.created");
+  assert.equal(stored.lead.full_name, "Alex Morgan");
+  assert.equal(stored.lead.phone, null);
+  assert.equal(stored.lead.company, null);
+  for (const field of [
+    "country",
+    "role",
+    "industry",
+    "project_type",
+    "current_workaround",
+    "intended_users",
+    "user_discussions",
+    "user_access",
+    "problem_impact",
+    "product_stage",
+    "decision_authority",
+  ]) {
+    assert.equal(stored.lead[field], "not-provided", field);
+  }
+  assert.equal(stored.lead.score, 70);
+  assert.deepEqual(stored.lead.score_breakdown_json, {
+    budget: 50,
+    timeline: 20,
+  });
+});
+
+test("POST /api/leads remains compatible with legacy enrichment", async () => {
+  const requests: Array<{ url: string; init?: RequestInit }> = [];
+  globalThis.fetch = async (input, init) => {
+    requests.push({ url: String(input), init });
+    return new Response(null, { status: 202 });
+  };
+  delete process.env.TURNSTILE_SECRET_KEY;
+
+  const response = await POST(
+    new Request("https://needfoundry.example/api/leads", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "x-real-ip": "192.0.2.35",
+      },
+      body: JSON.stringify(enrichedLead()),
+    }),
+  );
+  const stored = JSON.parse(String(requests[0]?.init?.body)) as {
+    lead: Record<string, unknown>;
+  };
+
+  assert.equal(response.status, 201);
+  assert.equal(stored.lead.role, "founder");
+  assert.equal(stored.lead.project_type, "workflow-automation");
+  assert.equal(
+    stored.lead.current_workaround,
+    "The operations team copies information between spreadsheets.",
+  );
+  assert.equal(stored.lead.score, 70);
 });
 
 test("POST /api/leads returns field-safe validation issues", async () => {

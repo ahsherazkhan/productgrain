@@ -5,7 +5,7 @@ import { ThankYouResult } from "@/src/components/forms/thank-you-result";
 
 export const metadata: Metadata = {
   title: "Thank You",
-  description: "Your NeedFoundry product brief has been received.",
+  description: "Your NeedFoundry project enquiry has been received.",
   robots: { index: false, follow: false },
 };
 
@@ -25,4 +25,3 @@ export default async function ThankYouPage({
     </MainShell>
   );
 }
-

@@ -17,6 +17,20 @@ const archivedWorkSlugs = [
 const removedWorkSlug = "cost-plus-drugs";
 const legacyReferenceFraming =
   /Codal|\breferences?\b|\/work\/codal(?:\/|%2f)/i;
+const legacyEnrichmentFields = [
+  "country",
+  "role",
+  "industry",
+  "projectType",
+  "aiExpectation",
+  "currentWorkaround",
+  "intendedUsers",
+  "userDiscussions",
+  "userAccess",
+  "problemImpact",
+  "productStage",
+  "decisionAuthority",
+];
 
 test("homepage keeps a concise lead-generation path", async ({ page }) => {
   await page.goto("/");
@@ -117,8 +131,20 @@ test("work shows seven verified NeedFoundry projects and archives unpublished pr
 test("UK landing shows configured pricing and reaches a qualified booking result", async ({ page }) => {
   await page.route("**/api/leads", async (route) => {
     const payload = route.request().postDataJSON();
+    expect(payload.fullName).toBe("Alex Founder");
+    expect(payload.email).toBe("alex@example.com");
+    expect(payload.problemDescription).toBe(
+      "Important delivery work is fragmented across email and spreadsheets every day.",
+    );
     expect(payload.market).toBe("uk");
     expect(payload.budgetRange).toBe("uk-8000-20000");
+    expect(payload.timeline).toBe("within-one-month");
+    expect(payload.contactConsent).toBe(true);
+    expect(payload.marketingConsent).toBe(false);
+    expect(payload).not.toHaveProperty("company");
+    for (const field of legacyEnrichmentFields) {
+      expect(payload).not.toHaveProperty(field);
+    }
     await route.fulfill({
       status: 201,
       contentType: "application/json",
@@ -133,41 +159,96 @@ test("UK landing shows configured pricing and reaches a qualified booking result
   await page.goto("/mvp-development/uk");
   await page.getByRole("button", { name: "Necessary only" }).click();
   await expect(page.getByText("From £8,000", { exact: true })).toBeVisible();
-  await page.getByRole("link", { name: "Check your product fit" }).click();
+  await page.getByRole("link", { name: "Start your enquiry" }).click();
+  await expect(
+    page.getByRole("heading", {
+      name: "Tell us what you’d like to build or improve.",
+    }),
+  ).toBeVisible();
+  const currency = page.getByRole("group", { name: "Budget currency" });
+  await expect(currency.getByRole("button", { name: "GBP" })).toHaveAttribute(
+    "aria-pressed",
+    "true",
+  );
+  await expect(currency.getByRole("button", { name: "USD" })).toHaveAttribute(
+    "aria-pressed",
+    "false",
+  );
   await page.getByLabel("Full name").fill("Alex Founder");
   await page.getByLabel("Work email").fill("alex@example.com");
-  await page.getByLabel("Country").fill("United Kingdom");
-  await page.getByLabel("Role").selectOption("founder");
-  await page.getByRole("button", { name: "Continue" }).click();
-
-  await page.getByLabel("Industry").fill("Logistics");
-  await page.getByLabel("How defined is the solution?").selectOption("b2b-saas");
-  await page.getByLabel("How do you currently see AI fitting into the opportunity?").selectOption("ai-core");
-  await page.getByLabel("What problem are you trying to solve?").fill("Important delivery work is fragmented across email and spreadsheets every day.");
-  await page.getByLabel("What evidence do you currently have?").fill("Spreadsheets, manual email follow-ups, and weekly delivery reports.");
-  await page.getByLabel("Who would use the product?").fill("Operations teams and delivery managers.");
-  await page.getByRole("button", { name: "Continue" }).click();
-
-  await page.getByRole("group", { name: "Have you discussed" }).getByLabel("Yes", { exact: true }).check();
-  await page.getByRole("group", { name: "Can you provide access" }).getByLabel("Yes", { exact: true }).check();
-  await page.getByLabel("It creates significant manual work or operational cost").check();
-  await page.getByLabel("Existing business process that needs software").check();
-  await page.getByRole("button", { name: "Continue" }).click();
-
-  await page.getByLabel("£8,000–£20,000").check();
-  await page.getByLabel("Within one month").check();
-  await page.getByLabel("I make the final decision").check();
-  await page.getByRole("button", { name: "Continue" }).click();
-
-  await page.getByText("I consent to NeedFoundry contacting me").click();
-  await page.getByRole("button", { name: "Request my free Product Clarity Call" }).click();
+  await page.getByLabel("What would you like to build or improve?").fill(
+    "Important delivery work is fragmented across email and spreadsheets every day.",
+  );
+  await page
+    .getByLabel("Approximate first-phase budget")
+    .selectOption("uk-8000-20000");
+  await page
+    .getByLabel("When would you like to start?")
+    .selectOption("within-one-month");
+  await page.getByLabel(/I consent to NeedFoundry contacting me/).check();
+  await page.getByRole("button", { name: "Send project enquiry" }).click();
   await expect(page).toHaveURL(/thank-you/);
   await expect(page.getByRole("link", { name: "Choose a time for the free call" })).toBeVisible();
 });
 
-test("US landing uses US prices", async ({ page }) => {
+test("US landing keeps its currency toggle and submitted market aligned", async ({ page }) => {
+  await page.route("**/api/leads", async (route) => {
+    const payload = route.request().postDataJSON();
+    expect(payload.market).toBe("us");
+    expect(payload.budgetRange).toBe("us-10000-25000");
+    expect(payload.timeline).toBe("within-three-months");
+    await route.fulfill({
+      status: 201,
+      contentType: "application/json",
+      body: JSON.stringify({
+        leadId: "22222222-2222-4222-8222-222222222222",
+        status: "qualified",
+        bookingUrl: "https://example.com/book-us",
+      }),
+    });
+  });
+
   await page.goto("/mvp-development/us");
   await page.getByRole("button", { name: "Necessary only" }).click();
   await expect(page.getByText("From $10,000", { exact: true })).toBeVisible();
   await expect(page.getByText("From £8,000", { exact: true })).toHaveCount(0);
+  await page.getByRole("link", { name: "Start your enquiry" }).click();
+
+  const currency = page.getByRole("group", { name: "Budget currency" });
+  const gbp = currency.getByRole("button", { name: "GBP" });
+  const usd = currency.getByRole("button", { name: "USD" });
+  const budget = page.getByLabel("Approximate first-phase budget");
+  await expect(usd).toHaveAttribute("aria-pressed", "true");
+  await expect(gbp).toHaveAttribute("aria-pressed", "false");
+  await expect(
+    budget.getByRole("option", { name: "$10,000–$25,000" }),
+  ).toBeAttached();
+
+  await gbp.click();
+  await expect(gbp).toHaveAttribute("aria-pressed", "true");
+  await expect(
+    budget.getByRole("option", { name: "£8,000–£20,000" }),
+  ).toBeAttached();
+  await expect(
+    budget.getByRole("option", { name: "$10,000–$25,000" }),
+  ).toHaveCount(0);
+
+  await usd.click();
+  await expect(usd).toHaveAttribute("aria-pressed", "true");
+  await expect(
+    budget.getByRole("option", { name: "$10,000–$25,000" }),
+  ).toBeAttached();
+
+  await page.getByLabel("Full name").fill("Taylor Operator");
+  await page.getByLabel("Work email").fill("taylor@example.com");
+  await page.getByLabel("What would you like to build or improve?").fill(
+    "We need one dependable workflow for customer requests, approvals, and delivery handoffs.",
+  );
+  await budget.selectOption("us-10000-25000");
+  await page
+    .getByLabel("When would you like to start?")
+    .selectOption("within-three-months");
+  await page.getByLabel(/I consent to NeedFoundry contacting me/).check();
+  await page.getByRole("button", { name: "Send project enquiry" }).click();
+  await expect(page).toHaveURL(/thank-you/);
 });

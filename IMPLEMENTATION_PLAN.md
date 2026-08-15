@@ -8,7 +8,7 @@ The application uses five route families:
 
 1. Main marketing pages: home, services, process, pricing, work, and about.
 2. Market campaigns: a shared UK/US MVP landing-page component plus an international MVP overview.
-3. Conversion: a reusable five-step application and a server-evaluated result experience.
+3. Conversion: a reusable one-page project enquiry and a server-evaluated result experience.
 4. Legal and system pages: privacy, terms, cookies, not-found, error, sitemap, and robots.
 5. Server endpoints: lead submission and consent-aware Meta event forwarding.
 
@@ -31,7 +31,7 @@ The work area publishes seven verified NeedFoundry client projects with confirme
 
 ### 3. Lead journey
 
-- Build the reusable five-step form with accessible validation, an error summary, market budgets, session-local progress, attribution capture, and consent separation.
+- Build the reusable concise form with five required answers, accessible validation, an error summary, market budgets, attribution capture, and consent separation.
 - Implement server validation, deterministic scoring, rate limiting, duplicate resistance, Turnstile verification, storage adapters, Resend email, CRM webhook delivery, and consent-aware analytics.
 - Return an opaque result reference; expose market booking links only for qualified results.
 
@@ -51,11 +51,9 @@ The work area publishes seven verified NeedFoundry client projects with confirme
 
 ## Canonical scoring interpretation
 
-- `researching_for_someone_else` contributes 3 role/authority points, resolving the brief's placement mismatch.
-- `primary_user` in user discussions contributes 10 user-access points unless explicit access is `yes` (15).
-- Unspecified `other` choices receive no extra points.
-- A `not_sure` budget receives 8 points and never causes automatic rejection.
-- Thresholds are fixed: 60+ qualified, 40–59 review, below 40 nurture.
+- The concise enquiry scores only approximate first-phase budget and desired start; deeper discovery questions belong in the conversation rather than the initial form.
+- A `not_sure` budget receives 30 points and routes to human review rather than automatic rejection.
+- Thresholds are fixed: 60+ qualified, 30–59 review, below 30 nurture.
 
 ## External launch dependencies
 

@@ -87,7 +87,7 @@ function applicantCopy(
   }
   if (lead.qualificationStatus === "review") {
     return {
-      subject: "We are reviewing your product brief",
+      subject: "We are reviewing your project enquiry",
       paragraphs: [
         `Hi ${name},`,
         "Thanks for telling us about the problem you are trying to solve.",
@@ -98,11 +98,11 @@ function applicantCopy(
     };
   }
   return {
-    subject: "We received your product brief",
+    subject: "We received your project enquiry",
     paragraphs: [
       `Hi ${name},`,
-      "Thanks for telling us about the problem you are trying to solve. We have received your application and will use the information to determine the most practical next step.",
-      "Based on the current stage, further problem validation or a smaller prototype may be the most useful next step. We will follow up by email.",
+      "Thanks for telling us what you would like to build or improve. We have received your enquiry and will review the most practical next step.",
+      "We will follow up by email after reviewing your note, budget range, and desired start.",
       "The initial Product Clarity Call is free. No payment is required unless you later approve a defined scope, timeline, and milestone plan.",
       "NeedFoundry",
     ],
@@ -140,14 +140,11 @@ export function internalLeadMessage(
   const details: Array<[string, string]> = [
     ["Name", lead.fullName],
     ["Email", lead.email],
-    ["Country", lead.country],
-    ["Role", displayValue(lead.role)],
-    ["Industry", lead.industry],
-    ["AI expectation", lead.aiExpectation ? displayValue(lead.aiExpectation) : "Not provided"],
-    ["Project type", displayValue(lead.projectType)],
+    ...(lead.company ? [["Company or project", lead.company] as [string, string]] : []),
+    ["Market", lead.market.toUpperCase()],
     ["Package interest", lead.packageInterest ? displayValue(lead.packageInterest) : "Not selected"],
     ["Budget", displayValue(lead.budgetRange)],
-    ["Timeline", displayValue(lead.timeline)],
+    ["Desired start", displayValue(lead.timeline)],
     ["Score", String(lead.score)],
     ["Qualification", displayValue(lead.qualificationStatus)],
     ["Landing page", lead.landingPage ?? "Not captured"],
@@ -211,10 +208,10 @@ export function emailStatusMessage(
   if (status === "qualified") {
     return bookingAvailable
       ? "Your project looks like a potential fit. Choose a suitable time for a free product discussion."
-      : "Your project looks like a potential fit. We’ll follow up using the work email in your application.";
+      : "Your project looks like a potential fit. We’ll follow up using the work email in your enquiry.";
   }
   if (status === "review") {
     return "Thanks. Your project may be suitable, but we would like to review the details before recommending the right call.";
   }
-  return "Thanks for sharing the idea. Based on the current stage, the most useful next step may be further problem validation or a smaller prototype.";
+  return "Thanks for getting in touch. We’ll review your project note and follow up by email with the most practical next step.";
 }

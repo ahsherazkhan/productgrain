@@ -39,7 +39,7 @@ Core message:
 - `/mvp-development/us`
 
 ### Conversion and outcomes
-- `/apply` (multi-step fit check form)
+- `/apply` (concise one-page project enquiry)
 - `/thank-you` (result page, optional booking CTA for qualified leads)
 
 ### System / legal / fallback
@@ -77,7 +77,7 @@ Core message:
 
 ## Lead qualification flow (what happens end-to-end)
 1. Visitor lands on marketing page (often `/apply` or campaign landing)
-2. 5-step form saves progress in session storage (`needfoundry-application-v1`)
+2. One-page form collects five required answers plus optional company and marketing consent
 3. Attribution capture runs in browser and is consent-gated for advertising IDs
 4. Form validates required fields, consent, and anti-spam with Turnstile
 5. API `/api/leads`:
@@ -94,16 +94,16 @@ Core message:
    - `nurture`
 
 ## Qualification model and decision rules
-- Server-side scoring uses fixed weighted fields (role, product stage, budget, timeline, access, impact)
+- Server-side scoring uses the two commercial fields needed for routing: budget and desired start
 - Status thresholds:
   - `qualified`: 60+
-  - `review`: 40–59
-  - `nurture`: <40
+  - `review`: 30–59
+  - `nurture`: <30
 - Budget ranges are market-specific (`uk-*` vs `us-*`) and validated against selected market.
 
 ## Form and consent behavior
-- 5-step form with explicit progress bar and accessible step navigation
-- Session-local progress persistence
+- One-page form with five required answers: name, work email, project note, budget, and desired start
+- Optional company/project name
 - Required contact consent (separate from marketing consent)
 - Optional marketing consent checkbox (default off)
 - Required Turnstile challenge
@@ -112,7 +112,7 @@ Core message:
 
 ## AI-related product/marketing treatment
 - Messaging is AI-aware: AI can be core, enhancement, exploratory, optional, or unnecessary
-- AI-specific sections in content and form (`productType`, `aiExpectation`, `existing products`) focus on suitability of AI
+- AI-specific marketing content explains suitability without making visitors classify AI or product maturity in the initial enquiry
 - No evidence of a generative AI assistant inside the lead form itself; messaging is product strategy-focused.
 - There is a `chatgpt-auth.ts` utility for ChatGPT header-based identity extraction/sign-in paths, not yet wired into active public route flow.
 

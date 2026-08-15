@@ -7,6 +7,11 @@ import type {
 
 type Fetcher = typeof fetch;
 
+// The deployed leads table predates the concise form and keeps these legacy
+// enrichment columns non-null. This explicit sentinel records absence without
+// inventing an applicant answer; the normalized lead object remains undefined.
+const omittedLegacyField = "not-provided";
+
 function databaseRecord(lead: LeadRecord): Record<string, unknown> {
   return {
     id: lead.id,
@@ -17,22 +22,22 @@ function databaseRecord(lead: LeadRecord): Record<string, unknown> {
     email: lead.email,
     phone: lead.phone ?? null,
     company: lead.company ?? null,
-    country: lead.country,
+    country: lead.country ?? omittedLegacyField,
     market: lead.market,
-    role: lead.role,
-    industry: lead.industry,
-    project_type: lead.projectType,
+    role: lead.role ?? omittedLegacyField,
+    industry: lead.industry ?? omittedLegacyField,
+    project_type: lead.projectType ?? omittedLegacyField,
     package_interest: lead.packageInterest ?? null,
     problem_description: lead.problemDescription,
-    current_workaround: lead.currentWorkaround,
-    intended_users: lead.intendedUsers,
-    user_discussions: lead.userDiscussions,
-    user_access: lead.userAccess,
-    problem_impact: lead.problemImpact,
-    product_stage: lead.productStage,
+    current_workaround: lead.currentWorkaround ?? omittedLegacyField,
+    intended_users: lead.intendedUsers ?? omittedLegacyField,
+    user_discussions: lead.userDiscussions ?? omittedLegacyField,
+    user_access: lead.userAccess ?? omittedLegacyField,
+    problem_impact: lead.problemImpact ?? omittedLegacyField,
+    product_stage: lead.productStage ?? omittedLegacyField,
     budget_range: lead.budgetRange,
     timeline: lead.timeline,
-    decision_authority: lead.decisionAuthority,
+    decision_authority: lead.decisionAuthority ?? omittedLegacyField,
     score: lead.score,
     score_breakdown_json: lead.scoreBreakdown,
     qualification_status: lead.qualificationStatus,

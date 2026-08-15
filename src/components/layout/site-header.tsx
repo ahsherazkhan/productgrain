@@ -89,8 +89,8 @@ export function CampaignHeader({ market }: { market: "uk" | "us" }) {
             <a key={item.href} href={item.href}>{item.label}</a>
           ))}
         </nav>
-        <a className="header-cta" href="#application" aria-label={`Start the ${market.toUpperCase()} product fit application`}>
-          Check your fit
+        <a className="header-cta" href="#application" aria-label={`Start a ${market.toUpperCase()} project enquiry`}>
+          Start your enquiry
         </a>
       </div>
     </header>

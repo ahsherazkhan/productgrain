@@ -1,6 +1,6 @@
 # NeedFoundry
 
-NeedFoundry is a founder-led product strategy, MVP development, and custom software studio. This repository contains its UK/US marketing site and qualification journey: market-aware pricing, a multi-step application, deterministic server-side scoring, lead storage adapters, transactional email, attribution, consent-aware analytics, and qualified-lead booking.
+NeedFoundry is a founder-led product strategy, MVP development, and custom software studio. This repository contains its UK/US marketing site and qualification journey: market-aware pricing, a concise one-page project enquiry, deterministic server-side scoring, lead storage adapters, transactional email, attribution, consent-aware analytics, and qualified-lead booking.
 
 The project uses the App Router on the Cloudflare-compatible [vinext](https://github.com/cloudflare/vinext) starter. It is designed for OpenAI Sites/Cloudflare Workers and keeps external services optional so missing analytics or email credentials never take down the core website.
 
@@ -141,16 +141,16 @@ Free-text descriptions are stored only in the configured lead system. They must 
 Qualification thresholds are fixed:
 
 - `60+`: qualified; show the correct market booking CTA, price reminder, and call-preparation guidance.
-- `40–59`: manual review; notify the team and do not expose booking automatically.
-- `<40`: nurture; offer problem-validation/prototype guidance and email contact, without automatic booking.
+- `30–59`: manual review; notify the team and do not expose booking automatically.
+- `<30`: nurture; follow up by email without exposing booking automatically.
 
-Selecting an unknown budget is not an automatic rejection. Booking URLs must be validated, selected on the server-derived market/result, and never accepted from form input.
+Scoring uses only the approximate first-phase budget and desired start collected on the concise form. Selecting an unknown budget routes the enquiry to review rather than rejecting it. Booking URLs must be validated, selected on the server-derived market/result, and never accepted from form input.
 
 ## Storage and migrations
 
 ### Supabase/PostgreSQL
 
-Supabase is the preferred durable store in the product brief.
+Supabase is the preferred durable lead store. The concise enquiry leaves retired enrichment fields absent in the normalized lead; the current repository writes an explicit `not-provided` sentinel only for legacy non-null database columns.
 
 1. Create a Supabase project and apply [`db/migrations/001_create_leads_supabase.sql`](db/migrations/001_create_leads_supabase.sql) using the Supabase SQL editor or your controlled migration runner.
 2. Confirm the `leads` table contains the contact, project, scoring, consent, attribution, and timestamp fields documented by the migration.

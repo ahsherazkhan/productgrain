@@ -5,9 +5,9 @@ import { Container, Breadcrumbs } from "@/src/components/ui/primitives";
 import { defaultMarket } from "@/src/config/markets";
 
 export const metadata: Metadata = {
-  title: "Product Fit Check",
+  title: "Start a Project",
   description:
-    "Tell us about the problem—not the feature list. Share what happens today, who experiences it, and why it matters.",
+    "Share a short project note, approximate budget, and desired start. No technical specification is required.",
   alternates: { canonical: "/apply" },
 };
 
@@ -18,10 +18,10 @@ export default function ApplyPage({ searchParams }: { searchParams: Promise<{ ma
         <Container>
           <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Apply" }]} />
           <div>
-            <p className="eyebrow"><span className="eyebrow-dot" />Product fit check</p>
-            <h1>Tell us about the problem — not the feature list.</h1>
-            <p>You do not need to have the product completely figured out. Share what happens today, who experiences the problem, and why solving it matters.</p>
-            <p className="hero-disclosure">6–8 minute fit check · Qualified enquiries can book a free 30-minute call.</p>
+            <p className="eyebrow"><span className="eyebrow-dot" />Start a project</p>
+            <h1>A short note is enough to start.</h1>
+            <p>Tell us what you would like to build or improve, your approximate first-phase budget, and when you hope to start. We will ask the deeper discovery questions later.</p>
+            <p className="hero-disclosure">About 2 minutes · No technical specification · No payment required.</p>
           </div>
         </Container>
       </section>

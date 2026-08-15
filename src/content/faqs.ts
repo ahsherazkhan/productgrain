@@ -9,7 +9,7 @@ export const faqs = [
     id: "technical-specification",
     question: "Do I need to know what the solution should be?",
     answer:
-      "No. You need to explain the problem, intended users, current workflow, and why it matters. We help determine the right product direction.",
+      "No. A short note about what you would like to build or improve is enough to start. We explore the workflow, users, and right product direction together later.",
   },
   {
     id: "ai-native",
