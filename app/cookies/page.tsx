@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { LegalPage } from "@/src/components/legal/legal-page";
-export const metadata: Metadata = { title: "Cookie Notice", description: "How necessary, analytics, and marketing technologies are controlled on NeedFoundry.", alternates: { canonical: "/cookies" } };
+import { siteConfig } from "@/src/config/site";
+export const metadata: Metadata = { title: "Cookie Notice", description: `How necessary, analytics, and marketing technologies are controlled on the ${siteConfig.brandName} website.`, alternates: { canonical: "/cookies" } };
 const sections = [
   { title: "How choices work", paragraphs: ["Necessary storage remains active to operate and protect project enquiries and remember consent settings. Analytics and marketing categories remain off until selected."] },
   { title: "Necessary", items: ["Consent choice storage.", "Private qualification results during the browser session.", "Security, anti-spam, rate-limiting, and load-balancing technologies where configured.", "First-party attribution only where the final legal review confirms an appropriate basis."] },
@@ -9,4 +10,4 @@ const sections = [
   { title: "Change your settings", paragraphs: ["Use the “Cookie settings” control in the footer to reopen choices. Disabling a category prevents future optional loading; a final implementation should also document how provider cookies already set can be removed in the browser."] },
   { title: "Provider inventory", paragraphs: ["Before launch, replace this draft section with an audited cookie and storage inventory including name, provider, purpose, category, duration, and market-specific legal basis."] },
 ] as const;
-export default function CookiesPage() { return <LegalPage title="Cookie notice" description="Necessary storage stays active. Optional analytics and marketing follow the choices you make." updated="15 August 2026" sections={sections} />; }
+export default function CookiesPage() { return <LegalPage title="Cookie notice" description="Necessary storage stays active. Optional analytics and marketing follow the choices you make." updated="16 August 2026" sections={sections} />; }

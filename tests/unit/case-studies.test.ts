@@ -44,6 +44,10 @@ test("publishes exactly seven verified NeedFoundry projects", () => {
     JSON.stringify(published),
     /Codal|\breferences?\b|\/work\/codal\//i,
   );
+  assert.doesNotMatch(
+    JSON.stringify(published.map((item) => item.provenance)),
+    /ProductGrain/i,
+  );
   assert.equal(getPublishedCaseStudyBySlug("claimdeck")?.clientName, "ClaimDeck");
   assert.equal(getPublishedCaseStudyBySlug("cost-plus-drugs"), undefined);
   assert.equal(getPublishedCaseStudyBySlug("fitish"), undefined);

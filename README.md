@@ -1,10 +1,10 @@
-# NeedFoundry
+# ProductGrain
 
-NeedFoundry is a founder-led product strategy, MVP development, and custom software studio. This repository contains its UK/US marketing site and qualification journey: market-aware pricing, a concise one-page project enquiry, deterministic server-side scoring, lead storage adapters, transactional email, attribution, consent-aware analytics, and qualified-lead booking.
+ProductGrain is a founder-led, product-first software studio for AI-native software. This repository contains its UK/US marketing site and qualification journey: market-aware pricing, a concise one-page project enquiry, deterministic server-side scoring, lead storage adapters, transactional email, attribution, consent-aware analytics, and qualified-lead booking.
 
 The project uses the App Router on the Cloudflare-compatible [vinext](https://github.com/cloudflare/vinext) starter. It is designed for OpenAI Sites/Cloudflare Workers and keeps external services optional so missing analytics or email credentials never take down the core website.
 
-> Launch note: the `/work` page publishes seven verified NeedFoundry client projects with confirmed founder authorization: ClaimDeck, CPAP.com, CallPotential, BUILT BY GIRLS, Fuze Health, Children's Health, and MANTL. Three independent public product profiles remain archived. Testimonials remain hidden until approved. Founder/team assets, legal copy, service credentials, and production contact details still require review before launch. See [the content replacement checklist](docs/content-replacement-checklist.md) and [the deployment checklist](docs/deployment-checklist.md).
+> Launch note: the `/work` page publishes seven historically attributed NeedFoundry client projects with confirmed founder authorization: ClaimDeck, CPAP.com, CallPotential, BUILT BY GIRLS, Fuze Health, Children's Health, and MANTL. ProductGrain is the current page author and publisher; the recorded NeedFoundry delivery name, proof copy, and software-creator attribution remain unchanged until rebrand-specific client permission is confirmed. Three independent public product profiles remain archived. Testimonials remain hidden until approved. Founder/team assets, legal copy, service credentials, and production contact details still require review before launch. See [the content replacement checklist](docs/content-replacement-checklist.md) and [the deployment checklist](docs/deployment-checklist.md).
 
 ## Technology
 
@@ -118,6 +118,15 @@ Copy `.env.example` to `.env.local`. Public variables are intentionally visible 
 | `LEAD_RATE_LIMIT_MAX_REQUESTS` | Recommended | Maximum accepted attempts per rate-limit window. The example uses five. |
 
 An empty optional integration must result in a controlled fallback. Do not represent an adapter as operational until it has been tested with real credentials in the target environment.
+
+### ProductGrain transition safeguards
+
+The public identity now comes from `src/config/site.ts`, but compatibility and provenance are intentionally separate from current-brand copy:
+
+- Existing `needfoundry-*` browser storage keys, `needfoundry:*` events, analytics script IDs, the `x-needfoundry-signature` webhook header, package identity, and test-only `.example`/`.invalid` hosts remain unchanged.
+- The seven published projects retain their verified historical NeedFoundry delivery name and SoftwareApplication creator attribution. ProductGrain is the current profile-page author and publisher.
+- The canonical origin, sender address, public contact address, and company social link must not move to ProductGrain values until the domain, sender, and profiles are controlled and verified.
+- ProductGrain is a public-facing brand in the draft legal pages; the actual legal entity, data controller, privacy contact, and professional approval remain launch requirements.
 
 Cookie marketing consent is recorded separately from the form’s optional email-update consent. Meta Pixel/CAPI uses the former only; opting into studio emails does not imply advertising consent.
 

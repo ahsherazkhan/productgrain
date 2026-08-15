@@ -10,9 +10,10 @@ import {
 } from "@/src/components/ui/primitives";
 import { ProcessSection, FaqSection, FinalCta } from "@/src/components/marketing/sections";
 import { mvpFaqIds } from "@/src/content/home";
+import { siteConfig } from "@/src/config/site";
 
 export const metadata: Metadata = {
-  title: "Product-First AI MVP Development | NeedFoundry",
+  title: { absolute: `Product-First AI MVP Development | ${siteConfig.brandName}` },
   description:
     "Build the right first phase: validate the problem, shape the right solution, and launch one complete workflow before scaling.",
   alternates: {

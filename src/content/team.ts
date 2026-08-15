@@ -1,3 +1,5 @@
+import { siteConfig } from "@/src/config/site";
+
 export type FounderProfile = {
   readonly name: string | null;
   readonly role: string;
@@ -24,9 +26,8 @@ export type TeamMember = {
 };
 
 export const founderSection = {
-  heading: "Founder-led, backed by an in-house team",
-  copy:
-    "NeedFoundry works directly with industry experts, business owners, and founders to turn unclear product ideas into focused software. The founder remains involved from the first product discussion through delivery, while an in-house team supports product design, engineering, quality assurance, and launch.",
+  heading: "Founder-led, backed by a senior team",
+  copy: `${siteConfig.brandName} works directly with industry experts, business owners, and founders to turn unclear product ideas into focused software. The founder remains involved from the first product discussion through delivery, while a senior team supports product design, engineering, quality assurance, and launch.`,
 } as const;
 
 export const founderProfile: FounderProfile = {

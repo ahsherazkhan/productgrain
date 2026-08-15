@@ -4,24 +4,25 @@ import { MainShell } from "@/src/components/layout/main-shell";
 import { PageHero, Container, SectionIntro, Breadcrumbs } from "@/src/components/ui/primitives";
 import { FinalCta } from "@/src/components/marketing/sections";
 import { workingPrinciples } from "@/src/content/about";
+import { siteConfig } from "@/src/config/site";
 
 export const metadata: Metadata = {
-  title: "About NeedFoundry Product Studio",
-  description: "Why NeedFoundry keeps product thinking connected to custom software design, engineering, launch, and iteration.",
+  title: { absolute: `About ${siteConfig.brandName}` },
+  description: `${siteConfig.brandName} helps people with deep industry knowledge turn real workflow problems into focused AI-native software.`,
   alternates: { canonical: "/about" },
 };
 
 export default function AboutPage() {
   return (
     <MainShell>
-      <PageHero eyebrow="About NeedFoundry" title="Product-first thinking, practical shipping." copy="NeedFoundry helps people who understand a real market problem turn that insight into a focused AI-native software launch.">
+      <PageHero eyebrow={`About ${siteConfig.brandName}`} title="Built around how your market actually works." copy={`${siteConfig.brandName} helps people with deep industry knowledge turn real workflow problems into focused AI-native software.`}>
         <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "About" }]} />
       </PageHero>
       <section className="section section--surface">
         <Container>
           <div className="story-grid">
-            <div><p className="eyebrow">Why NeedFoundry exists</p><h2>Good software starts before the first line of code.</h2></div>
-            <div><p>Industry experts often understand a meaningful problem in detail, but they need a practical path to validate whether, and how, to build.</p><p>NeedFoundry combines validation, product shaping, engineering, and delivery in one accountable path. We reduce uncertainty before scope expands and build one complete workflow people can use.</p></div>
+            <div><p className="eyebrow">Why {siteConfig.brandName} exists</p><h2>Work with the grain of the market.</h2></div>
+            <div><p>Every market has a grain: the workflows, constraints, decisions, and hard-won knowledge that shape how work really gets done.</p><p>We learn that context before deciding what to build. Then we connect research, validation, design, and engineering in one accountable path—from a promising problem to software people can use.</p></div>
           </div>
         </Container>
       </section>

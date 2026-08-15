@@ -1,4 +1,4 @@
-# NeedFoundry deployment checklist
+# ProductGrain deployment checklist
 
 Use this checklist for private preview and production releases. The canonical path for this repository is OpenAI Sites with Cloudflare Worker-compatible vinext output. `.openai/hosting.json` declares logical D1/R2 bindings; Sites owns the real hosted resources and runtime values. Do not introduce a parallel `wrangler.jsonc` for this starter.
 
@@ -217,7 +217,7 @@ Do not weaken a failing check merely to release. Record intentionally waived non
 ## 11. SEO and performance QA
 
 - [ ] Every indexable route has unique title/description, canonical URL, and correct Open Graph metadata.
-- [ ] Homepage title/description match the approved NeedFoundry copy.
+- [ ] Homepage title/description match the approved ProductGrain copy.
 - [ ] UK/US titles, `en-GB`/`en-US` metadata, canonical URLs, and reciprocal hreflang are correct.
 - [ ] Sitemap and robots output use the production origin and exclude private/system result URLs as designed.
 - [ ] Organization, ProfessionalService, Service, and BreadcrumbList structured data is valid and contains no fake ratings, offices, awards, or reviews.

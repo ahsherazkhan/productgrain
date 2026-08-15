@@ -1,8 +1,8 @@
-# NeedFoundry engineering standards
+# ProductGrain engineering standards
 
 ## Product intent
 
-- Position NeedFoundry as a founder-led product partner, not a feature-list coding agency.
+- Position ProductGrain as a founder-led product partner, not a feature-list coding agency.
 - Write for nontechnical founders, operators, consultants, and business owners in the UK and US.
 - Keep language direct, calm, credible, and free of unsupported superlatives.
 - Never fabricate clients, logos, case studies, metrics, testimonials, awards, people, offices, or credentials.
@@ -30,9 +30,9 @@
 
 ## Design and accessibility
 
-- Use the configured ink, paper, cobalt, and restrained signal-green palette.
+- Use the configured ink, paper, indigo-cobalt, and restrained apricot palette; reserve green for semantic success states.
 - Prefer editorial typography, generous spacing, thin borders, meaningful CSS visuals, and minimal motion.
-- Avoid generic stock-team imagery, excessive gradients, glassmorphism, parallax, and decorative animation.
+- Avoid generic stock-team imagery, gradients, glassmorphism, parallax, and decorative animation.
 - Support keyboard navigation, visible focus, semantic headings, accessible dialogs/accordions/menus, announced form progress, error summaries, and `prefers-reduced-motion`.
 - Build mobile-first for approximately 360–1600px and keep prose to a comfortable reading measure.
 
@@ -53,4 +53,3 @@
 - Add an end-to-end test for the UK qualified flow and US pricing.
 - Before handoff run linting, strict type checking, unit/integration tests, end-to-end tests, and a production build.
 - Verify all required routes, internal links, consent behavior, empty states, responsive layouts, and client console health.
-

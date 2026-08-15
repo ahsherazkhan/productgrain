@@ -14,6 +14,7 @@ export type SiteConfig = {
   readonly tagline: string;
   readonly positioning: string;
   readonly description: string;
+  readonly footerDescriptor: string;
   readonly siteUrl: string | null;
   readonly founderName: string | null;
   readonly founderTitle: string;
@@ -34,9 +35,9 @@ export const brandColors = {
   paper: "#F6F5F0",
   surface: "#FFFFFF",
   surfaceMuted: "#EEF1F6",
-  cobalt: "#415CF6",
-  cobaltDark: "#2F45C7",
-  signal: "#BFF078",
+  cobalt: "#3F51D9",
+  cobaltDark: "#303FAE",
+  apricot: "#F3A56F",
   text: "#121A2A",
   textMuted: "#606B7E",
   border: "#D9DEE8",
@@ -46,12 +47,13 @@ export const brandColors = {
 } as const;
 
 export const siteConfig = {
-  brandName: "NeedFoundry",
-  tagline: "The AI-native software studio for focused product outcomes.",
+  brandName: "ProductGrain",
+  tagline: "The product-first studio for AI-native software.",
   positioning:
-    "NeedFoundry is an AI-native software studio for industry experts, business owners, and nontechnical founders who want to turn real workflow problems into focused AI-enabled software.",
+    "ProductGrain is a product-first studio for AI-native software. We help industry experts and nontechnical founders research real problems, validate product opportunities, and build software their market actually needs.",
   description:
-    "NeedFoundry helps industry experts, business owners, and nontechnical founders turn real industry problems into focused software products—from product strategy to product design to engineering and launch.",
+    "ProductGrain helps industry experts and nontechnical founders validate product opportunities and build focused AI-native software around real market needs.",
+  footerDescriptor: "Founder-led product strategy, design, and engineering.",
   siteUrl: process.env.NEXT_PUBLIC_SITE_URL || null,
   founderName: null,
   founderTitle: "Founder & Product Engineer",
@@ -86,6 +88,11 @@ export const siteConfig = {
 } as const satisfies SiteConfig;
 
 export const siteMetadata = {
-  title: "Product-First AI SaaS and Software Studio | NeedFoundry",
+  title: "Product-First AI Software Studio | ProductGrain",
   description: siteConfig.description,
+  openGraphAlt:
+    "ProductGrain — the product-first studio for AI-native software.",
+  socialImage: "/og.png?v=productgrain-20260816",
+  favicon: "/favicon.svg?v=productgrain-20260816",
+  shortcutIcon: "/favicon.ico?v=productgrain-20260816",
 } as const;

@@ -1,6 +1,6 @@
-# NeedFoundry Meta launch plan
+# ProductGrain Meta launch plan
 
-This plan covers Facebook and Instagram lead acquisition for NeedFoundry’s website application flow. It is a planning framework, not a forecast or guarantee. Confirm current Meta product names, advertising rules, consent requirements, and billing currency before launch.
+This plan covers Facebook and Instagram lead acquisition for ProductGrain’s website enquiry flow. It is a planning framework, not a forecast or guarantee. Confirm current Meta product names, advertising rules, consent requirements, and billing currency before launch.
 
 ## Objective and operating principle
 

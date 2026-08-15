@@ -1,4 +1,4 @@
-# NeedFoundry content replacement checklist
+# ProductGrain content replacement checklist
 
 Use this checklist before public launch. The website must never invent names, customers, employment relationships, screenshots, quotations, results, awards, offices, ratings, or permissions. Keep capability-led fallback content visible until verified proof is ready.
 

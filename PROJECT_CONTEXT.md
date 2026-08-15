@@ -1,7 +1,7 @@
-# NeedFoundry Website Context (v1.1)
+# ProductGrain Website Context (v1.2)
 
 ## What this repo is
-NeedFoundry is a founder-led product strategy + software studio marketing + qualification website built with:
+ProductGrain is a founder-led product strategy + software studio marketing + qualification website built with:
 - Next.js App Router
 - React
 - TypeScript in strict mode
@@ -21,7 +21,7 @@ Geography and market split:
 - International traffic defaults via `NEXT_PUBLIC_MARKET_DEFAULT`
 
 Core message:
-- Product-first, AI-native studio
+- The product-first studio for AI-native software
 - AI is evaluated per workflow; not forced as a default
 - Start with real problem and users before product design/development decisions
 
@@ -125,21 +125,22 @@ Core message:
 - Ink: `#0B1324`
 - Paper: `#F6F5F0`
 - Surface: `#FFFFFF`
-- Cobalt: `#415CF6`
-- Cobalt-dark: `#2F45C7`
-- Signal: `#BFF078`
-- Success/Warning/Error tokens present and used contextually
+- Indigo cobalt: `#3F51D9`
+- Indigo cobalt hover: `#303FAE`
+- Apricot: `#F3A56F` for small accents on dark surfaces only
+- Success green: `#1F8A5B` for semantic success states only
+- Warning/error tokens remain semantic and are not mechanically recoloured
 
 ### Layout/style characteristics
 - Editorial headline sizing, restrained section spacing, thin borders, and soft shadows
-- “ruled” textured background style (`radial + subtle grid`) in many hero/utility sections
+- “Ruled” SVG grid-and-dot texture in many hero and utility sections, without gradients
 - Editorial cards, three-column feature/pricing grids, process timeline visuals
 - Sticky header, mobile menu, campaign header variant
 - Accessibility-oriented focus styles and keyboard support (skip link, visible focus, dialog trap for consent)
 
 ## Work/portfolio model and media
 - Content-driven profile records live in `src/content/case-studies.ts`.
-- Seven projects—ClaimDeck, CPAP.com, CallPotential, BUILT BY GIRLS, Fuze Health, Children's Health, and MANTL—are published as verified NeedFoundry client work.
+- Seven projects—ClaimDeck, CPAP.com, CallPotential, BUILT BY GIRLS, Fuze Health, Children's Health, and MANTL—remain published with their verified historical NeedFoundry delivery attribution. ProductGrain authors and publishes the current profile pages without rewriting the recorded software creator.
 - All seven use `verified-client-work`, confirmed founder authorization, approved project media, and public detail routes.
 - Source-only outcome claims remain hidden until their values and timeframes receive separate confirmation.
 - TicketRev, Tributi, and Loopple remain archived public product profiles and do not generate routes, structured data, or sitemap entries.
@@ -163,15 +164,21 @@ Core message:
   - `deployment-checklist.md`
   - `meta-launch-plan.md`
 
-## Current repository status notes
-- Working tree includes the full qualification journey and dual UK/US campaign implementation.
-- Remote branch `origin/main` is currently aligned with these changes.
-- Main branch identity has been set to project owner info for local commits:
-  - `user.name = ahsherazkhan`
-  - `user.email = ahsherazkhan@gmail.com`
+## Repository workflow notes
+- The source includes the full qualification journey, dual UK/US campaign implementation, and ProductGrain public identity.
+- Release notes and deployments must point to the exact verified commit; do not infer that a remote branch or hosted version is current from this document.
+
+## ProductGrain transition safeguards
+- Existing `needfoundry-*` storage keys, `needfoundry:*` browser events, analytics script IDs, the `x-needfoundry-signature` webhook header, package identity, and test-only `.example`/`.invalid` hosts remain unchanged for compatibility.
+- Historical project delivery fields and SoftwareApplication creator attribution remain NeedFoundry. ProductGrain is the author and publisher of the current pages, not a retroactive replacement for delivery provenance.
+- Canonical URLs, sender addresses, contact details, and company social links remain on verified existing values or hidden fallbacks until real ProductGrain operations are supplied.
+- Legal pages describe ProductGrain as the public-facing brand only and retain explicit professional-review and legal-entity/data-controller placeholders.
 
 ## Open items to close launch loop (from project plan)
 - Founder/team media and biography content remains placeholder/fallback
-- Confirm legal entity-specific privacy/terms language and contact details
+- Confirm ProductGrain domain ownership before changing canonical URLs or redirects
+- Verify a ProductGrain sending/contact domain and official company social profile
+- Confirm legal entity-specific privacy/terms language, data-controller identity, contact details, and professional approval
+- Obtain rebrand-specific permission before replacing historical NeedFoundry delivery attribution with ProductGrain
 - Provision production integrations (Supabase or webhook, Resend, Turnstile, booking provider, Meta/GA)
 - Run full verification: lint/typecheck/unit-integration tests/e2e + production build

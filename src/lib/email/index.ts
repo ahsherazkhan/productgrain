@@ -1,6 +1,7 @@
 import { escapeHtml, IntegrationError } from "../security";
 import type { QualificationStatus } from "../scoring";
 import type { LeadRecord } from "../leads/types";
+import { siteConfig } from "../../config/site";
 
 export type EmailMessage = {
   to: string[];
@@ -80,7 +81,7 @@ function applicantCopy(
           : "We will follow up with the most practical next step.",
         "Before the call, it is useful to think about the current workflow, intended users, and the most important outcome the first version should create.",
         "The initial Product Clarity Call is free. No payment is required unless you later approve a defined scope, timeline, and milestone plan.",
-        "NeedFoundry",
+        siteConfig.brandName,
       ],
       link: bookingUrl,
     };
@@ -93,7 +94,7 @@ function applicantCopy(
         "Thanks for telling us about the problem you are trying to solve.",
         "Your project may be suitable, but we would like to review the details before recommending the right call. We will follow up after that review.",
         "The initial Product Clarity Call is free. No payment is required unless you later approve a defined scope, timeline, and milestone plan.",
-        "NeedFoundry",
+        siteConfig.brandName,
       ],
     };
   }
@@ -104,7 +105,7 @@ function applicantCopy(
       "Thanks for telling us what you would like to build or improve. We have received your enquiry and will review the most practical next step.",
       "We will follow up by email after reviewing your note, budget range, and desired start.",
       "The initial Product Clarity Call is free. No payment is required unless you later approve a defined scope, timeline, and milestone plan.",
-      "NeedFoundry",
+      siteConfig.brandName,
     ],
   };
 }

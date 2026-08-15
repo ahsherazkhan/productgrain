@@ -15,19 +15,17 @@ import {
 import { PricingSection } from "./pricing-section";
 import { SelectedWorkSection } from "./selected-work";
 import type { MarketKey } from "@/src/config/markets";
+import { siteConfig } from "@/src/config/site";
 
 export function HomeHero() {
   return (
     <section className="home-hero home-hero--minimal ruled-bg">
       <Container>
         <div className="home-hero__minimal-copy reveal">
-          <h1>The product-first studio for AI-native software.</h1>
+          <h1>{siteConfig.tagline}</h1>
           <p className="hero-lead">
             We help industry experts and nontechnical founders research real problems, validate product
             opportunities, and build software their market actually needs.
-          </p>
-          <p className="eyebrow">
-            <span className="eyebrow-dot" />Product-first, AI-native studio
           </p>
           <div className="button-row">
             <ButtonLink href="/apply">Discuss your product idea — free</ButtonLink>

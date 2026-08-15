@@ -100,7 +100,7 @@ export function ThankYouResult({ reference }: { reference?: string }) {
           the next step. For privacy, qualification details are available only
           in the original submission session.
         </p>
-        <ButtonLink href="/">Return to NeedFoundry</ButtonLink>
+        <ButtonLink href="/">Return to {siteConfig.brandName}</ButtonLink>
       </div>
     );
   }

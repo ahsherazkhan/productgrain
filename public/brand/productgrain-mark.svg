@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="productgrain-mark-title productgrain-mark-description">
+  <title id="productgrain-mark-title">ProductGrain logo mark</title>
+  <desc id="productgrain-mark-description">A continuous feedback loop forms a lowercase g and resolves into one focused endpoint.</desc>
+  <rect width="64" height="64" rx="14" fill="#3F51D9"/>
+  <path
+    d="M46 18C42.3 14.7 37.2 13 31 13C23.268 13 17 19.268 17 27C17 34.732 23.268 41 31 41C38.732 41 45 34.732 45 27V41C45 47.075 40.075 52 34 52H26"
+    fill="none"
+    stroke="#F6F5F0"
+    stroke-width="6.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  <circle cx="26" cy="52" r="3.75" fill="#F3A56F"/>
+</svg>

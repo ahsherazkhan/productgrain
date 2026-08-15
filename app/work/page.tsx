@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   title: hasPublishedWork ? "Client Work" : "Delivery Standards",
   description: hasPublishedWork
     ? "Explore verified NeedFoundry client work across AI, SaaS, healthcare, finance, and operational software."
-    : "See how NeedFoundry makes product scope, progress, and risk visible before each delivery commitment.",
+    : `See how ${siteConfig.brandName} makes product scope, progress, and risk visible before each delivery commitment.`,
   alternates: { canonical: "/work" },
   robots: hasPublishedWork ? undefined : { index: false, follow: true },
 };
@@ -30,7 +30,7 @@ export default function WorkPage() {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": hasPublishedWork ? "CollectionPage" : "WebPage",
-    name: hasPublishedWork ? "NeedFoundry client work" : "NeedFoundry delivery standards",
+    name: hasPublishedWork ? "NeedFoundry client work" : `${siteConfig.brandName} delivery standards`,
     description: metadata.description,
     ...(siteConfig.siteUrl ? { url: `${siteConfig.siteUrl}/work` } : {}),
     ...(hasPublishedWork
@@ -49,10 +49,14 @@ export default function WorkPage() {
             about: {
               "@type": "SoftwareApplication",
               name: item.clientName,
-              creator: {
-                "@type": "Organization",
-                name: siteConfig.brandName,
-              },
+              ...(item.provenance.kind === "verified-client-work"
+                ? {
+                    creator: {
+                      "@type": "Organization",
+                      name: item.provenance.deliveryName,
+                    },
+                  }
+                : {}),
             },
             ...(siteConfig.siteUrl
               ? { url: `${siteConfig.siteUrl}/work/${item.slug}` }
@@ -78,7 +82,7 @@ export default function WorkPage() {
         copy={
           hasPublishedWork
             ? "Products designed and built by NeedFoundry across AI, SaaS, healthcare, finance, and operational software."
-            : "NeedFoundry makes scope, progress, responsibilities, and product risk visible before each commitment is made."
+            : `${siteConfig.brandName} makes scope, progress, responsibilities, and product risk visible before each commitment is made.`
         }
       >
         <Breadcrumbs

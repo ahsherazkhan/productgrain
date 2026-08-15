@@ -1,3 +1,5 @@
+import { siteConfig } from "./site";
+
 export const marketKeys = ["uk", "us"] as const;
 
 export type MarketKey = (typeof marketKeys)[number];
@@ -36,9 +38,9 @@ export const markets = {
     currency: "GBP",
     currencySymbol: "£",
     landingPath: "/mvp-development/uk",
-    landingTitle: "Product-First AI MVP Development in the UK | NeedFoundry",
+    landingTitle: `Product-First AI MVP Development in the UK | ${siteConfig.brandName}`,
     landingDescription:
-      "NeedFoundry helps UK industry experts, business owners, and nontechnical founders research real market problems, validate product opportunities, and build AI-native SaaS and focused software.",
+      `${siteConfig.brandName} helps UK industry experts, business owners, and nontechnical founders research real market problems, validate product opportunities, and build AI-native SaaS and focused software.`,
     budgetOptions: [
       { value: "under-2000", label: "Under £2,000" },
       { value: "2000-4000", label: "£2,000–£4,000" },
@@ -59,9 +61,9 @@ export const markets = {
     currency: "USD",
     currencySymbol: "$",
     landingPath: "/mvp-development/us",
-    landingTitle: "Product-First AI MVP Development in the US | NeedFoundry",
+    landingTitle: `Product-First AI MVP Development in the US | ${siteConfig.brandName}`,
     landingDescription:
-      "NeedFoundry helps US industry experts, business owners, and nontechnical founders research real market problems, validate product opportunities, and build AI-native SaaS and focused software.",
+      `${siteConfig.brandName} helps US industry experts, business owners, and nontechnical founders research real market problems, validate product opportunities, and build AI-native SaaS and focused software.`,
     budgetOptions: [
       { value: "under-2500", label: "Under $2,500" },
       { value: "2500-5000", label: "$2,500–$5,000" },

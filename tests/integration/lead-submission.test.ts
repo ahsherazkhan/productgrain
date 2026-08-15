@@ -39,6 +39,13 @@ class FailingAnalyticsSink implements LeadAnalyticsSink {
   }
 }
 
+function assertProductGrainApplicantMessage(message: EmailMessage): void {
+  assert.match(message.text, /\n\nProductGrain(?:\n\nBook a time:|$)/);
+  assert.match(message.html, /<p>ProductGrain<\/p>/);
+  assert.doesNotMatch(message.text, /NeedFoundry/);
+  assert.doesNotMatch(message.html, /NeedFoundry/);
+}
+
 function dependencies(repository = new MemoryLeadRepository()) {
   return {
     repository,
@@ -91,6 +98,7 @@ test("valid submission is scored, saved, notified, and routed", async () => {
   assert.equal(repository.records[0].retentionUntil, "2027-08-14T12:00:00.000Z");
   assert.equal(email.messages.length, 2);
   assert.equal(email.messages[0].to[0], "alex@example.com");
+  assertProductGrainApplicantMessage(email.messages[0]);
   assert.doesNotMatch(
     email.messages[1].text,
     /repeatedly transfers the same project details/i,
@@ -136,29 +144,35 @@ test("invalid form data stops before verification and storage", async () => {
 });
 
 test("routes a review application without exposing a booking URL", async () => {
+  const email = new RecordingEmailService();
   const result = await submitLeadApplication(
     validLead({
       budgetRange: "not-sure",
       timeline: "exploring",
     }),
-    dependencies(),
+    { ...dependencies(), emailService: email },
   );
 
   assert.equal(result.status, "review");
   assert.equal(result.bookingUrl, undefined);
+  assert.equal(email.messages.length, 1);
+  assertProductGrainApplicantMessage(email.messages[0]);
 });
 
 test("routes a nurture application without exposing a booking URL", async () => {
+  const email = new RecordingEmailService();
   const result = await submitLeadApplication(
     validLead({
       budgetRange: "us-under-2500",
       timeline: "exploring",
     }),
-    dependencies(),
+    { ...dependencies(), emailService: email },
   );
 
   assert.equal(result.status, "nurture");
   assert.equal(result.bookingUrl, undefined);
+  assert.equal(email.messages.length, 1);
+  assertProductGrainApplicantMessage(email.messages[0]);
 });
 
 test("continues to store optional legacy enrichment when it is provided", async () => {

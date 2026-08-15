@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { siteConfig } from "@/src/config/site";
+import { BrandWordmark } from "@/src/components/brand/brand-wordmark";
 import { NativeLink as Link } from "@/src/components/ui/native-link";
 
 export function SiteHeader() {
@@ -22,14 +23,7 @@ export function SiteHeader() {
   return (
     <header className="site-header">
       <div className="container site-header__inner">
-        <Link href="/" className="wordmark" aria-label={`${siteConfig.brandName} home`} onClick={() => setOpen(false)}>
-          <span className="wordmark__mark" aria-hidden="true">
-            <i />
-            <i />
-            <i />
-          </span>
-          {siteConfig.brandName}
-        </Link>
+        <BrandWordmark onClick={() => setOpen(false)} />
 
         <nav className="desktop-nav" aria-label="Primary navigation">
           {siteConfig.navigation.map((item) => (
@@ -80,10 +74,7 @@ export function CampaignHeader({ market }: { market: "uk" | "us" }) {
   return (
     <header className="site-header campaign-header">
       <div className="container site-header__inner">
-        <Link href="/" className="wordmark" aria-label={`${siteConfig.brandName} home`}>
-          <span className="wordmark__mark" aria-hidden="true"><i /><i /><i /></span>
-          {siteConfig.brandName}
-        </Link>
+        <BrandWordmark />
         <nav className="campaign-nav" aria-label="Landing page navigation">
           {siteConfig.campaignNavigation.map((item) => (
             <a key={item.href} href={item.href}>{item.label}</a>

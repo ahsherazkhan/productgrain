@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowUpRight } from "lucide-react";
+import { BrandWordmark } from "@/src/components/brand/brand-wordmark";
 import { siteConfig } from "@/src/config/site";
 import { NativeLink as Link } from "@/src/components/ui/native-link";
 
@@ -11,17 +12,14 @@ export function SiteFooter({ compact = false }: { compact?: boolean }) {
     return (
       <footer className="site-footer site-footer--compact">
         <div className="container">
-          <Link href="/" className="wordmark wordmark--light">
-            <span className="wordmark__mark" aria-hidden="true"><i /><i /><i /></span>
-            {siteConfig.brandName}
-          </Link>
+          <BrandWordmark light />
           <nav aria-label="Legal information">
             <Link href="/privacy">Privacy</Link>
             <Link href="/terms">Terms</Link>
             <Link href="/cookies">Cookies</Link>
             <button type="button" onClick={reopenCookies}>Cookie settings</button>
           </nav>
-          <p>© {new Date().getFullYear()} {siteConfig.brandName}</p>
+          <p>© {new Date().getFullYear()} {siteConfig.brandName}. {siteConfig.footerDescriptor}</p>
         </div>
       </footer>
     );
@@ -31,10 +29,7 @@ export function SiteFooter({ compact = false }: { compact?: boolean }) {
     <footer className="site-footer">
       <div className="container">
         <div className="footer-lead">
-          <Link href="/" className="wordmark wordmark--light">
-            <span className="wordmark__mark" aria-hidden="true"><i /><i /><i /></span>
-            {siteConfig.brandName}
-          </Link>
+          <BrandWordmark light />
           <p>{siteConfig.tagline}</p>
           <p className="footer-contact">
             {siteConfig.email ? (
@@ -68,7 +63,7 @@ export function SiteFooter({ compact = false }: { compact?: boolean }) {
           </div>
         </div>
         <div className="footer-bottom">
-          <p>© {new Date().getFullYear()} {siteConfig.brandName}. AI-native product and engineering partner.</p>
+          <p>© {new Date().getFullYear()} {siteConfig.brandName}. {siteConfig.footerDescriptor}</p>
           <p>Available to work with clients in the United Kingdom, United States, and internationally.</p>
         </div>
       </div>

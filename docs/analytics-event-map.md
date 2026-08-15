@@ -1,4 +1,4 @@
-# NeedFoundry analytics event map
+# ProductGrain analytics event map
 
 This document defines a provider-neutral, privacy-conscious event contract. Internal event names use `snake_case`; provider adapters translate them to Meta’s standard/custom names. Event delivery is best-effort and must never block navigation, form validation, lead storage, or qualification.
 

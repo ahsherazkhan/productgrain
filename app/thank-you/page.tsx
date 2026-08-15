@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import { MainShell } from "@/src/components/layout/main-shell";
 import { Container } from "@/src/components/ui/primitives";
 import { ThankYouResult } from "@/src/components/forms/thank-you-result";
+import { siteConfig } from "@/src/config/site";
 
 export const metadata: Metadata = {
   title: "Thank You",
-  description: "Your NeedFoundry project enquiry has been received.",
+  description: `Your ${siteConfig.brandName} project enquiry has been received.`,
   robots: { index: false, follow: false },
 };
 

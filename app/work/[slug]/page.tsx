@@ -95,10 +95,14 @@ export default async function CaseStudyPage({
       name: item.clientName,
       applicationCategory: item.clientType,
       url: item.productUrl,
-      creator: {
-        "@type": "Organization",
-        name: siteConfig.brandName,
-      },
+      ...(item.provenance.kind === "verified-client-work"
+        ? {
+            creator: {
+              "@type": "Organization",
+              name: item.provenance.deliveryName,
+            },
+          }
+        : {}),
     },
     publisher: {
       "@type": "Organization",

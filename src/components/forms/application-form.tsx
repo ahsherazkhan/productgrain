@@ -23,6 +23,7 @@ import {
   trackClientEvent,
 } from "@/src/lib/client/analytics";
 import { markets, type MarketKey } from "@/src/config/markets";
+import { siteConfig } from "@/src/config/site";
 import type { PricingPackageId } from "@/src/config/pricing";
 import { readConsent } from "@/src/components/layout/cookie-consent";
 import { TurnstileField, type TurnstileHandle } from "./turnstile-field";
@@ -524,7 +525,7 @@ export function ApplicationForm({
                   <Check aria-hidden="true" />
                 </i>
                 <span>
-                  I consent to NeedFoundry contacting me about this enquiry.
+                  I consent to {siteConfig.brandName} contacting me about this enquiry.
                   <strong>Required</strong>
                 </span>
               </span>

@@ -1,3 +1,5 @@
+import { siteConfig } from "@/src/config/site";
+
 export type Faq = {
   readonly id: string;
   readonly question: string;
@@ -13,7 +15,7 @@ export const faqs = [
   },
   {
     id: "ai-native",
-    question: "What does AI-native mean at NeedFoundry?",
+    question: `What does AI-native mean at ${siteConfig.brandName}?`,
     answer:
       "AI is considered from the beginning rather than being attached at the end. We evaluate where intelligence affects the product, workflow, data, safeguards, and business model, and include it only where it adds meaningful advantage.",
   },
