@@ -17,6 +17,24 @@ export type CaseStudyImage = {
   readonly caption?: string;
 };
 
+export type CaseStudyVideo = {
+  readonly embedUrl: string;
+  readonly title: string;
+  readonly caption: string;
+  readonly sourceUrl: string;
+};
+
+export type CaseStudyProvenance = {
+  readonly kind:
+    | "verified-client-work"
+    | "third-party-reference"
+    | "public-product-profile";
+  readonly label: string;
+  readonly sourceName: string;
+  readonly sourceUrl: string;
+  readonly disclosure: string;
+};
+
 export type PublicLeader = {
   readonly name: string;
   readonly role: string;
@@ -38,7 +56,10 @@ export type CaseStudy = {
   readonly tags: readonly string[];
   readonly publicLeadership: readonly PublicLeader[];
   readonly results: readonly CaseStudyResult[];
+  readonly logo?: CaseStudyImage;
   readonly images: readonly CaseStudyImage[];
+  readonly videos?: readonly CaseStudyVideo[];
+  readonly provenance: CaseStudyProvenance;
   readonly relatedSlugs: readonly string[];
   readonly sourceUrls: readonly string[];
   readonly featuredOrder: number;
@@ -50,6 +71,9 @@ export type CaseStudy = {
 
 const captureCaption = (clientName: string) =>
   `Current public ${clientName} product website, captured in August 2026.`;
+
+const codalMediaCaption = (description: string) =>
+  `${description} Media published on Codal's public case study; all rights remain with the respective owners.`;
 
 export const caseStudies: readonly CaseStudy[] = [
   {
@@ -67,7 +91,7 @@ export const caseStudies: readonly CaseStudy[] = [
     publicProductDirection:
       "The public platform needed to centralize claims, support secure legal workflows, and add AI-powered productivity while remaining easy for non-technical users.",
     solution:
-      "We discovered user roles first, then built a cloud-native product with claim tracking, task orchestration, structured legal data capture, secure document workflows, and AI support for legal research and document drafting.",
+      "Codal documented a role-led discovery process followed by a cloud-native product with claim tracking, task orchestration, structured legal data capture, secure document workflows, and AI support for legal research and document drafting.",
     capabilities: [
       "Litigation workflow automation",
       "Claims tracking and task routing",
@@ -81,8 +105,8 @@ export const caseStudies: readonly CaseStudy[] = [
     publicLeadership: [],
     results: [
       {
-        value: "800%+",
-        label: "Growth in organizations since 2021",
+        value: "800%",
+        label: "Growth in users since 2021 reported by Codal",
         verificationNote:
           "Published in the ClaimDeck case study on Codal.",
       },
@@ -99,20 +123,48 @@ export const caseStudies: readonly CaseStudy[] = [
           "Published in the ClaimDeck case study on Codal.",
       },
     ],
+    logo: {
+      src: "https://codal.com/wp-content/uploads/2025/10/23c71af64b51c4e6e7922ab3a5abdad3ef623475-436x104-1.svg",
+      alt: "ClaimDeck logo",
+      width: 436,
+      height: 104,
+    },
     images: [
       {
-        src: "/work/claimdeck.svg",
-        alt: "ClaimDeck litigation workflow and claims management interface",
-        width: 1440,
-        height: 1000,
-        caption: captureCaption("ClaimDeck"),
+        src: "https://codal.com/wp-content/uploads/2024/05/Claimdeck.webp",
+        alt: "ClaimDeck litigation management software displayed on a laptop",
+        width: 1490,
+        height: 1080,
+        caption: codalMediaCaption("ClaimDeck product overview."),
+      },
+      {
+        src: "https://codal.com/wp-content/uploads/2025/10/6cd9572e3661b26d79fc4f66cdea94590306c8e3-1920x1080-1.webp",
+        alt: "ClaimDeck interface system showing claims workflow components",
+        width: 946,
+        height: 532,
+        caption: codalMediaCaption("ClaimDeck interface system."),
+      },
+      {
+        src: "https://codal.com/wp-content/uploads/2025/10/e6aa6a084e7ae1aee70d4d6c51c27540f9e126a6-1920x1080-1.webp",
+        alt: "ClaimDeck AI interface shown on a desktop display",
+        width: 946,
+        height: 532,
+        caption: codalMediaCaption("ClaimDeck AI workflow."),
       },
     ],
+    provenance: {
+      kind: "third-party-reference",
+      label: "Reference project · delivered by Codal",
+      sourceName: "Codal",
+      sourceUrl: "https://codal.com/work/claimdeck/",
+      disclosure:
+        "This project was delivered and documented by Codal. NeedFoundry presents it as an attributed industry reference, not as NeedFoundry client work.",
+    },
     relatedSlugs: ["fuze-health", "cost-plus-drugs"],
     sourceUrls: ["https://codal.com/work/claimdeck/"],
     featuredOrder: 1,
     reviewedAt: "2026-08-15",
-    permissionStatus: "confirmed",
+    permissionStatus: "not-requested",
     published: true,
   },
   {
@@ -130,7 +182,7 @@ export const caseStudies: readonly CaseStudy[] = [
     publicProductDirection:
       "The public platform became a scalable, patient-centered architecture with stronger onboarding, workflow automation, and payer visibility.",
     solution:
-      "We ran focused discovery and technical blueprinting, then delivered full-stack work in Node.js, React, Playwright, and Contentful, including specialty pharmacy lookup, savings-card integration, and appeal status visibility.",
+      "Codal documented focused discovery and technical blueprinting followed by full-stack work in Node.js, React, Playwright, and Contentful, including specialty pharmacy lookup, savings-card integration, and appeal status visibility.",
     capabilities: [
       "Specialty pharmacy workflow",
       "Payer coordination",
@@ -144,7 +196,7 @@ export const caseStudies: readonly CaseStudy[] = [
     publicLeadership: [],
     results: [
       {
-        value: "10–12 weeks",
+        value: "12 weeks",
         label: "Pilot delivery timeline",
         verificationNote:
           "Published in the Fuze Health case study on Codal.",
@@ -156,20 +208,41 @@ export const caseStudies: readonly CaseStudy[] = [
           "Mentioned through AI-capable workflows and follow-on EMR modernization scope in the case study.",
       },
     ],
+    logo: {
+      src: "https://codal.com/wp-content/uploads/2026/06/Fuze_Logo-1.svg",
+      alt: "Fuze Health logo",
+      width: 420,
+      height: 120,
+    },
     images: [
       {
-        src: "/work/fuze-health.svg",
-        alt: "Fuze Health specialty pharmacy and clinical workflow platform",
-        width: 1440,
-        height: 1000,
-        caption: captureCaption("Fuze Health"),
+        src: "https://codal.com/wp-content/uploads/2026/06/fuzehealth_thumbnail-scaled.webp",
+        alt: "Fuze Health pharmacy platform displayed across digital devices",
+        width: 2560,
+        height: 1723,
+        caption: codalMediaCaption("Fuze Health platform overview."),
+      },
+      {
+        src: "https://codal.com/wp-content/uploads/2026/05/fuzehealth_MobileMockup-2048x1152.webp",
+        alt: "Fuze Health patient experience shown in a mobile interface mockup",
+        width: 2048,
+        height: 1152,
+        caption: codalMediaCaption("Fuze Health mobile workflow."),
       },
     ],
+    provenance: {
+      kind: "third-party-reference",
+      label: "Reference project · delivered by Codal",
+      sourceName: "Codal",
+      sourceUrl: "https://codal.com/work/truepill-fuze-health/",
+      disclosure:
+        "This project was delivered and documented by Codal. NeedFoundry presents it as an attributed industry reference, not as NeedFoundry client work.",
+    },
     relatedSlugs: ["children-health", "claimdeck"],
     sourceUrls: ["https://codal.com/work/truepill-fuze-health/"],
     featuredOrder: 2,
     reviewedAt: "2026-08-15",
-    permissionStatus: "confirmed",
+    permissionStatus: "not-requested",
     published: true,
   },
   {
@@ -187,7 +260,7 @@ export const caseStudies: readonly CaseStudy[] = [
     publicProductDirection:
       "The project moved from fragmented tooling toward a unified platform with stronger data control, API flexibility, and real-time operational behavior.",
     solution:
-      "We performed end-to-end workflow discovery and then restructured backend services, implementing custom capabilities across ordering, fulfillment, copay audits, and CMS synchronization.",
+      "Codal documented end-to-end workflow discovery followed by restructured backend services and custom capabilities across ordering, fulfillment, copay audits, and CMS synchronization.",
     capabilities: [
       "Prescription fulfillment engineering",
       "Real-time CMS and pricing updates",
@@ -218,15 +291,59 @@ export const caseStudies: readonly CaseStudy[] = [
           "Published in the Cost Plus Drugs case study on Codal.",
       },
     ],
+    logo: {
+      src: "https://codal.com/wp-content/uploads/2025/10/work-logo-3.svg",
+      alt: "Mark Cuban Cost Plus Drug Company logo",
+      width: 420,
+      height: 120,
+    },
     images: [
       {
-        src: "/work/cost-plus-drugs.svg",
-        alt: "Cost Plus Drugs healthcare commerce backend modernization",
-        width: 1440,
-        height: 1000,
-        caption: captureCaption("Mark Cuban Cost Plus Drugs"),
+        src: "https://codal.com/wp-content/uploads/2025/10/fc7d8f0b7acfc202ea5458601edf4aaad675291b-2356x1585-1.webp",
+        alt: "Cost Plus Drugs pharmacy storefront displayed on a desktop screen",
+        width: 1728,
+        height: 1163,
+        caption: codalMediaCaption("Cost Plus Drugs platform overview."),
+      },
+      {
+        src: "https://codal.com/wp-content/uploads/2025/10/5e28647ae8e6492c9281824769bd5339ad6cd7ee-2880x1620-1.webp",
+        alt: "Cost Plus Drugs online prescription experience interface",
+        width: 946,
+        height: 532,
+        caption: codalMediaCaption("Cost Plus Drugs prescription experience."),
       },
     ],
+    videos: [
+      {
+        embedUrl:
+          "https://player.vimeo.com/video/1120947017?dnt=1&title=0&byline=0&portrait=0",
+        title: "Cost Plus Drugs homepage product demonstration",
+        caption: "Homepage product demonstration published by Codal.",
+        sourceUrl: "https://codal.com/work/costplusdrugs/",
+      },
+      {
+        embedUrl:
+          "https://player.vimeo.com/video/1120951765?dnt=1&title=0&byline=0&portrait=0",
+        title: "Cost Plus Drugs ordering workflow demonstration",
+        caption: "Ordering workflow demonstration published by Codal.",
+        sourceUrl: "https://codal.com/work/costplusdrugs/",
+      },
+      {
+        embedUrl:
+          "https://player.vimeo.com/video/1120954586?dnt=1&title=0&byline=0&portrait=0",
+        title: "Cost Plus Drugs pricing calculator demonstration",
+        caption: "Pricing calculator demonstration published by Codal.",
+        sourceUrl: "https://codal.com/work/costplusdrugs/",
+      },
+    ],
+    provenance: {
+      kind: "third-party-reference",
+      label: "Reference project · delivered by Codal",
+      sourceName: "Codal",
+      sourceUrl: "https://codal.com/work/costplusdrugs/",
+      disclosure:
+        "This project was delivered and documented by Codal. NeedFoundry presents it as an attributed industry reference, not as NeedFoundry client work.",
+    },
     relatedSlugs: ["claimdeck", "mantl"],
     sourceUrls: [
       "https://codal.com/work/costplusdrugs/",
@@ -234,7 +351,7 @@ export const caseStudies: readonly CaseStudy[] = [
     ],
     featuredOrder: 3,
     reviewedAt: "2026-08-15",
-    permissionStatus: "confirmed",
+    permissionStatus: "not-requested",
     published: true,
   },
   {
@@ -252,7 +369,7 @@ export const caseStudies: readonly CaseStudy[] = [
     publicProductDirection:
       "The platform pivoted to a modern headless architecture and componentized content system to improve team speed, flexibility, and performance.",
     solution:
-      "We migrated to Builder.io + Contentful, redesigned content models, introduced reusable component templates, and built performance-focused frontend delivery.",
+      "Codal documented a migration to Builder.io and Contentful, redesigned content models, reusable component templates, and performance-focused frontend delivery.",
     capabilities: [
       "Headless CMS migration",
       "Content model design",
@@ -289,20 +406,41 @@ export const caseStudies: readonly CaseStudy[] = [
           "Published in the Children’s Health case study on Codal.",
       },
     ],
+    logo: {
+      src: "https://codal.com/wp-content/uploads/2026/03/childrens-1.svg",
+      alt: "Children's Health logo",
+      width: 420,
+      height: 120,
+    },
     images: [
       {
-        src: "/work/children-health.svg",
-        alt: "Children's Health scalable headless CMS experience",
-        width: 1440,
-        height: 1000,
-        caption: captureCaption("Children's Health"),
+        src: "https://codal.com/wp-content/uploads/2026/03/childrenshealth_thumbnail-scaled.webp",
+        alt: "Children's Health website experience displayed on digital devices",
+        width: 2560,
+        height: 1723,
+        caption: codalMediaCaption("Children's Health website overview."),
+      },
+      {
+        src: "https://codal.com/wp-content/uploads/2026/03/ChildrensHealth_Homepage-2048x1152.webp",
+        alt: "Children's Health redesigned homepage shown in a desktop mockup",
+        width: 2048,
+        height: 1152,
+        caption: codalMediaCaption("Children's Health homepage experience."),
       },
     ],
+    provenance: {
+      kind: "third-party-reference",
+      label: "Reference project · delivered by Codal",
+      sourceName: "Codal",
+      sourceUrl: "https://codal.com/work/childrens-health/",
+      disclosure:
+        "This project was delivered and documented by Codal. NeedFoundry presents it as an attributed industry reference, not as NeedFoundry client work.",
+    },
     relatedSlugs: ["fuze-health", "cost-plus-drugs"],
     sourceUrls: ["https://codal.com/work/childrens-health/"],
     featuredOrder: 4,
     reviewedAt: "2026-08-15",
-    permissionStatus: "confirmed",
+    permissionStatus: "not-requested",
     published: true,
   },
   {
@@ -320,7 +458,7 @@ export const caseStudies: readonly CaseStudy[] = [
     publicProductDirection:
       "The redesign prioritized clear value messaging, persistent CTAs, reusable content blocks, and a stronger mobile experience.",
     solution:
-      "We rebuilt key pages, added campaign-ready landing patterns and case-study capture, improved CTAs at every funnel stage, and tightened mobile responsiveness.",
+      "Codal documented rebuilt key pages, campaign-ready landing patterns, case-study capture, stronger calls to action, and tighter mobile responsiveness.",
     capabilities: [
       "Conversion-focused redesign",
       "Lead generation flow design",
@@ -339,8 +477,8 @@ export const caseStudies: readonly CaseStudy[] = [
     ],
     results: [
       {
-        value: "4x",
-        label: "Account application submissions from website positioning",
+        value: "4%",
+        label: "Potential account application lift reported by Codal",
         verificationNote:
           "Published in the MANTL case study on Codal.",
       },
@@ -351,20 +489,48 @@ export const caseStudies: readonly CaseStudy[] = [
           "Published in the MANTL case study on Codal.",
       },
     ],
+    logo: {
+      src: "https://codal.com/wp-content/uploads/2025/10/1f78a1780332f14edb8aa6365403d408257d4857-196x104-1.svg",
+      alt: "MANTL logo",
+      width: 196,
+      height: 104,
+    },
     images: [
       {
-        src: "/work/mantl.svg",
-        alt: "MANTL digital onboarding and banking platform experience",
-        width: 1440,
-        height: 1000,
-        caption: captureCaption("MANTL"),
+        src: "https://codal.com/wp-content/uploads/2025/10/8bbaca35d87f34ea1798866763475a68bfe32dbb-2235x1620-1.webp",
+        alt: "Customer using the MANTL digital banking website on a laptop",
+        width: 946,
+        height: 686,
+        caption: codalMediaCaption("MANTL digital banking website overview."),
+      },
+      {
+        src: "https://codal.com/wp-content/uploads/2025/10/e3b5ce49cee7c3f2937ff285d144300cabebdcdd-4056x2283-1.webp",
+        alt: "MANTL website desktop interface and conversion-focused content",
+        width: 946,
+        height: 532,
+        caption: codalMediaCaption("MANTL desktop website experience."),
+      },
+      {
+        src: "https://codal.com/wp-content/uploads/2025/10/96f10b60659fc2e4758619a7e20c5276e0fe22f6-2880x1621-1.webp",
+        alt: "MANTL responsive banking website displayed on mobile screens",
+        width: 946,
+        height: 532,
+        caption: codalMediaCaption("MANTL mobile website experience."),
       },
     ],
+    provenance: {
+      kind: "third-party-reference",
+      label: "Reference project · delivered by Codal",
+      sourceName: "Codal",
+      sourceUrl: "https://codal.com/work/mantl/",
+      disclosure:
+        "This project was delivered and documented by Codal. NeedFoundry presents it as an attributed industry reference, not as NeedFoundry client work.",
+    },
     relatedSlugs: ["children-health", "ticketrev"],
     sourceUrls: ["https://codal.com/work/mantl/"],
     featuredOrder: 5,
     reviewedAt: "2026-08-15",
-    permissionStatus: "confirmed",
+    permissionStatus: "not-requested",
     published: true,
   },
   {
@@ -412,6 +578,14 @@ export const caseStudies: readonly CaseStudy[] = [
         caption: captureCaption("TicketRev"),
       },
     ],
+    provenance: {
+      kind: "public-product-profile",
+      label: "Independent public product profile",
+      sourceName: "TicketRev",
+      sourceUrl: "https://www.ticketrev.com/",
+      disclosure:
+        "This independent profile is based on public product information and is not presented as verified NeedFoundry client work.",
+    },
     relatedSlugs: ["children-health", "mantl"],
     sourceUrls: [
       "https://www.ticketrev.com/",
@@ -419,7 +593,7 @@ export const caseStudies: readonly CaseStudy[] = [
     ],
     featuredOrder: 6,
     reviewedAt: "2026-08-14",
-    permissionStatus: "confirmed",
+    permissionStatus: "not-requested",
     published: true,
   },
   {
@@ -456,6 +630,14 @@ export const caseStudies: readonly CaseStudy[] = [
         caption: captureCaption("Tributi"),
       },
     ],
+    provenance: {
+      kind: "public-product-profile",
+      label: "Independent public product profile",
+      sourceName: "Tributi",
+      sourceUrl: "https://www.tributi.com/",
+      disclosure:
+        "This independent profile is based on public product information and is not presented as verified NeedFoundry client work.",
+    },
     relatedSlugs: ["ticketrev", "claimdeck"],
     sourceUrls: [
       "https://www.tributi.com/",
@@ -463,7 +645,7 @@ export const caseStudies: readonly CaseStudy[] = [
     ],
     featuredOrder: 7,
     reviewedAt: "2026-08-14",
-    permissionStatus: "confirmed",
+    permissionStatus: "not-requested",
     published: true,
   },
   {
@@ -500,6 +682,14 @@ export const caseStudies: readonly CaseStudy[] = [
         caption: captureCaption("Loopple"),
       },
     ],
+    provenance: {
+      kind: "public-product-profile",
+      label: "Independent public product profile",
+      sourceName: "Loopple",
+      sourceUrl: "https://www.loopple.com/",
+      disclosure:
+        "This independent profile is based on public product information and is not presented as verified NeedFoundry client work.",
+    },
     relatedSlugs: ["children-health", "claimdeck"],
     sourceUrls: [
       "https://www.loopple.com/",
@@ -508,7 +698,7 @@ export const caseStudies: readonly CaseStudy[] = [
     ],
     featuredOrder: 8,
     reviewedAt: "2026-08-14",
-    permissionStatus: "confirmed",
+    permissionStatus: "not-requested",
     published: true,
   },
 ] as const;
@@ -541,7 +731,10 @@ export function getPublishedCaseStudies(): readonly CaseStudy[] {
   return caseStudies
     .filter(
       (caseStudy) =>
-        caseStudy.published && caseStudy.permissionStatus === "confirmed",
+        caseStudy.published &&
+        caseStudy.sourceUrls.includes(caseStudy.provenance.sourceUrl) &&
+        (caseStudy.provenance.kind !== "verified-client-work" ||
+          caseStudy.permissionStatus === "confirmed"),
     )
     .sort((a, b) => a.featuredOrder - b.featuredOrder);
 }

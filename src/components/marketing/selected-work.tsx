@@ -22,12 +22,12 @@ export function SelectedWorkSection() {
       <Container>
         <div className="selected-work__heading">
           <SectionIntro
-            eyebrow="Selected client products"
-            title="Real products built around real operating problems."
-            copy="A cross-section of platforms and digital products from previous client work. Each profile focuses on the public product, its positioning, and the workflow it supports."
+            eyebrow="Product references"
+            title="Real products, studied through real operating problems."
+            copy="Attributed third-party case studies and independent public product profiles chosen for their relevance to founders planning AI, SaaS, healthcare, fintech, and workflow products."
           />
           <ButtonLink href="/work" variant="secondary">
-            View all selected work
+            View all references
           </ButtonLink>
         </div>
 
@@ -50,7 +50,7 @@ export function SelectedWorkSection() {
         </div>
 
         <p className="selected-work__note">
-          Product names and current public websites are shown as selected client work. All trademarks remain the property of their respective owners. Claims visible inside those websites are not independently verified.
+          These are attributed references and public product profiles, not claims of NeedFoundry delivery. All trademarks and media remain the property of their respective owners; published outcomes are not independently verified by NeedFoundry.
         </p>
       </Container>
     </section>

@@ -12,7 +12,7 @@ The application uses five route families:
 4. Legal and system pages: privacy, terms, cookies, not-found, error, sitemap, and robots.
 5. Server endpoints: lead submission and consent-aware Meta event forwarding.
 
-Six selected client-product profiles and their product screenshots are now published from user-confirmed work and source-backed public product information. The profiles deliberately omit confidential delivery scope, technology stacks, timelines, quantified outcomes, and other claims that have not been supplied and approved. Testimonials have not been supplied and remain hidden. `fitish.ai` is not published because the exact supplied domain could not be verified. Real founder/team media are still outstanding, so professional initial/founder fallbacks remain in place. No placeholder names appear in public UI.
+The work area publishes five clearly attributed Codal reference projects and three independent public product profiles. None are represented as NeedFoundry client work. Typed provenance, visible disclosures, original source links, credited product imagery and logos, and privacy-conscious Cost Plus Drugs video embeds keep the reference material useful without obscuring ownership. Testimonials remain hidden until real approval and evidence exist. Real founder/team media are still outstanding, so professional initial/founder fallbacks remain in place. No placeholder names appear in public UI.
 
 ## Phases
 

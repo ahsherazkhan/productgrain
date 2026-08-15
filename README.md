@@ -4,7 +4,7 @@ NeedFoundry is a founder-led product strategy, MVP development, and custom softw
 
 The project uses the App Router on the Cloudflare-compatible [vinext](https://github.com/cloudflare/vinext) starter. It is designed for OpenAI Sites/Cloudflare Workers and keeps external services optional so missing analytics or email credentials never take down the core website.
 
-> Launch note: six selected client-product profiles and screenshots are populated from user-confirmed work and source-backed public information. Testimonials and unsupported delivery/results claims remain intentionally absent, and `fitish.ai` is excluded until its exact product URL is confirmed. Founder/team assets, legal copy, service credentials, and production contact details still require review before launch. See [the content replacement checklist](docs/content-replacement-checklist.md) and [the deployment checklist](docs/deployment-checklist.md).
+> Launch note: the work area contains five clearly attributed Codal reference projects plus three independent public product profiles. They are not presented as NeedFoundry client work. Codal-hosted logos and product imagery are credited to their original publisher, and Cost Plus Drugs includes privacy-conscious Vimeo demos without autoplay. Testimonials and unsupported delivery claims remain intentionally absent. Founder/team assets, legal copy, service credentials, and production contact details still require review before launch. See [the content replacement checklist](docs/content-replacement-checklist.md) and [the deployment checklist](docs/deployment-checklist.md).
 
 ## Technology
 
@@ -222,7 +222,7 @@ The build produces Cloudflare Worker-compatible ESM output. Vercel may require a
 
 ## Launch content and legal review
 
-Customer proof may appear only when permission and verification are recorded. The current work section contains six user-confirmed client-product profiles with locally captured product screenshots and source-backed public details; it does not claim unverified delivery scope, technology stacks, timelines, metrics, or outcomes. `fitish.ai` remains excluded because the exact supplied domain could not be verified. Testimonials disappear cleanly because none have been supplied and approved. If fewer than two publishable profiles remain, the UI falls back to capability-led content. Initial-based avatars are preferred over stock team photography.
+Customer proof may appear only when permission and verification are recorded. The current work section is reference-led: five Codal projects are visibly attributed to Codal, while TicketRev, Tributi, and Loopple are independent public product profiles. None are presented as NeedFoundry delivery. Third-party logos, imagery, demos, outcomes, and trademarks are credited to their original sources and owners. Testimonials disappear cleanly because none have been supplied and approved. If fewer than two publishable profiles remain, the UI falls back to capability-led content. Initial-based avatars are preferred over stock team photography.
 
 The privacy, terms, cookie, retention, international-transfer, advertising-consent, and data-subject request language requires review by a qualified professional for the actual UK/US operation. Generated policy placeholders are not legal advice and do not guarantee compliance.
 

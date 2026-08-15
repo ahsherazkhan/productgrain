@@ -1,4 +1,4 @@
-# NeedFoundry Website Context (v1.0)
+# NeedFoundry Website Context (v1.1)
 
 ## What this repo is
 NeedFoundry is a founder-led product strategy + software studio marketing + qualification website built with:
@@ -137,10 +137,15 @@ Core message:
 - Sticky header, mobile menu, campaign header variant
 - Accessibility-oriented focus styles and keyboard support (skip link, visible focus, dialog trap for consent)
 
-## Work/case studies model
-- Content-driven case studies in `src/content/case-studies.ts`
-- Published/permission filtering built in
-- If fewer than two verified published studies, UI falls back to capability-led content.
+## Work/reference model and media
+- Content-driven profiles live in `src/content/case-studies.ts`.
+- The five Codal examples—ClaimDeck, Fuze Health, Cost Plus Drugs, Children's Health, and MANTL—are explicitly labelled as third-party reference projects delivered and documented by Codal. They are not represented as NeedFoundry client work.
+- TicketRev, Tributi, and Loopple are labelled as independent public product profiles, also not verified NeedFoundry client work.
+- Each profile carries typed provenance, source URLs, disclosure copy, and media metadata.
+- Codal reference cards and detail pages use credited Codal-hosted logos and product imagery. Cost Plus Drugs also uses three Vimeo demos with do-not-track parameters, lazy loading, controls, and no autoplay.
+- Work cards include logo treatments and provenance badges; detail pages add a responsive product-media gallery and source links.
+- Published filtering requires the provenance source to appear in the profile source list. Only entries explicitly typed as verified client work require confirmed publication permission.
+- If fewer than two published profiles exist, the UI falls back to capability-led content.
 - Testimonials are intentionally empty until approval and permission are present.
 
 ## Security/compliance posture currently implemented

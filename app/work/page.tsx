@@ -16,9 +16,9 @@ import { siteConfig } from "@/src/config/site";
 const work = getPublishedCaseStudies();
 
 export const metadata: Metadata = {
-  title: "Selected Client Products",
+  title: "Product References",
   description:
-    "Explore selected client products across AI, SaaS, fintech, ticketing, hardware, and operational software.",
+    "Explore attributed product references and independent public product profiles across AI, SaaS, fintech, healthcare, and operational software.",
   alternates: { canonical: "/work" },
   robots: work.length >= 2 ? undefined : { index: false, follow: true },
 };
@@ -28,7 +28,7 @@ export default function WorkPage() {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: "Selected client products",
+    name: "Product references",
     description: metadata.description,
     ...(siteConfig.siteUrl ? { url: `${siteConfig.siteUrl}/work` } : {}),
     hasPart: work.map((item) => ({
@@ -48,9 +48,9 @@ export default function WorkPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
       <PageHero
-        eyebrow="Selected client products"
-        title="Software built around real operating problems."
-        copy="A selection of products from previous client work across AI, SaaS, fintech, hardware, and consumer software. Each profile focuses on the public product and the workflow it supports."
+        eyebrow="Product references"
+        title="Strong products, studied in context."
+        copy="Attributed third-party case studies and independent public product profiles across AI, SaaS, fintech, healthcare, and operational software. These references show the kinds of problems NeedFoundry is equipped to reason about; they are not presented as NeedFoundry client work."
       >
         <Breadcrumbs
           items={[{ label: "Home", href: "/" }, { label: "Work" }]}
@@ -70,7 +70,7 @@ export default function WorkPage() {
               ))}
             </div>
             <p className="work-index__note">
-              Product names and current public websites are shown with publication approval. All trademarks remain the property of their respective owners. NeedFoundry-authored profiles omit confidential delivery details and unsupported performance claims; claims visible inside captured websites are not independently verified.
+              Every third-party project is labelled with its original delivery partner and source. Product names, logos, imagery, and videos remain the property of their respective owners. Published outcomes are attributed and are not independently verified by NeedFoundry.
             </p>
           </Container>
         </section>

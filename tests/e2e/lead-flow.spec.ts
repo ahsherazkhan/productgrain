@@ -6,7 +6,7 @@ test("homepage keeps a concise lead-generation path", async ({ page }) => {
   await expect(page.getByRole("heading", { level: 1, name: "The product-first studio for AI-native software." })).toBeVisible();
   await expect(page.getByRole("link", { name: "Discuss your product idea — free" }).first()).toBeVisible();
   await expect(page.getByRole("heading", { name: "Start with the right level of product certainty." })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Real products built around real operating problems." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Real products, studied through real operating problems." })).toBeVisible();
   await expect(page.getByRole("link", { name: "Explore your AI product opportunity" }).locator("svg")).toHaveCount(1);
   await expect(page.locator(".decision-map")).toHaveCount(0);
   const mobileMenu = page.getByRole("button", { name: "Open navigation" });
@@ -23,14 +23,15 @@ test("homepage keeps a concise lead-generation path", async ({ page }) => {
   await expect(page).toHaveURL(/\/work$/);
 });
 
-test("selected work opens an accessible product profile", async ({ page }) => {
+test("product references open an accessible attributed profile", async ({ page }) => {
   await page.goto("/work");
   await page.getByRole("button", { name: "Necessary only" }).click();
-  await expect(page.getByRole("heading", { level: 1, name: "Software built around real operating problems." })).toBeVisible();
-  await page.getByRole("link", { name: "View the Duro project profile" }).first().click();
-  await expect(page).toHaveURL(/\/work\/duro$/);
-  await expect(page.getByRole("heading", { level: 1, name: "Giving hardware teams a programmable product-data backbone" })).toBeVisible();
-  await expect(page.getByRole("img", { name: /Duro product website/ })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1, name: "Strong products, studied in context." })).toBeVisible();
+  await page.getByRole("link", { name: "View the ClaimDeck project profile" }).first().click();
+  await expect(page).toHaveURL(/\/work\/claimdeck$/);
+  await expect(page.getByRole("heading", { level: 1, name: "Building a litigation platform with AI-assisted workflows for insurers and law firms" })).toBeVisible();
+  await expect(page.getByRole("img", { name: /ClaimDeck litigation management software/ })).toBeVisible();
+  await expect(page.getByText("Reference project · delivered by Codal").first()).toBeVisible();
   await expect(page.getByRole("complementary", { name: "Project facts" })).toBeVisible();
 });
 

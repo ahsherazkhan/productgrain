@@ -13,6 +13,7 @@ export function WorkCard({
   priority?: boolean;
 }) {
   const cover = item.images[0];
+  const logo = item.logo;
 
   return (
     <article className={`work-card work-card--${variant}`}>
@@ -35,9 +36,20 @@ export function WorkCard({
             }
             priority={priority}
           />
+          {logo ? (
+            <span className="work-card__logo" aria-hidden="true">
+              <Image
+                src={logo.src}
+                alt=""
+                width={logo.width}
+                height={logo.height}
+                unoptimized
+              />
+            </span>
+          ) : null}
           <span className="work-card__image-label">
             <i aria-hidden="true" />
-            Public product website
+            {item.provenance.label}
           </span>
         </Link>
       ) : null}
@@ -57,7 +69,7 @@ export function WorkCard({
           ))}
         </ul>
         <ButtonLink href={`/work/${item.slug}`} variant="quiet">
-          Explore the product profile
+          Explore the reference profile
         </ButtonLink>
       </div>
     </article>

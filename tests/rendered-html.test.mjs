@@ -23,8 +23,8 @@ test("server-renders the NeedFoundry homepage", async () => {
   assert.match(html, /Discuss your product idea/i);
   assert.match(html, /AI should improve the workflow/i);
   assert.match(html, /Start with the right level of product certainty/i);
-  assert.match(html, /Selected client products/i);
-  assert.match(html, /Giving hardware teams a programmable product-data backbone/i);
+  assert.match(html, /Product references/i);
+  assert.match(html, /Building a litigation platform with AI-assisted workflows/i);
   assert.doesNotMatch(html, /decision-map|Founder and team|Product possibilities/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape|react-loading-skeleton/i);
 });
@@ -51,18 +51,24 @@ test("server-renders required core routes", async () => {
   }
 });
 
-test("server-renders the selected-work index and every published product profile", async () => {
+test("server-renders the reference index and every published product profile", async () => {
   const workResponse = await render("/work");
   assert.equal(workResponse.status, 200);
   const workHtml = await workResponse.text();
-  for (const slug of ["duro", "genuity", "purpose", "ticketrev", "tributi", "loopple"]) {
+  for (const slug of ["claimdeck", "fuze-health", "cost-plus-drugs", "children-health", "mantl", "ticketrev", "tributi", "loopple"]) {
     assert.match(workHtml, new RegExp(`/work/${slug}`));
     const detailResponse = await render(`/work/${slug}`);
     assert.equal(detailResponse.status, 200, slug);
     const detailHtml = await detailResponse.text();
     assert.match(detailHtml, /Project record/);
-    assert.match(detailHtml, /Current public .* product website/);
+    assert.match(detailHtml, /Profile type/);
+    assert.match(detailHtml, /not (?:as|presented as) (?:verified )?NeedFoundry client work/i);
   }
+
+  const costPlusResponse = await render("/work/cost-plus-drugs");
+  const costPlusHtml = await costPlusResponse.text();
+  assert.match(costPlusHtml, /player\.vimeo\.com\/video\/1120947017/);
+  assert.doesNotMatch(costPlusHtml, /autoplay=1/);
 
   const missingResponse = await render("/work/not-a-real-project");
   assert.equal(missingResponse.status, 404);

@@ -8,9 +8,9 @@ const contentSecurityPolicy = [
   "object-src 'none'",
   "script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com https://connect.facebook.net https://www.googletagmanager.com",
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob: https://www.facebook.com",
+  "img-src 'self' data: blob: https://www.facebook.com https://codal.com",
   "font-src 'self' data:",
-  "frame-src https://challenges.cloudflare.com",
+  "frame-src https://challenges.cloudflare.com https://player.vimeo.com",
   "connect-src 'self' https://challenges.cloudflare.com https://www.google-analytics.com https://region1.google-analytics.com https://graph.facebook.com https://www.facebook.com",
   "upgrade-insecure-requests",
 ].join("; ");
@@ -26,10 +26,18 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "codal.com",
+        pathname: "/wp-content/uploads/**",
+      },
+    ],
+  },
   async headers() {
     return [{ source: "/(.*)", headers: securityHeaders }];
   },
 };
 
 export default nextConfig;
-

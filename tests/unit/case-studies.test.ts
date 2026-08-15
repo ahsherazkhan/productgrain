@@ -10,18 +10,14 @@ import {
   getRelatedCaseStudies,
 } from "../../src/content/case-studies";
 
-test("publishes only the six confirmed and verifiable client products", () => {
+test("publishes the eight sourced reference and product profiles", () => {
   const published = getPublishedCaseStudies();
-  assert.equal(published.length, 6);
-  assert.ok(
-    published.every(
-      (item) => item.published && item.permissionStatus === "confirmed",
-    ),
-  );
+  assert.equal(published.length, 8);
+  assert.ok(published.every((item) => item.published));
   assert.equal(getPublishedCaseStudyBySlug("fitish"), undefined);
 });
 
-test("keeps project identifiers, order, sources, and local images valid", () => {
+test("keeps project identifiers, order, sources, and media valid", () => {
   const slugs = caseStudies.map((item) => item.slug);
   const orders = caseStudies.map((item) => item.featuredOrder);
   assert.equal(new Set(slugs).size, slugs.length);
@@ -30,6 +26,8 @@ test("keeps project identifiers, order, sources, and local images valid", () => 
   for (const item of caseStudies) {
     assert.match(item.productUrl, /^https:\/\//);
     assert.ok(item.sourceUrls.every((url) => url.startsWith("https://")));
+    assert.ok(item.sourceUrls.includes(item.provenance.sourceUrl));
+    assert.ok(item.provenance.disclosure.length > 40);
     for (const leader of item.publicLeadership) {
       assert.match(leader.sourceUrl, /^https:\/\//);
       assert.ok(item.sourceUrls.includes(leader.sourceUrl));
@@ -37,8 +35,17 @@ test("keeps project identifiers, order, sources, and local images valid", () => 
     assert.ok(item.images.length > 0);
     for (const image of item.images) {
       assert.ok(image.alt.length > 20);
-      assert.ok(image.src.startsWith("/work/"));
-      assert.ok(existsSync(join(process.cwd(), "public", image.src)));
+      if (image.src.startsWith("/work/")) {
+        assert.ok(existsSync(join(process.cwd(), "public", image.src)));
+      } else {
+        assert.match(image.src, /^https:\/\/codal\.com\/wp-content\/uploads\//);
+      }
+    }
+    if (item.logo) assert.match(item.logo.src, /^https:\/\//);
+    for (const video of item.videos ?? []) {
+      assert.match(video.embedUrl, /^https:\/\/player\.vimeo\.com\/video\//);
+      assert.ok(!video.embedUrl.includes("autoplay=1"));
+      assert.ok(item.sourceUrls.includes(video.sourceUrl));
     }
     for (const result of item.results) {
       assert.ok(result.verificationNote.length > 0);
@@ -46,15 +53,28 @@ test("keeps project identifiers, order, sources, and local images valid", () => 
   }
 });
 
-test("selects intentional featured and related project records", () => {
+test("selects intentional featured and related reference records", () => {
   assert.deepEqual(
     getFeaturedCaseStudies().map((item) => item.slug),
-    ["duro", "genuity", "purpose"],
+    ["claimdeck", "fuze-health", "cost-plus-drugs"],
   );
-  const duro = getPublishedCaseStudyBySlug("duro");
-  assert.ok(duro);
+  const claimdeck = getPublishedCaseStudyBySlug("claimdeck");
+  assert.ok(claimdeck);
   assert.deepEqual(
-    getRelatedCaseStudies(duro).map((item) => item.slug),
-    ["genuity", "ticketrev"],
+    getRelatedCaseStudies(claimdeck).map((item) => item.slug),
+    ["fuze-health", "cost-plus-drugs"],
   );
+});
+
+test("labels Codal references without claiming NeedFoundry delivery", () => {
+  const references = caseStudies.filter(
+    (item) => item.provenance.kind === "third-party-reference",
+  );
+  assert.equal(references.length, 5);
+  for (const item of references) {
+    assert.equal(item.provenance.sourceName, "Codal");
+    assert.equal(item.permissionStatus, "not-requested");
+    assert.doesNotMatch(item.solution, /^We\b/);
+    assert.match(item.provenance.disclosure, /not as NeedFoundry client work/);
+  }
 });

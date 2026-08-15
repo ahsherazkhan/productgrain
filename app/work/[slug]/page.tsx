@@ -85,6 +85,7 @@ export default async function CaseStudyPage({
       "@type": "Organization",
       name: siteConfig.brandName,
     },
+    citation: item.provenance.sourceUrl,
     ...(siteConfig.siteUrl
       ? { url: `${siteConfig.siteUrl}/work/${item.slug}` }
       : {}),
@@ -103,7 +104,7 @@ export default async function CaseStudyPage({
       />
 
       <PageHero
-        eyebrow={`${item.clientName} · ${item.industry}`}
+        eyebrow={`${item.provenance.label} · ${item.industry}`}
         title={item.title}
         copy={item.summary}
       >
@@ -114,6 +115,18 @@ export default async function CaseStudyPage({
             { label: item.clientName },
           ]}
         />
+        {item.logo ? (
+          <div className="case-study-hero__logo">
+            <Image
+              src={item.logo.src}
+              alt={item.logo.alt}
+              width={item.logo.width}
+              height={item.logo.height}
+              unoptimized
+              priority
+            />
+          </div>
+        ) : null}
         <div className="button-row case-study-hero__actions">
           <ButtonLink href={item.productUrl} variant="secondary">
             Visit {item.clientName}
@@ -165,6 +178,10 @@ export default async function CaseStudyPage({
                   <dt>Market</dt>
                   <dd>{item.industry}</dd>
                 </div>
+                <div>
+                  <dt>Profile type</dt>
+                  <dd>{item.provenance.label}</dd>
+                </div>
                 {item.publicLeadership.length ? (
                   <div>
                     <dt>Public leadership</dt>
@@ -182,6 +199,11 @@ export default async function CaseStudyPage({
               <ButtonLink href={item.productUrl} variant="quiet">
                 Open the live product
               </ButtonLink>
+              {item.provenance.sourceUrl !== item.productUrl ? (
+                <ButtonLink href={item.provenance.sourceUrl} variant="quiet">
+                  Read the {item.provenance.sourceName} source
+                </ButtonLink>
+              ) : null}
             </aside>
 
             <div className="project-record__story">
@@ -209,12 +231,55 @@ export default async function CaseStudyPage({
                 </ul>
               </section>
               <p className="project-record__disclosure">
-                This profile uses current public product information reviewed in August 2026. The NeedFoundry-authored narrative does not disclose confidential delivery details, private analytics, or unsupported outcomes. Claims visible inside the captured website belong to its publisher and are not independently verified here.
+                {item.provenance.disclosure} This profile uses public information reviewed in August 2026. Published outcomes are attributed to their source and have not been independently verified by NeedFoundry.
               </p>
             </div>
           </div>
         </Container>
       </section>
+
+      {item.images.length > 1 || item.videos?.length ? (
+        <section className="section section--surface case-study-media">
+          <Container>
+            <div className="case-study-media__heading">
+              <p className="eyebrow">Product media</p>
+              <h2>Screens, demos and brand details.</h2>
+              <p>
+                Media is shown for editorial reference and credited to the original case-study publisher. Videos are click-to-play and do not autoplay.
+              </p>
+            </div>
+            <div className="case-study-media__grid">
+              {item.images.slice(1).map((image) => (
+                <figure key={image.src}>
+                  <Image
+                    src={image.src}
+                    alt={image.alt}
+                    width={image.width}
+                    height={image.height}
+                    unoptimized
+                    sizes="(max-width: 760px) 100vw, 620px"
+                  />
+                  {image.caption ? <figcaption>{image.caption}</figcaption> : null}
+                </figure>
+              ))}
+              {item.videos?.map((video) => (
+                <figure className="case-study-media__video" key={video.embedUrl}>
+                  <div>
+                    <iframe
+                      src={video.embedUrl}
+                      title={video.title}
+                      loading="lazy"
+                      allow="fullscreen; picture-in-picture"
+                      allowFullScreen
+                    />
+                  </div>
+                  <figcaption>{video.caption}</figcaption>
+                </figure>
+              ))}
+            </div>
+          </Container>
+        </section>
+      ) : null}
 
       {related.length ? (
         <section className="section section--muted related-projects">
@@ -222,7 +287,7 @@ export default async function CaseStudyPage({
             <div className="related-projects__heading">
               <div>
                 <p className="eyebrow">Continue exploring</p>
-                <h2>Related product work</h2>
+                <h2>Related product references</h2>
               </div>
               <ButtonLink href="/work" variant="secondary">
                 View all work
