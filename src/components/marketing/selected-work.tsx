@@ -32,11 +32,6 @@ function SelectedWorkCard({ item }: { item: CaseStudy }) {
           />
         ) : null}
 
-        <span className="selected-work-card__provenance">
-          <i aria-hidden="true" />
-          {item.provenance.label}
-        </span>
-
         {logo ? (
           <span className="selected-work-card__logo" aria-hidden="true">
             <Image

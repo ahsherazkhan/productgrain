@@ -80,7 +80,7 @@ test("homepage keeps a concise lead-generation path", async ({ page }) => {
   await expect(selectedWork.locator("article.selected-work-card")).toHaveCount(3);
   await expect(selectedWork.locator(".selected-work-card__overlay")).toHaveCount(3);
   await expect(selectedWork.locator(".selected-work-card__link > img")).toHaveCount(3);
-  await expect(selectedWork.getByText("ProductGrain project", { exact: true })).toHaveCount(3);
+  await expect(selectedWork.getByText("ProductGrain project", { exact: true })).toHaveCount(0);
   await expect(selectedWork.locator(".selected-work-card__overlay h3")).toHaveCount(3);
   await expect(selectedWork.locator(".selected-work-card__overlay").first()).toHaveCSS(
     "background-color",
@@ -93,7 +93,6 @@ test("homepage keeps a concise lead-generation path", async ({ page }) => {
   await expect(selectedWork.locator(".selected-work__index, .work-card__content")).toHaveCount(0);
   await expect(page.locator("body")).toContainText("Selected work");
   await expect(page.locator("body")).toContainText("Selected products delivered by ProductGrain");
-  await expect(page.locator("body")).toContainText("ProductGrain project");
   await expect(page.locator("body")).not.toContainText(retiredPublicBrand);
   await expect(page.locator("body")).not.toContainText("\u2014");
   await expect(page.locator("body")).not.toContainText(legacyReferenceFraming);

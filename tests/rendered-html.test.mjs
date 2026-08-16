@@ -246,7 +246,7 @@ test("server-renders the ProductGrain homepage and social identity", async () =>
     selectedWorkHtml,
     /selected-work-card__(?:meta|cta)|Read case study/i,
   );
-  assert.match(selectedWorkHtml, /ProductGrain project/i);
+  assert.doesNotMatch(selectedWorkHtml, /ProductGrain project/i);
   assert.match(selectedWorkHtml, /ClaimDeck/i);
   assert.match(selectedWorkHtml, /\/work\/projects\//i);
   assert.doesNotMatch(

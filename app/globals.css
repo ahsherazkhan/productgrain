@@ -4041,29 +4041,6 @@ p {
   pointer-events: none;
 }
 
-.selected-work-card__provenance {
-  position: absolute;
-  z-index: 2;
-  top: 14px;
-  left: 14px;
-  display: inline-flex;
-  padding: 7px 9px;
-  background: rgba(11, 19, 36, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  border-radius: 7px;
-  align-items: center;
-  gap: 7px;
-  font-size: 0.62rem;
-  font-weight: 650;
-}
-
-.selected-work-card__provenance i {
-  width: 7px;
-  height: 7px;
-  background: var(--apricot);
-  border-radius: 99px;
-}
-
 .selected-work-card__logo {
   position: absolute;
   z-index: 2;
@@ -4699,19 +4676,6 @@ p {
 
   .case-study-media figure:first-child:nth-last-child(odd) {
     grid-column: auto;
-  }
-}
-
-@media (max-width: 380px) {
-  .selected-work-card__provenance {
-    padding: 6px 7px;
-    gap: 5px;
-    font-size: 0.56rem;
-  }
-
-  .selected-work-card__provenance i {
-    width: 6px;
-    height: 6px;
   }
 }
 
