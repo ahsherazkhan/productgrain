@@ -4,7 +4,7 @@ ProductGrain is a founder-led, product-first software studio for AI-native softw
 
 The project uses the App Router on the Cloudflare-compatible [vinext](https://github.com/cloudflare/vinext) starter. It is designed for OpenAI Sites/Cloudflare Workers and keeps external services optional so missing analytics or email credentials never take down the core website.
 
-> Launch note: the `/work` page publishes seven historically attributed NeedFoundry client projects with confirmed founder authorization: ClaimDeck, CPAP.com, CallPotential, BUILT BY GIRLS, Fuze Health, Children's Health, and MANTL. ProductGrain is the current page author and publisher; the recorded NeedFoundry delivery name, proof copy, and software-creator attribution remain unchanged until rebrand-specific client permission is confirmed. Three independent public product profiles remain archived. Testimonials remain hidden until approved. Founder/team assets, legal copy, service credentials, and production contact details still require review before launch. See [the content replacement checklist](docs/content-replacement-checklist.md) and [the deployment checklist](docs/deployment-checklist.md).
+> Launch note: the `/work` page publishes seven verified ProductGrain client projects with confirmed founder authorization: ClaimDeck, CPAP.com, CallPotential, BUILT BY GIRLS, Fuze Health, Children's Health, and MANTL. ProductGrain is identified consistently as the delivery organization, page author, publisher, and software creator. Three independent public product profiles remain archived. Testimonials remain hidden until approved. Founder/team assets, legal copy, service credentials, and production contact details still require review before launch. See [the content replacement checklist](docs/content-replacement-checklist.md) and [the deployment checklist](docs/deployment-checklist.md).
 
 ## Technology
 
@@ -26,7 +26,7 @@ The product surface includes:
 - Legal/system: `/privacy`, `/terms`, `/cookies`, sitemap, robots, not-found, and error states.
 - Server endpoints: lead submission and consent-aware server analytics/Meta forwarding.
 
-UK and US landing pages share one component but use manually configured local prices, budget ranges, metadata, booking destinations, and locale. Prices are starting points—not automatic currency conversions or checkout amounts.
+UK and US landing pages share one component but use manually configured local prices, budget ranges, metadata, booking destinations, and locale. Prices are starting points, not automatic currency conversions or checkout amounts.
 
 ## Local setup
 
@@ -88,7 +88,7 @@ Copy `.env.example` to `.env.local`. Public variables are intentionally visible 
 
 | Variable | Required | Purpose |
 |---|---:|---|
-| `NEXT_PUBLIC_SITE_URL` | Production | Absolute canonical origin, for example `https://needfoundry.example`. Used for canonical URLs, social metadata, and server event sources. Do not include a trailing path. |
+| `NEXT_PUBLIC_SITE_URL` | Production | Absolute canonical origin, for example `https://productgrain.example`. Used for canonical URLs, social metadata, and server event sources. Do not include a trailing path. |
 | `NEXT_PUBLIC_MARKET_DEFAULT` | Yes | Default market for international visits. Use `us` or `uk`; it selects configured display prices rather than converting currency. |
 | `BOOKING_URL_DEFAULT` | Recommended | Server-only HTTPS fallback calendar URL returned only after qualification. |
 | `BOOKING_URL_US` | Recommended | Server-only US qualified-lead calendar URL. |
@@ -100,7 +100,7 @@ Copy `.env.example` to `.env.local`. Public variables are intentionally visible 
 | `CRM_WEBHOOK_URL` | Webhook/optional fan-out | Valid HTTPS lead webhook destination. |
 | `CRM_WEBHOOK_SECRET` | Webhook | Shared server-only secret used to authenticate/sign webhook delivery. |
 | `RESEND_API_KEY` | Resend | Server-only Resend API key. |
-| `EMAIL_FROM` | Resend | Verified sender, for example `NeedFoundry <hello@your-domain.com>`. |
+| `EMAIL_FROM` | Resend | Verified sender, for example `ProductGrain <hello@your-domain.com>`. |
 | `INTERNAL_LEAD_EMAIL` | Resend | Internal recipient for lead notifications. |
 | `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Production form | Public Turnstile widget site key. |
 | `TURNSTILE_SECRET_KEY` | Production form | Server-only Turnstile verification secret. |
@@ -124,7 +124,7 @@ An empty optional integration must result in a controlled fallback. Do not repre
 The public identity now comes from `src/config/site.ts`, but compatibility and provenance are intentionally separate from current-brand copy:
 
 - Existing `needfoundry-*` browser storage keys, `needfoundry:*` events, analytics script IDs, the `x-needfoundry-signature` webhook header, package identity, and test-only `.example`/`.invalid` hosts remain unchanged.
-- The seven published projects retain their verified historical NeedFoundry delivery name and SoftwareApplication creator attribution. ProductGrain is the current profile-page author and publisher.
+- The seven published projects identify ProductGrain consistently as the verified delivery organization, profile-page author, publisher, and SoftwareApplication creator.
 - The canonical origin, sender address, public contact address, and company social link must not move to ProductGrain values until the domain, sender, and profiles are controlled and verified.
 - ProductGrain is a public-facing brand in the draft legal pages; the actual legal entity, data controller, privacy contact, and professional approval remain launch requirements.
 
@@ -231,7 +231,7 @@ The build produces Cloudflare Worker-compatible ESM output. Vercel may require a
 
 ## Launch content and legal review
 
-Customer proof may appear only when NeedFoundry delivery has been verified and publication permission is recorded. The seven published projects meet that gate and use approved project media. Source-only outcome claims remain hidden pending separate confirmation. TicketRev, Tributi, and Loopple remain archived and unavailable. Testimonials disappear cleanly because none have been supplied and approved. Initial-based avatars are preferred over stock team photography.
+Customer proof may appear only when ProductGrain delivery has been verified and publication permission is recorded. The seven published projects meet that gate and use approved project media. Source-only outcome claims remain hidden pending separate confirmation. TicketRev, Tributi, and Loopple remain archived and unavailable. Testimonials disappear cleanly because none have been supplied and approved. Initial-based avatars are preferred over stock team photography.
 
 The privacy, terms, cookie, retention, international-transfer, advertising-consent, and data-subject request language requires review by a qualified professional for the actual UK/US operation. Generated policy placeholders are not legal advice and do not guarantee compliance.
 

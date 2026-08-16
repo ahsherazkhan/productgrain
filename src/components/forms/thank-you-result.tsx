@@ -31,7 +31,7 @@ const copy = {
   },
   nurture: {
     eyebrow: "Enquiry received",
-    title: "Thank you — we’ll review the most practical next step.",
+    title: "Thank you. We’ll review the most practical next step.",
     body: "We will review your project note, budget range, and desired start, then follow up by email.",
     icon: CheckCircle2,
   },

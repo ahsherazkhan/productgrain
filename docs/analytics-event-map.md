@@ -39,7 +39,7 @@ Before enabling these events, define deduplication, consent/lawful-basis handlin
 | `form_start` | `form_start` | `LeadFormStart` | Optional deduplicated `LeadFormStart` |
 | `lead_submitted` | `lead_submitted` | `Lead` | Deduplicated `Lead` |
 | `qualified_lead` | `qualified_lead` | Optional `QualifiedLead` | Deduplicated `QualifiedLead` |
-| `booking_view` | `booking_view` | — | — |
+| `booking_view` | `booking_view` | Not applicable | Not applicable |
 | `booking_click` | `booking_click` | `Schedule` | Optional deduplicated `Schedule` |
 | `case_study_view` | `case_study_view` | Optional `ViewContent` | Optional deduplicated `ViewContent` |
 | contact-intent `cta_click` | `cta_click` | Optional `Contact` | Optional deduplicated `Contact` |

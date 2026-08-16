@@ -20,7 +20,7 @@ const publishedWorkSlugs = [
   "mantl",
 ];
 
-test("publishes exactly seven verified NeedFoundry projects", () => {
+test("publishes exactly seven verified ProductGrain projects", () => {
   const published = getPublishedCaseStudies();
   assert.equal(caseStudies.length, 10);
   assert.deepEqual(
@@ -33,10 +33,10 @@ test("publishes exactly seven verified NeedFoundry projects", () => {
         item.published &&
         item.permissionStatus === "confirmed" &&
         item.provenance.kind === "verified-client-work" &&
-        item.provenance.label === "NeedFoundry project" &&
-        item.provenance.deliveryName === "NeedFoundry" &&
+        item.provenance.label === "ProductGrain project" &&
+        item.provenance.deliveryName === "ProductGrain" &&
         item.provenance.disclosure ===
-          "Delivered by NeedFoundry and published with founder authorization." &&
+          "Delivered by ProductGrain and published with founder authorization." &&
         item.results.length === 0,
     ),
   );
@@ -44,10 +44,7 @@ test("publishes exactly seven verified NeedFoundry projects", () => {
     JSON.stringify(published),
     /Codal|\breferences?\b|\/work\/codal\//i,
   );
-  assert.doesNotMatch(
-    JSON.stringify(published.map((item) => item.provenance)),
-    /ProductGrain/i,
-  );
+  assert.doesNotMatch(JSON.stringify(published), /NeedFoundry|Codal|\u2014/i);
   assert.equal(getPublishedCaseStudyBySlug("claimdeck")?.clientName, "ClaimDeck");
   assert.equal(getPublishedCaseStudyBySlug("cost-plus-drugs"), undefined);
   assert.equal(getPublishedCaseStudyBySlug("fitish"), undefined);
@@ -131,7 +128,7 @@ test("publishes verified client work and keeps independent profiles archived", (
       (item) =>
         item.permissionStatus === "confirmed" &&
         item.provenance.kind === "verified-client-work" &&
-        item.provenance.deliveryName === "NeedFoundry" &&
+        item.provenance.deliveryName === "ProductGrain" &&
         publishedSlugs.has(item.slug),
     ),
   );

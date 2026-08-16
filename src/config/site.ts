@@ -82,7 +82,7 @@ export const siteConfig = {
     { label: "Pricing", href: "#pricing" },
   ],
   primaryCta: {
-    label: "Discuss your product idea — free",
+    label: "Discuss your product idea, free",
     href: "/apply",
   },
 } as const satisfies SiteConfig;
@@ -91,7 +91,7 @@ export const siteMetadata = {
   title: "Product-First AI Software Studio | ProductGrain",
   description: siteConfig.description,
   openGraphAlt:
-    "ProductGrain — the product-first studio for AI-native software.",
+    "ProductGrain, the product-first studio for AI-native software.",
   socialImage: "/og.png?v=productgrain-20260816",
   favicon: "/favicon.svg?v=productgrain-20260816",
   shortcutIcon: "/favicon.ico?v=productgrain-20260816",

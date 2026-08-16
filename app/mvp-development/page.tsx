@@ -32,7 +32,7 @@ export default function MvpDevelopmentPage() {
       >
         <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "MVP development" }]} />
         <div className="button-row">
-          <ButtonLink href="/apply">Discuss your idea — free</ButtonLink>
+          <ButtonLink href="/apply">Discuss your idea, free</ButtonLink>
           <ButtonLink href="/pricing" variant="secondary">
             See starting prices
           </ButtonLink>

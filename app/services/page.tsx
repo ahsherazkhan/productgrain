@@ -74,7 +74,7 @@ export default function ServicesPage() {
             <div>
               <p>
                 We choose the approach after understanding users, data, integrations, launch
-                expectations, and long-term constraints—not from a stack catalogue.
+                expectations, and long-term constraints, not from a stack catalogue.
               </p>
               <ButtonLink href="/apply" variant="secondary">
                 Discuss your idea

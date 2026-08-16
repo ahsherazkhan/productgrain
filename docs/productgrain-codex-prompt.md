@@ -18,7 +18,7 @@ BRAND SYSTEM
 - Category: product-first software studio.
 - Differentiator: AI-native.
 - Primary descriptor: “The product-first studio for AI-native software.”
-- Core explanation: “We work with the grain of your market—understanding how people already work, where value is lost, and what software should change.”
+- Core explanation: “We work with the grain of your market, understanding how people already work, where value is lost, and what software should change.”
 - Voice: direct, calm, credible, commercially aware, and free of unsupported superlatives.
 - Do not introduce earthy colours, rustic typography, wheat, seeds, leaves, wood texture, brains, circuits, sparkles, or generic AI imagery.
 - Use the grain metaphor only on the About page and optional social artwork. Do not repeat grain, harvest, growth, craft, or agricultural puns across the site.
@@ -47,7 +47,7 @@ Use this About page copy:
 - Story eyebrow: “Why ProductGrain exists”
 - Story heading: “Work with the grain of the market.”
 - Story paragraph 1: “Every market has a grain: the workflows, constraints, decisions, and hard-won knowledge that shape how work really gets done.”
-- Story paragraph 2: “We learn that context before deciding what to build. Then we connect research, validation, design, and engineering in one accountable path—from a promising problem to software people can use.”
+- Story paragraph 2: “We learn that context before deciding what to build. Then we connect research, validation, design, and engineering in one accountable path, from a promising problem to software people can use.”
 - Do not hardcode the current team headcount.
 
 CONFIGURATION AND PUBLIC COPY

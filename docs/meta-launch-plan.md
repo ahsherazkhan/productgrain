@@ -81,7 +81,7 @@ Exclude:
 - Signed customers.
 - Staff, test leads, and known internal traffic where practical.
 
-Retargeting copy should answer genuine objections—lack of a specification, uncertainty about first scope, and what happens in the free call—without using pressure, countdowns, fake scarcity, or personalized wording that implies knowledge of sensitive attributes.
+Retargeting copy should answer genuine objections such as lack of a specification, uncertainty about first scope, and what happens in the free call, without using pressure, countdowns, fake scarcity, or personalized wording that implies knowledge of sensitive attributes.
 
 ## Initial planning budgets
 

@@ -20,7 +20,14 @@ const removedWorkSlug = "cost-plus-drugs";
 const legacyReferenceFraming =
   /Codal|\breferences?\b|\/work\/codal(?:\/|%2f)/i;
 const verifiedProjectDisclosure =
-  /Delivered by NeedFoundry and published with founder authorization\./i;
+  /Delivered by ProductGrain and published with founder authorization\./i;
+const retiredPublicBrand = /NeedFoundry|Codal/i;
+
+function assertNoRetiredPublicCopy(html, route) {
+  const publicHtml = withoutAbsoluteUrls(html);
+  assert.doesNotMatch(publicHtml, retiredPublicBrand, route);
+  assert.doesNotMatch(publicHtml, /\u2014/, route);
+}
 
 function readStructuredDataScripts(html) {
   return [...html.matchAll(
@@ -83,7 +90,7 @@ function assertMarketMetadata(html, { title, description, locale }) {
   assert.match(html, /<meta property="og:image:height" content="630"/i);
   assert.ok(
     html.includes(
-      '<meta property="og:image:alt" content="ProductGrain — the product-first studio for AI-native software."/>',
+      '<meta property="og:image:alt" content="ProductGrain, the product-first studio for AI-native software."/>',
     ),
     "Open Graph image alt",
   );
@@ -102,7 +109,7 @@ function assertMarketMetadata(html, { title, description, locale }) {
   assert.match(html, /<meta name="twitter:image" content="[^">]*\/og\.png\?v=productgrain-20260816"/i);
   assert.ok(
     html.includes(
-      '<meta name="twitter:image:alt" content="ProductGrain — the product-first studio for AI-native software."/>',
+      '<meta name="twitter:image:alt" content="ProductGrain, the product-first studio for AI-native software."/>',
     ),
     "Twitter image alt",
   );
@@ -173,7 +180,7 @@ test("server-renders the ProductGrain homepage and social identity", async () =>
   assert.match(html, /<meta property="og:image:height" content="630"/i);
   assert.match(
     html,
-    /<meta property="og:image:alt" content="ProductGrain — the product-first studio for AI-native software\."/i,
+    /<meta property="og:image:alt" content="ProductGrain, the product-first studio for AI-native software\."/i,
   );
   assert.match(
     html,
@@ -209,7 +216,7 @@ test("server-renders the ProductGrain homepage and social identity", async () =>
     /If simpler software is the better answer, we(?:’|&#x27;)ll say so\./i,
   );
   assert.match(html, /Focused products built around real workflows/i);
-  assert.match(html, /Selected products delivered by NeedFoundry/i);
+  assert.match(html, /Selected products delivered by ProductGrain/i);
   assert.doesNotMatch(
     html,
     /Your industry knowledge could become an AI-native product|Focused products, shaped around real operating problems/i,
@@ -239,7 +246,7 @@ test("server-renders the ProductGrain homepage and social identity", async () =>
     selectedWorkHtml,
     /selected-work-card__(?:meta|cta)|Read case study/i,
   );
-  assert.match(selectedWorkHtml, /NeedFoundry project/i);
+  assert.match(selectedWorkHtml, /ProductGrain project/i);
   assert.match(selectedWorkHtml, /ClaimDeck/i);
   assert.match(selectedWorkHtml, /\/work\/projects\//i);
   assert.doesNotMatch(
@@ -266,6 +273,7 @@ test("server-renders the ProductGrain homepage and social identity", async () =>
   }
   assert.doesNotMatch(html, /decision-map|Founder and team|Product possibilities/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape|react-loading-skeleton/i);
+  assertNoRetiredPublicCopy(html, "/");
   assert.ok(
     html.indexOf('id="pricing"') < html.indexOf('class="section section--surface ai-opportunity-section"'),
     "AI opportunity section should render after pricing",
@@ -299,6 +307,8 @@ test("server-renders market-specific campaign pricing", async () => {
   const [uk, us] = await Promise.all([ukResponse.text(), usResponse.text()]);
   assertProductGrainShell(uk);
   assertProductGrainShell(us);
+  assertNoRetiredPublicCopy(uk, "/mvp-development/uk");
+  assertNoRetiredPublicCopy(us, "/mvp-development/us");
   assertMarketMetadata(uk, {
     title: "Product-First AI MVP Development in the UK | ProductGrain",
     description:
@@ -330,6 +340,7 @@ test("server-renders required core routes", async () => {
   for (const route of ["/services", "/process", "/pricing", "/work", "/about", "/apply", "/mvp-development", "/thank-you", "/privacy", "/terms", "/cookies"]) {
     const response = await render(route);
     assert.equal(response.status, 200, route);
+    assertNoRetiredPublicCopy(await response.text(), route);
   }
 
   const applyResponse = await render("/apply");
@@ -356,7 +367,7 @@ test("server-renders required core routes", async () => {
   );
   assert.match(
     aboutContent,
-    /We learn that context before deciding what to build\. Then we connect research, validation, design, and engineering in one accountable path—from a promising problem to software people can use\./i,
+    /We learn that context before deciding what to build\. Then we connect research, validation, design, and engineering in one accountable path, from a promising problem to software people can use\./i,
   );
   const aboutHtmlWithoutUrls = withoutAbsoluteUrls(aboutHtml);
   assert.doesNotMatch(
@@ -420,15 +431,16 @@ test("server-renders required core routes", async () => {
   assert.match(thankYouHtml, /<meta name="robots" content="noindex, nofollow"/i);
 });
 
-test("server-renders ProductGrain-authored pages for seven historical NeedFoundry projects", async () => {
+test("server-renders seven verified ProductGrain projects without retired public branding", async () => {
   const workResponse = await render("/work");
   assert.equal(workResponse.status, 200);
   const workHtml = await workResponse.text();
   assertProductGrainShell(workHtml);
   assert.match(workHtml, /Selected work/i);
   assert.match(workHtml, /Focused products built around real workflows/i);
-  assert.match(workHtml, /Selected products delivered by NeedFoundry/i);
-  assert.match(workHtml, /NeedFoundry project/i);
+  assert.match(workHtml, /Selected products delivered by ProductGrain/i);
+  assert.match(workHtml, /ProductGrain project/i);
+  assertNoRetiredPublicCopy(workHtml, "/work");
   assert.match(workHtml, /\/work\/projects\//i);
   assert.equal(
     [...workHtml.matchAll(/<article class="work-card work-card--(?:featured|card)">/gi)].length,
@@ -450,7 +462,7 @@ test("server-renders ProductGrain-authored pages for seven historical NeedFoundr
     assert.equal(item.author?.name, "ProductGrain");
     assert.equal(item.publisher?.name, "ProductGrain");
     assert.equal(item.about?.["@type"], "SoftwareApplication");
-    assert.equal(item.about?.creator?.name, "NeedFoundry");
+    assert.equal(item.about?.creator?.name, "ProductGrain");
     assert.ok(!("citation" in item));
     assert.ok(!("isBasedOn" in item));
   }
@@ -461,7 +473,7 @@ test("server-renders ProductGrain-authored pages for seven historical NeedFoundr
     assert.equal(detailResponse.status, 200, slug);
     const detailHtml = await detailResponse.text();
     assertProductGrainShell(detailHtml);
-    assert.match(detailHtml, /NeedFoundry project/i);
+    assert.match(detailHtml, /ProductGrain project/i);
     assert.match(detailHtml, verifiedProjectDisclosure);
     assert.match(detailHtml, /Project record/i);
     assert.match(detailHtml, /Client/i);
@@ -475,7 +487,8 @@ test("server-renders ProductGrain-authored pages for seven historical NeedFoundr
     assert.equal(detailStructuredData.author?.name, "ProductGrain");
     assert.equal(detailStructuredData.publisher?.name, "ProductGrain");
     assert.equal(detailStructuredData.about?.["@type"], "SoftwareApplication");
-    assert.equal(detailStructuredData.about?.creator?.name, "NeedFoundry");
+    assert.equal(detailStructuredData.about?.creator?.name, "ProductGrain");
+    assertNoRetiredPublicCopy(detailHtml, `/work/${slug}`);
     assert.ok(!("citation" in detailStructuredData));
     assert.ok(!("isBasedOn" in detailStructuredData));
   }

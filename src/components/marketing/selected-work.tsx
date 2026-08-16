@@ -69,7 +69,7 @@ export function SelectedWorkSection() {
           <SectionIntro
             eyebrow="Selected work"
             title="Focused products built around real workflows."
-            copy="Selected products delivered by NeedFoundry across AI, SaaS, healthcare, finance, and operations."
+            copy="Selected products delivered by ProductGrain across AI, SaaS, healthcare, finance, and operations."
           />
           <ButtonLink href="/work" variant="secondary">
             View all work

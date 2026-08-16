@@ -57,7 +57,7 @@ Core message:
 - Pricing
 
 `siteConfig.primaryCta`
-- “Discuss your product idea — free” → `/apply`
+- “Discuss your product idea, free” → `/apply`
 
 ### Footer and campaign nav
 - Footer includes Explore, Markets, Information groups
@@ -140,7 +140,7 @@ Core message:
 
 ## Work/portfolio model and media
 - Content-driven profile records live in `src/content/case-studies.ts`.
-- Seven projects—ClaimDeck, CPAP.com, CallPotential, BUILT BY GIRLS, Fuze Health, Children's Health, and MANTL—remain published with their verified historical NeedFoundry delivery attribution. ProductGrain authors and publishes the current profile pages without rewriting the recorded software creator.
+- Seven projects, ClaimDeck, CPAP.com, CallPotential, BUILT BY GIRLS, Fuze Health, Children's Health, and MANTL, remain published with verified ProductGrain delivery attribution. ProductGrain is also the author, publisher, and recorded software creator for the profile pages.
 - All seven use `verified-client-work`, confirmed founder authorization, approved project media, and public detail routes.
 - Source-only outcome claims remain hidden until their values and timeframes receive separate confirmation.
 - TicketRev, Tributi, and Loopple remain archived public product profiles and do not generate routes, structured data, or sitemap entries.
@@ -170,7 +170,7 @@ Core message:
 
 ## ProductGrain transition safeguards
 - Existing `needfoundry-*` storage keys, `needfoundry:*` browser events, analytics script IDs, the `x-needfoundry-signature` webhook header, package identity, and test-only `.example`/`.invalid` hosts remain unchanged for compatibility.
-- Historical project delivery fields and SoftwareApplication creator attribution remain NeedFoundry. ProductGrain is the author and publisher of the current pages, not a retroactive replacement for delivery provenance.
+- Published project delivery fields and SoftwareApplication creator attribution use ProductGrain consistently.
 - Canonical URLs, sender addresses, contact details, and company social links remain on verified existing values or hidden fallbacks until real ProductGrain operations are supplied.
 - Legal pages describe ProductGrain as the public-facing brand only and retain explicit professional-review and legal-entity/data-controller placeholders.
 
@@ -179,6 +179,6 @@ Core message:
 - Confirm ProductGrain domain ownership before changing canonical URLs or redirects
 - Verify a ProductGrain sending/contact domain and official company social profile
 - Confirm legal entity-specific privacy/terms language, data-controller identity, contact details, and professional approval
-- Obtain rebrand-specific permission before replacing historical NeedFoundry delivery attribution with ProductGrain
+- Complete final client review of ProductGrain delivery attribution
 - Provision production integrations (Supabase or webhook, Resend, Turnstile, booking provider, Meta/GA)
 - Run full verification: lint/typecheck/unit-integration tests/e2e + production build

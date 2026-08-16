@@ -18,6 +18,7 @@ const archivedWorkSlugs = [
 const removedWorkSlug = "cost-plus-drugs";
 const legacyReferenceFraming =
   /Codal|\breferences?\b|\/work\/codal(?:\/|%2f)/i;
+const retiredPublicBrand = /NeedFoundry|Codal/i;
 const legacyEnrichmentFields = [
   "country",
   "role",
@@ -63,7 +64,7 @@ test("homepage keeps a concise lead-generation path", async ({ page }) => {
     await page.evaluate(() => localStorage.getItem("needfoundry-consent-v1")),
   ).not.toBeNull();
   await expect(page.getByRole("heading", { level: 1, name: "The product-first studio for AI-native software." })).toBeVisible();
-  await expect(page.getByRole("link", { name: "Discuss your product idea — free" }).first()).toBeVisible();
+  await expect(page.getByRole("link", { name: "Discuss your product idea, free" }).first()).toBeVisible();
   await expect(page.getByRole("heading", { name: "Start with the right level of product certainty." })).toBeVisible();
   const aiOpportunity = page.locator(".ai-opportunity-section");
   await expect(aiOpportunity.getByRole("heading", { name: "Make your expertise scalable." })).toBeVisible();
@@ -79,7 +80,7 @@ test("homepage keeps a concise lead-generation path", async ({ page }) => {
   await expect(selectedWork.locator("article.selected-work-card")).toHaveCount(3);
   await expect(selectedWork.locator(".selected-work-card__overlay")).toHaveCount(3);
   await expect(selectedWork.locator(".selected-work-card__link > img")).toHaveCount(3);
-  await expect(selectedWork.getByText("NeedFoundry project", { exact: true })).toHaveCount(3);
+  await expect(selectedWork.getByText("ProductGrain project", { exact: true })).toHaveCount(3);
   await expect(selectedWork.locator(".selected-work-card__overlay h3")).toHaveCount(3);
   await expect(selectedWork.locator(".selected-work-card__overlay").first()).toHaveCSS(
     "background-color",
@@ -91,8 +92,10 @@ test("homepage keeps a concise lead-generation path", async ({ page }) => {
   await expect(selectedWork.getByRole("link", { name: /Read the ClaimDeck case study:/ })).toBeVisible();
   await expect(selectedWork.locator(".selected-work__index, .work-card__content")).toHaveCount(0);
   await expect(page.locator("body")).toContainText("Selected work");
-  await expect(page.locator("body")).toContainText("Selected products delivered by NeedFoundry");
-  await expect(page.locator("body")).toContainText("NeedFoundry project");
+  await expect(page.locator("body")).toContainText("Selected products delivered by ProductGrain");
+  await expect(page.locator("body")).toContainText("ProductGrain project");
+  await expect(page.locator("body")).not.toContainText(retiredPublicBrand);
+  await expect(page.locator("body")).not.toContainText("\u2014");
   await expect(page.locator("body")).not.toContainText(legacyReferenceFraming);
   await expect(page.locator('img[src^="/work/projects/"]').first()).toBeAttached();
   await expect(page.locator('[src*="/work/codal/"]')).toHaveCount(0);
@@ -123,13 +126,15 @@ test("homepage keeps a concise lead-generation path", async ({ page }) => {
   expect(consoleErrors).toEqual([]);
 });
 
-test("work keeps historical NeedFoundry provenance under ProductGrain authorship", async ({ page, request }) => {
+test("work presents verified ProductGrain delivery and authorship", async ({ page, request }) => {
   await page.goto("/work");
   await page.getByRole("button", { name: "Necessary only" }).click();
   await expect(page.getByRole("heading", { name: "Focused products built around real workflows." })).toBeVisible();
   await expect(page.locator("body")).toContainText("Selected work");
-  await expect(page.locator("body")).toContainText("Selected products delivered by NeedFoundry");
-  await expect(page.locator("body")).toContainText("NeedFoundry project");
+  await expect(page.locator("body")).toContainText("Selected products delivered by ProductGrain");
+  await expect(page.locator("body")).toContainText("ProductGrain project");
+  await expect(page.locator("body")).not.toContainText(retiredPublicBrand);
+  await expect(page.locator("body")).not.toContainText("\u2014");
   await expect(page.locator("body")).not.toContainText(legacyReferenceFraming);
   await expect(page.locator('img[src^="/work/projects/"]').first()).toBeAttached();
   await expect(page.locator('[src*="/work/codal/"]')).toHaveCount(0);
@@ -152,9 +157,9 @@ test("work keeps historical NeedFoundry provenance under ProductGrain authorship
 
   const claimdeckResponse = await page.goto("/work/claimdeck");
   expect(claimdeckResponse?.status()).toBe(200);
-  await expect(page.locator("body")).toContainText("NeedFoundry project");
+  await expect(page.locator("body")).toContainText("ProductGrain project");
   await expect(page.locator("body")).toContainText(
-    "Delivered by NeedFoundry and published with founder authorization.",
+    "Delivered by ProductGrain and published with founder authorization.",
   );
   await expect(page.getByText("Client", { exact: true })).toBeVisible();
   await expect(page.getByText("Engagement", { exact: true })).toBeVisible();
@@ -173,7 +178,7 @@ test("work keeps historical NeedFoundry provenance under ProductGrain authorship
   expect(structuredData?.author?.name).toBe("ProductGrain");
   expect(structuredData?.publisher?.name).toBe("ProductGrain");
   expect(structuredData?.about?.["@type"]).toBe("SoftwareApplication");
-  expect(structuredData?.about?.creator?.name).toBe("NeedFoundry");
+  expect(structuredData?.about?.creator?.name).toBe("ProductGrain");
   expect(structuredData?.citation).toBeUndefined();
   expect(structuredData?.isBasedOn).toBeUndefined();
 

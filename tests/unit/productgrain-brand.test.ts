@@ -63,7 +63,7 @@ test("configures the approved ProductGrain identity and accessible palette", () 
         "Founder-led product strategy, design, and engineering.",
       title: "Product-First AI Software Studio | ProductGrain",
       openGraphAlt:
-        "ProductGrain — the product-first studio for AI-native software.",
+        "ProductGrain, the product-first studio for AI-native software.",
     },
   );
   assert.deepEqual(

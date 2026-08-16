@@ -80,9 +80,9 @@ const projectMediaCaption = (description: string) =>
 const archivedProfileLabel = "Archived profile";
 const archivedProfileDisclosure =
   "Archived pending delivery ownership and publication permission verification.";
-const verifiedWorkLabel = "NeedFoundry project";
+const verifiedWorkLabel = "ProductGrain project";
 const verifiedWorkDisclosure =
-  "Delivered by NeedFoundry and published with founder authorization.";
+  "Delivered by ProductGrain and published with founder authorization.";
 
 export const caseStudies: readonly CaseStudy[] = [
   {
@@ -98,9 +98,9 @@ export const caseStudies: readonly CaseStudy[] = [
     originalProblem:
       "Claim adjusters and external counsel were coordinating through disconnected tools, redundant handoffs, and unstructured documents. That fragmentation made claim status harder to see, weakened auditability, and contributed to avoidable claims leakage.",
     publicProductDirection:
-      "The platform was designed around two clear roles—adjusters and lawyers—with a shared claim record, accountable tasks, secure communication, configurable analytics, and open integrations. Structured data also created a foundation for practical AI features.",
+      "The platform was designed around two clear roles, adjusters and lawyers, with a shared claim record, accountable tasks, secure communication, configurable analytics, and open integrations. Structured data also created a foundation for practical AI features.",
     solution:
-      "NeedFoundry designed and built a cloud-native AWS platform that combines claim overviews, task and request tracking, budgets, negotiations, legal documents, activity history, and direct messaging. Its natural-language AI assistant can summarize PDFs, draft templates and emails, and support public legal research while keeping the claim record at the center of the workflow.",
+      "ProductGrain designed and built a cloud-native AWS platform that combines claim overviews, task and request tracking, budgets, negotiations, legal documents, activity history, and direct messaging. Its natural-language AI assistant can summarize PDFs, draft templates and emails, and support public legal research while keeping the claim record at the center of the workflow.",
     workflow: [
       {
         title: "Create one claim record",
@@ -176,7 +176,7 @@ export const caseStudies: readonly CaseStudy[] = [
     provenance: {
       kind: "verified-client-work",
       label: verifiedWorkLabel,
-      deliveryName: "NeedFoundry",
+      deliveryName: "ProductGrain",
       disclosure: verifiedWorkDisclosure,
     },
     relatedSlugs: ["cpap", "callpotential"],
@@ -200,7 +200,7 @@ export const caseStudies: readonly CaseStudy[] = [
     publicProductDirection:
       "The new foundation combines modular Shopify commerce, personalized product discovery, complex prescription-aware catalog logic, and a focused AI service that automates routine reviews without removing human judgment from exceptions.",
     solution:
-      "NeedFoundry built a hybrid pipeline using AWS Textract for OCR and Anthropic Claude through AWS Bedrock to interpret extracted data. The service evaluates 99 mapped metafields and business rules, advances valid prescriptions into order processing, and alerts a customer service representative when confidence or completeness requires review.",
+      "ProductGrain built a hybrid pipeline using AWS Textract for OCR and Anthropic Claude through AWS Bedrock to interpret extracted data. The service evaluates 99 mapped metafields and business rules, advances valid prescriptions into order processing, and alerts a customer service representative when confidence or completeness requires review.",
     workflow: [
       {
         title: "Read the prescription",
@@ -282,7 +282,7 @@ export const caseStudies: readonly CaseStudy[] = [
     provenance: {
       kind: "verified-client-work",
       label: verifiedWorkLabel,
-      deliveryName: "NeedFoundry",
+      deliveryName: "ProductGrain",
       disclosure: verifiedWorkDisclosure,
     },
     relatedSlugs: ["claimdeck", "fuze-health"],
@@ -306,7 +306,7 @@ export const caseStudies: readonly CaseStudy[] = [
     publicProductDirection:
       "The product lets each operator define its own routing and follow-up rules, connect existing storage systems through APIs, and monitor outcomes in real time. AI is applied narrowly to organize recordings and protect sensitive spoken information.",
     solution:
-      "NeedFoundry built an intelligent backend that recognizes callers, retrieves account context, and routes each request according to operator-defined logic. Drag-and-drop workflows automate collections and sales outreach; analytics expose call-center performance; and AI organizes recordings and redacts sensitive spoken details.",
+      "ProductGrain built an intelligent backend that recognizes callers, retrieves account context, and routes each request according to operator-defined logic. Drag-and-drop workflows automate collections and sales outreach; analytics expose call-center performance; and AI organizes recordings and redacts sensitive spoken details.",
     workflow: [
       {
         title: "Recognize the caller",
@@ -353,7 +353,7 @@ export const caseStudies: readonly CaseStudy[] = [
     provenance: {
       kind: "verified-client-work",
       label: verifiedWorkLabel,
-      deliveryName: "NeedFoundry",
+      deliveryName: "ProductGrain",
       disclosure: verifiedWorkDisclosure,
     },
     relatedSlugs: ["built-by-girls", "claimdeck"],
@@ -377,7 +377,7 @@ export const caseStudies: readonly CaseStudy[] = [
     publicProductDirection:
       "The redesigned experience focuses on understandable onboarding, stronger matches, timezone-aware scheduling, and personalized session content.",
     solution:
-      "NeedFoundry designed and built a decision engine that weights participant criteria and machine-learning signals to improve advisor–advisee matching. A card-led interface simplifies onboarding, while timezone-aware scheduling and a historical-data-driven topic generator reduce friction around each session.",
+      "ProductGrain designed and built a decision engine that weights participant criteria and machine-learning signals to improve advisor–advisee matching. A card-led interface simplifies onboarding, while timezone-aware scheduling and a historical-data-driven topic generator reduce friction around each session.",
     workflow: [
       {
         title: "Build a useful profile",
@@ -452,7 +452,7 @@ export const caseStudies: readonly CaseStudy[] = [
     provenance: {
       kind: "verified-client-work",
       label: verifiedWorkLabel,
-      deliveryName: "NeedFoundry",
+      deliveryName: "ProductGrain",
       disclosure: verifiedWorkDisclosure,
     },
     relatedSlugs: ["callpotential", "cpap"],
@@ -477,7 +477,7 @@ export const caseStudies: readonly CaseStudy[] = [
     publicProductDirection:
       "The public platform became a scalable, patient-centered architecture with stronger onboarding, workflow automation, and payer visibility.",
     solution:
-      "NeedFoundry led focused discovery and technical blueprinting, then delivered full-stack work in Node.js, React, Playwright, and Contentful, including specialty pharmacy lookup, savings-card integration, and appeal status visibility.",
+      "ProductGrain led focused discovery and technical blueprinting, then delivered full-stack work in Node.js, React, Playwright, and Contentful, including specialty pharmacy lookup, savings-card integration, and appeal status visibility.",
     workflow: [
       {
         title: "Translate the care model",
@@ -532,7 +532,7 @@ export const caseStudies: readonly CaseStudy[] = [
     provenance: {
       kind: "verified-client-work",
       label: verifiedWorkLabel,
-      deliveryName: "NeedFoundry",
+      deliveryName: "ProductGrain",
       disclosure: verifiedWorkDisclosure,
     },
     relatedSlugs: ["children-health", "claimdeck"],
@@ -557,7 +557,7 @@ export const caseStudies: readonly CaseStudy[] = [
     publicProductDirection:
       "The platform pivoted to a modern headless architecture and componentized content system to improve team speed, flexibility, and performance.",
     solution:
-      "NeedFoundry migrated the platform to Builder.io and Contentful, redesigned its content models, created reusable component templates, and delivered a performance-focused frontend.",
+      "ProductGrain migrated the platform to Builder.io and Contentful, redesigned its content models, created reusable component templates, and delivered a performance-focused frontend.",
     workflow: [
       {
         title: "Audit and prioritize",
@@ -611,7 +611,7 @@ export const caseStudies: readonly CaseStudy[] = [
     provenance: {
       kind: "verified-client-work",
       label: verifiedWorkLabel,
-      deliveryName: "NeedFoundry",
+      deliveryName: "ProductGrain",
       disclosure: verifiedWorkDisclosure,
     },
     relatedSlugs: ["fuze-health", "mantl"],
@@ -636,7 +636,7 @@ export const caseStudies: readonly CaseStudy[] = [
     publicProductDirection:
       "The redesign prioritized clear value messaging, persistent CTAs, reusable content blocks, and a stronger mobile experience.",
     solution:
-      "NeedFoundry rebuilt key pages, created campaign-ready landing patterns, improved case-study capture and calls to action, and tightened mobile responsiveness.",
+      "ProductGrain rebuilt key pages, created campaign-ready landing patterns, improved case-study capture and calls to action, and tightened mobile responsiveness.",
     workflow: [
       {
         title: "Clarify the offer",
@@ -711,7 +711,7 @@ export const caseStudies: readonly CaseStudy[] = [
     provenance: {
       kind: "verified-client-work",
       label: verifiedWorkLabel,
-      deliveryName: "NeedFoundry",
+      deliveryName: "ProductGrain",
       disclosure: verifiedWorkDisclosure,
     },
     relatedSlugs: ["children-health", "ticketrev"],

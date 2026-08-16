@@ -28,7 +28,7 @@ export function HomeHero() {
             opportunities, and build software their market actually needs.
           </p>
           <div className="button-row">
-            <ButtonLink href="/apply">Discuss your product idea — free</ButtonLink>
+            <ButtonLink href="/apply">Discuss your product idea, free</ButtonLink>
             <ButtonLink href="#how-it-works" variant="secondary">See how it works</ButtonLink>
           </div>
           <p className="hero-disclosure">
@@ -73,7 +73,7 @@ export function FitSection() {
       <Container>
         <SectionIntro
           eyebrow="Core value proposition"
-          title="AI should improve the workflow—not decorate the product."
+          title="AI should improve the workflow, not decorate the product."
           copy="We start with your people, current process, and business outcome. We recommend where AI creates leverage and where dependable software is the better solution."
         />
         <div className="three-card-grid fit-scenarios">
@@ -244,7 +244,7 @@ export function FinalCta() {
           <p>Tell us about the issue you are solving and who it affects. We will recommend the most practical first direction and help you decide if the next step should be a Product Discovery, an MVP, or a larger custom build.</p>
         </div>
         <div className="final-cta__action">
-          <ButtonLink href="/apply" variant="light">Discuss your idea — free</ButtonLink>
+          <ButtonLink href="/apply" variant="light">Discuss your idea, free</ButtonLink>
           <p>30-minute Product Clarity Call · Founder-led · No obligation · No technical specification required</p>
         </div>
       </Container>

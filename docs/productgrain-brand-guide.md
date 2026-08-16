@@ -8,11 +8,11 @@ The rebrand should change the identity layer, not the site's conversion structur
 
 ## Brand foundation
 
-- **Name:** `ProductGrain` — one word, capital P and G.
+- **Name:** `ProductGrain`, one word, capital P and G.
 - **Category:** Product-first software studio.
 - **Differentiator:** AI-native.
 - **Primary descriptor:** The product-first studio for AI-native software.
-- **Core explanation:** We work with the grain of your market—understanding how people already work, where value is lost, and what software should change.
+- **Core explanation:** We work with the grain of your market, understanding how people already work, where value is lost, and what software should change.
 - **Audience:** Industry experts, operators, business owners, and nontechnical founders.
 - **Voice:** Direct, calm, commercially aware, and specific.
 
@@ -43,12 +43,12 @@ A custom open-loop, single-storey `g` represents a product-learning loop: resear
 
 ### Assets
 
-- `public/brand/productgrain-mark.svg` — primary indigo-cobalt mark.
-- `public/brand/productgrain-favicon.svg` — simplified small-size mark.
-- `public/brand/productgrain-logo.svg` — primary horizontal lockup for light surfaces.
-- `public/brand/productgrain-logo-light.svg` — horizontal lockup for dark surfaces.
-- `public/brand/productgrain-mark-mono-dark.svg` — dark one-colour mark.
-- `public/brand/productgrain-mark-mono-light.svg` — light one-colour mark.
+- `public/brand/productgrain-mark.svg`: primary indigo-cobalt mark.
+- `public/brand/productgrain-favicon.svg`: simplified small-size mark.
+- `public/brand/productgrain-logo.svg`: primary horizontal lockup for light surfaces.
+- `public/brand/productgrain-logo-light.svg`: horizontal lockup for dark surfaces.
+- `public/brand/productgrain-mark-mono-dark.svg`: dark one-colour mark.
+- `public/brand/productgrain-mark-mono-light.svg`: light one-colour mark.
 
 For the production header and footer, render the SVG mark beside live text rather than using the horizontal lockup as an image. This preserves crisp Geist typography and a useful accessible home-link label. For example:
 
@@ -98,7 +98,7 @@ Story section:
 >
 > Every market has a grain: the workflows, constraints, decisions, and hard-won knowledge that shape how work really gets done.
 >
-> We learn that context before deciding what to build. Then we connect research, validation, design, and engineering in one accountable path—from a promising problem to software people can use.
+> We learn that context before deciding what to build. Then we connect research, validation, design, and engineering in one accountable path, from a promising problem to software people can use.
 
 Do not publish a fixed team size. `Founder-led, backed by a senior team` communicates the advantage without becoming stale.
 
@@ -106,7 +106,7 @@ Do not publish a fixed team size. `Founder-led, backed by a senior team` communi
 
 - **Homepage title:** Product-First AI Software Studio | ProductGrain
 - **Description:** ProductGrain helps industry experts and nontechnical founders validate product opportunities and build focused AI-native software around real market needs.
-- **Open Graph alt:** ProductGrain — the product-first studio for AI-native software.
+- **Open Graph alt:** ProductGrain, the product-first studio for AI-native software.
 - **Footer descriptor:** Founder-led product strategy, design, and engineering.
 
 ## Transition safeguards

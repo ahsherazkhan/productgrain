@@ -19,7 +19,7 @@ const hasPublishedWork = work.length >= 2;
 export const metadata: Metadata = {
   title: hasPublishedWork ? "Client Work" : "Delivery Standards",
   description: hasPublishedWork
-    ? "Explore verified NeedFoundry client work across AI, SaaS, healthcare, finance, and operational software."
+    ? "Explore verified ProductGrain client work across AI, SaaS, healthcare, finance, and operational software."
     : `See how ${siteConfig.brandName} makes product scope, progress, and risk visible before each delivery commitment.`,
   alternates: { canonical: "/work" },
   robots: hasPublishedWork ? undefined : { index: false, follow: true },
@@ -30,7 +30,7 @@ export default function WorkPage() {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": hasPublishedWork ? "CollectionPage" : "WebPage",
-    name: hasPublishedWork ? "NeedFoundry client work" : `${siteConfig.brandName} delivery standards`,
+    name: hasPublishedWork ? `${siteConfig.brandName} client work` : `${siteConfig.brandName} delivery standards`,
     description: metadata.description,
     ...(siteConfig.siteUrl ? { url: `${siteConfig.siteUrl}/work` } : {}),
     ...(hasPublishedWork
@@ -81,7 +81,7 @@ export default function WorkPage() {
         }
         copy={
           hasPublishedWork
-            ? "Selected products delivered by NeedFoundry across AI, SaaS, healthcare, finance, and operations."
+            ? `Selected products delivered by ${siteConfig.brandName} across AI, SaaS, healthcare, finance, and operations.`
             : `${siteConfig.brandName} makes scope, progress, responsibilities, and product risk visible before each commitment is made.`
         }
       >

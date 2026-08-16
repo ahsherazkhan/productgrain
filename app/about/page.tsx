@@ -22,7 +22,7 @@ export default function AboutPage() {
         <Container>
           <div className="story-grid">
             <div><p className="eyebrow">Why {siteConfig.brandName} exists</p><h2>Work with the grain of the market.</h2></div>
-            <div><p>Every market has a grain: the workflows, constraints, decisions, and hard-won knowledge that shape how work really gets done.</p><p>We learn that context before deciding what to build. Then we connect research, validation, design, and engineering in one accountable path—from a promising problem to software people can use.</p></div>
+            <div><p>Every market has a grain: the workflows, constraints, decisions, and hard-won knowledge that shape how work really gets done.</p><p>We learn that context before deciding what to build. Then we connect research, validation, design, and engineering in one accountable path, from a promising problem to software people can use.</p></div>
           </div>
         </Container>
       </section>

@@ -12,7 +12,7 @@ The application uses five route families:
 4. Legal and system pages: privacy, terms, cookies, not-found, error, sitemap, and robots.
 5. Server endpoints: lead submission and consent-aware Meta event forwarding.
 
-The ProductGrain work area publishes seven historically attributed NeedFoundry client projects with confirmed founder authorization while keeping three independent public product profiles archived. The published records retain `verified-client-work`, their NeedFoundry delivery provenance, confirmed permission, approved project media, and detailed business-logic notes. ProductGrain is the current page author and publisher; it is not substituted for the recorded software creator. Source-only outcome claims remain hidden pending separate confirmation. Testimonials remain hidden until real approval and evidence exist. Real founder/team media are still outstanding, so professional initial/founder fallbacks remain in place. No placeholder names appear in public UI.
+The ProductGrain work area publishes seven verified ProductGrain client projects with confirmed founder authorization while keeping three independent public product profiles archived. The published records retain `verified-client-work`, confirmed permission, approved project media, and detailed business-logic notes. ProductGrain is identified consistently as the delivery organization, page author, publisher, and software creator. Source-only outcome claims remain hidden pending separate confirmation. Testimonials remain hidden until real approval and evidence exist. Real founder/team media are still outstanding, so professional initial/founder fallbacks remain in place. No placeholder names appear in public UI.
 
 ## Phases
 
@@ -62,6 +62,6 @@ The ProductGrain work area publishes seven historically attributed NeedFoundry c
 - Confirmation of the exact `fitish.ai` product URL and its publishable details before it is added to selected work.
 - Confirmed ProductGrain domain ownership before canonical URLs or redirects are changed.
 - A verified ProductGrain email sending domain, public contact address, and official company social profile.
-- Rebrand-specific permission before historical NeedFoundry delivery provenance is rewritten as ProductGrain.
+- Final client review of ProductGrain delivery attribution before launch.
 - Supabase or CRM destination, Resend, Turnstile, booking provider, Meta, and analytics credentials.
 - The actual legal entity, data-controller and privacy-contact details, plus professional legal/privacy review for UK and US launch.
