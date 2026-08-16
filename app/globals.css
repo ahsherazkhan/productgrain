@@ -3507,15 +3507,82 @@ p {
   max-width: 660px;
 }
 
-.ai-opportunity-section .section-intro h2,
 .selected-work .section-intro h2 {
   font-size: clamp(2.15rem, 3.6vw, 3.75rem);
 }
 
-.ai-opportunity-section .section-intro__copy,
 .selected-work .section-intro__copy {
   max-width: 640px;
   line-height: 1.6;
+}
+
+.ai-opportunity-section {
+  padding-block: clamp(52px, 6vw, 80px);
+}
+
+.ai-opportunity-section__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+  gap: clamp(48px, 8vw, 112px);
+  align-items: start;
+}
+
+.ai-opportunity-section .section-intro {
+  max-width: 650px;
+  margin-bottom: 0;
+}
+
+.ai-opportunity-section .section-intro h2 {
+  margin-bottom: 18px;
+  font-size: clamp(2.15rem, 3.2vw, 3.35rem);
+}
+
+.ai-opportunity-section .section-intro__copy {
+  max-width: 580px;
+  line-height: 1.55;
+}
+
+.ai-opportunity-section__actions {
+  display: flex;
+  margin-top: 30px;
+  flex-wrap: wrap;
+  gap: 16px 22px;
+  align-items: center;
+}
+
+.ai-opportunity-section__actions .hero-disclosure {
+  max-width: 280px;
+  margin: 0;
+}
+
+.ai-opportunity-list {
+  padding: 0;
+  margin: 0;
+  border-top: 1px solid var(--border);
+  list-style: none;
+}
+
+.ai-opportunity-list li {
+  display: grid;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--border);
+  grid-template-columns: 34px minmax(0, 1fr);
+  gap: 16px;
+  align-items: baseline;
+}
+
+.ai-opportunity-list span {
+  color: var(--cobalt-dark);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.68rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+}
+
+.ai-opportunity-list h3 {
+  margin: 0;
+  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+  line-height: 1.35;
 }
 
 .hero-disclosure {
@@ -3796,6 +3863,11 @@ p {
     grid-template-columns: 1fr;
   }
 
+  .ai-opportunity-section__layout {
+    grid-template-columns: 1fr;
+    gap: 38px;
+  }
+
   .process-grid--three li > p:not(.process-verb) {
     min-height: auto;
   }
@@ -3824,6 +3896,11 @@ p {
   .home-hero--minimal h1,
   .campaign-hero--minimal h1 {
     font-size: clamp(2.75rem, 13vw, 3.8rem);
+  }
+
+  .ai-opportunity-section__actions {
+    align-items: flex-start;
+    flex-direction: column;
   }
 
   .fit-scenarios .editorial-card,
@@ -3901,6 +3978,146 @@ p {
   color: #596578;
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 0.58rem;
+}
+
+.selected-work__projects {
+  display: grid;
+  padding: 0;
+  margin: 0;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  list-style: none;
+}
+
+.selected-work__projects > li {
+  min-width: 0;
+}
+
+.selected-work-card,
+.selected-work-card__link {
+  height: 100%;
+}
+
+.selected-work-card__link {
+  position: relative;
+  display: block;
+  min-height: 360px;
+  overflow: hidden;
+  color: white;
+  background: var(--ink);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.selected-work-card__link:focus-visible {
+  outline-color: white;
+  outline-offset: -5px;
+}
+
+.selected-work-card__link > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  transition: transform 220ms ease;
+}
+
+.selected-work-card__link:hover > img {
+  transform: scale(1.015);
+}
+
+.selected-work-card__provenance {
+  position: absolute;
+  z-index: 2;
+  top: 14px;
+  left: 14px;
+  display: inline-flex;
+  padding: 7px 9px;
+  background: rgba(11, 19, 36, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 7px;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.62rem;
+  font-weight: 650;
+}
+
+.selected-work-card__provenance i {
+  width: 7px;
+  height: 7px;
+  background: var(--apricot);
+  border-radius: 99px;
+}
+
+.selected-work-card__logo {
+  position: absolute;
+  z-index: 2;
+  top: 14px;
+  right: 14px;
+  display: grid;
+  width: min(38%, 150px);
+  min-height: 52px;
+  padding: 9px 12px;
+  background: white;
+  border: 1px solid rgba(11, 19, 36, 0.12);
+  border-radius: 8px;
+  place-items: center;
+}
+
+.selected-work-card__logo img {
+  width: 100%;
+  max-height: 34px;
+  object-fit: contain;
+}
+
+.selected-work-card__overlay {
+  position: absolute;
+  z-index: 1;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 17px 18px 18px;
+  background: rgba(11, 19, 36, 0.94);
+}
+
+.selected-work-card__meta {
+  display: flex;
+  margin-bottom: 10px;
+  color: rgba(255, 255, 255, 0.72);
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 0.61rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.selected-work-card__meta span:last-child {
+  text-align: right;
+}
+
+.selected-work-card h3 {
+  margin: 0 0 14px;
+  color: white;
+  font-size: clamp(1.18rem, 1.55vw, 1.55rem);
+  line-height: 1.12;
+}
+
+.selected-work-card__cta {
+  display: inline-flex;
+  color: white;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.76rem;
+  font-weight: 680;
+}
+
+.selected-work-card__link:hover .selected-work-card__cta {
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .selected-work__layout {
@@ -4398,6 +4615,19 @@ p {
 }
 
 @media (max-width: 1020px) {
+  .selected-work__projects {
+    display: flex;
+    padding-bottom: 10px;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: thin;
+  }
+
+  .selected-work__projects > li {
+    flex: 0 0 min(72vw, 390px);
+    scroll-snap-align: start;
+  }
+
   .work-card--featured,
   .work-index__grid > .work-card:last-child:nth-child(odd) {
     grid-template-columns: 1fr;
@@ -4431,6 +4661,14 @@ p {
     overflow-x: auto;
     flex-wrap: nowrap;
     scrollbar-width: thin;
+  }
+
+  .selected-work-card__link {
+    min-height: 340px;
+  }
+
+  .selected-work-card__logo {
+    width: min(32%, 112px);
   }
 
   .selected-work__supporting,
@@ -4482,6 +4720,14 @@ p {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .selected-work-card__link > img {
+    transition: none;
+  }
+
+  .selected-work-card__link:hover > img {
+    transform: none;
+  }
+
   .work-card__media > img {
     transition: none;
   }

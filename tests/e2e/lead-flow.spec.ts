@@ -9,6 +9,7 @@ const publishedWorkSlugs = [
   "children-health",
   "mantl",
 ];
+const featuredWorkSlugs = ["claimdeck", "cpap", "callpotential"];
 const archivedWorkSlugs = [
   "ticketrev",
   "tributi",
@@ -64,22 +65,41 @@ test("homepage keeps a concise lead-generation path", async ({ page }) => {
   await expect(page.getByRole("heading", { level: 1, name: "The product-first studio for AI-native software." })).toBeVisible();
   await expect(page.getByRole("link", { name: "Discuss your product idea — free" }).first()).toBeVisible();
   await expect(page.getByRole("heading", { name: "Start with the right level of product certainty." })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Turn industry knowledge into focused software." })).toBeVisible();
+  const aiOpportunity = page.locator(".ai-opportunity-section");
+  await expect(aiOpportunity.getByRole("heading", { name: "Make your expertise scalable." })).toBeVisible();
+  await expect(aiOpportunity.getByRole("list", { name: "AI product opportunities" }).getByRole("listitem")).toHaveCount(3);
+  await expect(aiOpportunity.getByRole("heading", { name: "Build a focused AI product" })).toBeVisible();
+  await expect(aiOpportunity.getByRole("heading", { name: "Productize a repeated service" })).toBeVisible();
+  await expect(aiOpportunity.getByRole("heading", { name: "Improve an existing product" })).toBeVisible();
+  await expect(aiOpportunity.getByRole("link", { name: "Explore your AI product opportunity" })).toHaveAttribute("href", "/apply");
+  await expect(aiOpportunity).toContainText("If simpler software is the better answer, we’ll say so.");
   await expect(page.getByRole("heading", { name: "Focused products built around real workflows." })).toBeVisible();
-  await expect(page.getByRole("link", { name: "View the ClaimDeck case study" })).toBeVisible();
+  const selectedWork = page.locator("#selected-work");
+  await expect(selectedWork.locator(".selected-work__projects > li")).toHaveCount(3);
+  await expect(selectedWork.locator("article.selected-work-card")).toHaveCount(3);
+  await expect(selectedWork.locator(".selected-work-card__overlay")).toHaveCount(3);
+  await expect(selectedWork.locator(".selected-work-card__link > img")).toHaveCount(3);
+  await expect(selectedWork.getByText("NeedFoundry project", { exact: true })).toHaveCount(3);
+  await expect(selectedWork.locator(".selected-work-card__cta")).toHaveCount(3);
+  await expect(selectedWork.locator(".selected-work-card__cta").first()).toContainText("Read case study");
+  await expect(selectedWork.getByRole("link", { name: /Read the ClaimDeck case study:/ })).toBeVisible();
+  await expect(selectedWork.locator(".selected-work__index, .work-card__content")).toHaveCount(0);
   await expect(page.locator("body")).toContainText("Selected work");
   await expect(page.locator("body")).toContainText("Selected products delivered by NeedFoundry");
   await expect(page.locator("body")).toContainText("NeedFoundry project");
   await expect(page.locator("body")).not.toContainText(legacyReferenceFraming);
   await expect(page.locator('img[src^="/work/projects/"]').first()).toBeAttached();
   await expect(page.locator('[src*="/work/codal/"]')).toHaveCount(0);
-  for (const slug of publishedWorkSlugs) {
-    await expect(page.locator(`a[href="/work/${slug}"]`).first()).toBeAttached();
+  for (const slug of featuredWorkSlugs) {
+    await expect(selectedWork.locator(`a[href="/work/${slug}"]`)).toHaveCount(1);
+  }
+  for (const slug of publishedWorkSlugs.slice(featuredWorkSlugs.length)) {
+    await expect(selectedWork.locator(`a[href="/work/${slug}"]`)).toHaveCount(0);
   }
   for (const slug of [...archivedWorkSlugs, removedWorkSlug]) {
     await expect(page.locator(`a[href="/work/${slug}"]`)).toHaveCount(0);
   }
-  await expect(page.getByRole("link", { name: "Explore your AI product opportunity" }).locator("svg")).toHaveCount(1);
+  await expect(aiOpportunity.getByRole("link", { name: "Explore your AI product opportunity" }).locator("svg")).toHaveCount(1);
   await expect(page.locator(".decision-map")).toHaveCount(0);
   const mobileMenu = page.getByRole("button", { name: "Open navigation" });
   if (await mobileMenu.isVisible()) {
@@ -106,6 +126,13 @@ test("work keeps historical NeedFoundry provenance under ProductGrain authorship
   await expect(page.locator("body")).not.toContainText(legacyReferenceFraming);
   await expect(page.locator('img[src^="/work/projects/"]').first()).toBeAttached();
   await expect(page.locator('[src*="/work/codal/"]')).toHaveCount(0);
+
+  const workIndex = page.locator(".work-index");
+  await expect(workIndex.locator("article.work-card")).toHaveCount(publishedWorkSlugs.length);
+  await expect(workIndex.locator(".work-card__content")).toHaveCount(publishedWorkSlugs.length);
+  await expect(workIndex.locator("ul[aria-label$='product characteristics']")).toHaveCount(publishedWorkSlugs.length);
+  await expect(workIndex.getByRole("link", { name: "Read the case study" })).toHaveCount(publishedWorkSlugs.length);
+  await expect(workIndex.locator(".selected-work-card")).toHaveCount(0);
 
   for (const slug of publishedWorkSlugs) {
     await expect(page.locator(`a[href="/work/${slug}"]`).first()).toBeAttached();

@@ -28,12 +28,6 @@ export const fitScenarios = [
   },
 ] as const satisfies readonly MarketingCard[];
 
-type MarketingOpportunityCard = {
-  readonly title: string;
-  readonly copy: string;
-  readonly outcome: string;
-};
-
 export const productTypeLines = [
   "Vertical AI SaaS",
   "Productized services",
@@ -41,25 +35,11 @@ export const productTypeLines = [
   "Focused workflow software",
 ] as const;
 
-export const aiOpportunityCards = [
-  {
-    title: "Create a vertical AI SaaS",
-    copy:
-      "Turn a recurring problem in a specific industry or profession into a focused product built around real domain knowledge.",
-    outcome: "Create a new software product and recurring-revenue opportunity around a problem you already understand.",
-  },
-  {
-    title: "Productize a repeated service",
-    copy: "Convert repeated analysis, reporting, support, or decision-making into a scalable workflow.",
-    outcome: "Serve more customers without increasing manual effort at the same rate.",
-  },
-  {
-    title: "Make an existing product smarter",
-    copy:
-      "Add AI where it improves search, recommendations, support, content, or workflow automation.",
-    outcome: "Build a more useful product and stronger reason for users to adopt, upgrade, or stay.",
-  },
-] as const satisfies readonly MarketingOpportunityCard[];
+export const aiOpportunityPaths = [
+  "Build a focused AI product",
+  "Productize a repeated service",
+  "Improve an existing product",
+] as const;
 
 export const engagementPhases = [
   {

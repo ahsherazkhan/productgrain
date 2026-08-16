@@ -10,6 +10,7 @@ const publishedWorkSlugs = [
   "children-health",
   "mantl",
 ];
+const featuredWorkSlugs = ["claimdeck", "cpap", "callpotential"];
 const archivedWorkSlugs = [
   "ticketrev",
   "tributi",
@@ -190,16 +191,57 @@ test("server-renders the ProductGrain homepage and social identity", async () =>
   assert.match(html, /AI should improve the workflow/i);
   assert.match(html, /Start with the right level of product certainty/i);
   assert.match(html, /Selected work/i);
-  assert.match(html, /Turn industry knowledge into focused software/i);
+  assert.match(html, /Make your expertise scalable/i);
+  assert.match(
+    html,
+    /Turn repeated knowledge into a focused product, scalable service, or smarter existing software/i,
+  );
+  assert.match(html, /aria-label="AI product opportunities"/i);
+  assert.match(html, /Build a focused AI product/i);
+  assert.match(html, /Productize a repeated service/i);
+  assert.match(html, /Improve an existing product/i);
+  assert.match(
+    html,
+    /href="\/apply"[^>]*>[^<]*(?:<[^>]+>)*Explore your AI product opportunity/i,
+  );
+  assert.match(
+    content,
+    /If simpler software is the better answer, we(?:’|&#x27;)ll say so\./i,
+  );
   assert.match(html, /Focused products built around real workflows/i);
   assert.match(html, /Selected products delivered by NeedFoundry/i);
   assert.doesNotMatch(
     html,
     /Your industry knowledge could become an AI-native product|Focused products, shaped around real operating problems/i,
   );
-  assert.match(html, /NeedFoundry project/i);
-  assert.match(html, /ClaimDeck/i);
-  assert.match(html, /\/work\/projects\//i);
+  const selectedWorkMatch = html.match(
+    /<section(?=[^>]*id="selected-work")[^>]*>[\s\S]*?<\/section>/i,
+  );
+  assert.ok(selectedWorkMatch, "selected work section");
+  const selectedWorkHtml = selectedWorkMatch[0];
+  assert.equal(
+    [...selectedWorkHtml.matchAll(/<article class="selected-work-card">/gi)].length,
+    3,
+  );
+  assert.equal(
+    [...selectedWorkHtml.matchAll(/class="selected-work-card__overlay"/gi)].length,
+    3,
+  );
+  assert.equal(
+    [...selectedWorkHtml.matchAll(/aria-label="Read the [^"]+ case study: [^"]+"/gi)].length,
+    3,
+  );
+  assert.equal(
+    [...withoutReactTextSeparators(selectedWorkHtml).matchAll(/Read case study/gi)].length,
+    3,
+  );
+  assert.match(selectedWorkHtml, /NeedFoundry project/i);
+  assert.match(selectedWorkHtml, /ClaimDeck/i);
+  assert.match(selectedWorkHtml, /\/work\/projects\//i);
+  assert.doesNotMatch(
+    selectedWorkHtml,
+    /selected-work__index|work-card__content|product characteristics/i,
+  );
   assert.match(
     content,
     new RegExp(
@@ -209,8 +251,11 @@ test("server-renders the ProductGrain homepage and social identity", async () =>
   );
   assert.doesNotMatch(html, legacyReferenceFraming);
   assert.doesNotMatch(html, /Know what you are committing to before development begins/i);
-  for (const slug of publishedWorkSlugs) {
-    assert.match(html, new RegExp(`/work/${slug}`), slug);
+  for (const slug of featuredWorkSlugs) {
+    assert.match(selectedWorkHtml, new RegExp(`/work/${slug}`), slug);
+  }
+  for (const slug of publishedWorkSlugs.slice(featuredWorkSlugs.length)) {
+    assert.doesNotMatch(selectedWorkHtml, new RegExp(`/work/${slug}`), slug);
   }
   for (const slug of [...archivedWorkSlugs, removedWorkSlug]) {
     assert.doesNotMatch(html, new RegExp(`/work/${slug}`), slug);
@@ -377,6 +422,15 @@ test("server-renders ProductGrain-authored pages for seven historical NeedFoundr
   assert.match(workHtml, /Selected products delivered by NeedFoundry/i);
   assert.match(workHtml, /NeedFoundry project/i);
   assert.match(workHtml, /\/work\/projects\//i);
+  assert.equal(
+    [...workHtml.matchAll(/<article class="work-card work-card--(?:featured|card)">/gi)].length,
+    publishedWorkSlugs.length,
+  );
+  assert.equal(
+    [...workHtml.matchAll(/aria-label="[^"]+ product characteristics"/gi)].length,
+    publishedWorkSlugs.length,
+  );
+  assert.doesNotMatch(workHtml, /selected-work-card(?:__|")/i);
   assert.doesNotMatch(workHtml, legacyReferenceFraming);
   assert.doesNotMatch(workHtml, /Unifying pharmacy operations for faster fulfillment and product iteration/i);
 

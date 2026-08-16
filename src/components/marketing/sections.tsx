@@ -7,7 +7,7 @@ import {
 } from "@/src/content/case-studies";
 import { getPublishedTestimonials } from "@/src/content/testimonials";
 import {
-  aiOpportunityCards,
+  aiOpportunityPaths,
   engagementPhases,
   fitScenarios,
   homepageCoreFaqIds,
@@ -100,27 +100,28 @@ export function AiOpportunitySection() {
   return (
     <section className="section section--surface ai-opportunity-section">
       <Container>
-        <SectionIntro
-          eyebrow="Where AI creates leverage"
-          title="Turn industry knowledge into focused software."
-          copy="We identify repetitive research, decisions, and specialist workflows that can become focused products, scalable services, or stronger existing software."
-        />
-        <div className="three-card-grid fit-scenarios">
-          {aiOpportunityCards.map((card) => (
-            <article className="editorial-card" key={card.title}>
-              <h3>{card.title}</h3>
-              <p>{card.copy}</p>
-              <p>
-                <strong>Commercial outcome:</strong> {card.outcome}
-              </p>
-            </article>
-          ))}
-        </div>
-        <div className="section-link section-link--left">
-          <ButtonLink href="/apply" variant="light">
-            Explore your AI product opportunity
-          </ButtonLink>
-          <p className="hero-disclosure">No AI for AI’s sake. When simpler software is more reliable or economical, we recommend that route.</p>
+        <div className="ai-opportunity-section__layout">
+          <div>
+            <SectionIntro
+              eyebrow="Where AI creates leverage"
+              title="Make your expertise scalable."
+              copy="Turn repeated knowledge into a focused product, scalable service, or smarter existing software."
+            />
+            <div className="ai-opportunity-section__actions">
+              <ButtonLink href="/apply" variant="light">
+                Explore your AI product opportunity
+              </ButtonLink>
+              <p className="hero-disclosure">If simpler software is the better answer, we’ll say so.</p>
+            </div>
+          </div>
+          <ol className="ai-opportunity-list" aria-label="AI product opportunities">
+            {aiOpportunityPaths.map((path, index) => (
+              <li key={path}>
+                <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+                <h3>{path}</h3>
+              </li>
+            ))}
+          </ol>
         </div>
       </Container>
     </section>
