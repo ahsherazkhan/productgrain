@@ -10,6 +10,8 @@ const { d1, r2 } = hostingConfig;
 
 // macOS Seatbelt blocks FSEvents, so Codex previews need polling for HMR.
 const isCodexSeatbeltSandbox = process.env.CODEX_SANDBOX === "seatbelt";
+const isVercelBuild =
+  process.env.VERCEL === "1" || process.env.NITRO_PRESET === "vercel";
 
 const localBindingConfig = {
   main: "./worker/index.ts",
@@ -39,6 +41,19 @@ export default defineConfig(async () => {
   process.env.WRANGLER_WRITE_LOGS ??= "false";
   process.env.WRANGLER_LOG_PATH ??= ".wrangler/logs";
   process.env.MINIFLARE_REGISTRY_PATH ??= ".wrangler/registry";
+
+  if (isVercelBuild) {
+    const { nitro } = await import("nitro/vite");
+    const { default: tailwindcss } = await import("@tailwindcss/postcss");
+    return {
+      css: {
+        postcss: {
+          plugins: [tailwindcss()],
+        },
+      },
+      plugins: [vinext(), nitro({ preset: "vercel" })],
+    };
+  }
 
   // Wrangler snapshots its log path while the Cloudflare plugin is imported.
   const { cloudflare } = await import("@cloudflare/vite-plugin");
