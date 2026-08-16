@@ -50,14 +50,7 @@ function SelectedWorkCard({ item }: { item: CaseStudy }) {
         ) : null}
 
         <div className="selected-work-card__overlay">
-          <p className="selected-work-card__meta">
-            <span>{item.clientName}</span>
-            <span>{item.industry}</span>
-          </p>
           <h3>{item.title}</h3>
-          <span className="selected-work-card__cta">
-            Read case study <span aria-hidden="true">&#8599;</span>
-          </span>
         </div>
       </Link>
     </article>

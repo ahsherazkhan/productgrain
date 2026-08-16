@@ -53,10 +53,10 @@ export default function Home() {
       />
       <HomeHero />
       <FitSection />
-      <AiOpportunitySection />
       <ProcessSection />
       <CapabilityWorkSection compact />
       <HomePricing market={defaultMarket} />
+      <AiOpportunitySection />
       <FaqSection ids={homepageCoreFaqIds} />
       <FinalCta />
     </MainShell>

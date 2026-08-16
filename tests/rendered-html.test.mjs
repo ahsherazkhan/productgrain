@@ -232,8 +232,12 @@ test("server-renders the ProductGrain homepage and social identity", async () =>
     3,
   );
   assert.equal(
-    [...withoutReactTextSeparators(selectedWorkHtml).matchAll(/Read case study/gi)].length,
+    [...selectedWorkHtml.matchAll(/class="selected-work-card__overlay">\s*<h3>/gi)].length,
     3,
+  );
+  assert.doesNotMatch(
+    selectedWorkHtml,
+    /selected-work-card__(?:meta|cta)|Read case study/i,
   );
   assert.match(selectedWorkHtml, /NeedFoundry project/i);
   assert.match(selectedWorkHtml, /ClaimDeck/i);
@@ -262,6 +266,10 @@ test("server-renders the ProductGrain homepage and social identity", async () =>
   }
   assert.doesNotMatch(html, /decision-map|Founder and team|Product possibilities/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape|react-loading-skeleton/i);
+  assert.ok(
+    html.indexOf('id="pricing"') < html.indexOf('class="section section--surface ai-opportunity-section"'),
+    "AI opportunity section should render after pricing",
+  );
 
   const homepageData = readStructuredDataScripts(html).find((item) =>
     Array.isArray(item["@graph"]),

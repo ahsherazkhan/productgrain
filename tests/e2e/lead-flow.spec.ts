@@ -80,8 +80,14 @@ test("homepage keeps a concise lead-generation path", async ({ page }) => {
   await expect(selectedWork.locator(".selected-work-card__overlay")).toHaveCount(3);
   await expect(selectedWork.locator(".selected-work-card__link > img")).toHaveCount(3);
   await expect(selectedWork.getByText("NeedFoundry project", { exact: true })).toHaveCount(3);
-  await expect(selectedWork.locator(".selected-work-card__cta")).toHaveCount(3);
-  await expect(selectedWork.locator(".selected-work-card__cta").first()).toContainText("Read case study");
+  await expect(selectedWork.locator(".selected-work-card__overlay h3")).toHaveCount(3);
+  await expect(selectedWork.locator(".selected-work-card__overlay").first()).toHaveCSS(
+    "background-color",
+    "rgba(0, 0, 0, 0)",
+  );
+  await expect(
+    selectedWork.locator(".selected-work-card__meta, .selected-work-card__cta"),
+  ).toHaveCount(0);
   await expect(selectedWork.getByRole("link", { name: /Read the ClaimDeck case study:/ })).toBeVisible();
   await expect(selectedWork.locator(".selected-work__index, .work-card__content")).toHaveCount(0);
   await expect(page.locator("body")).toContainText("Selected work");
@@ -100,6 +106,7 @@ test("homepage keeps a concise lead-generation path", async ({ page }) => {
     await expect(page.locator(`a[href="/work/${slug}"]`)).toHaveCount(0);
   }
   await expect(aiOpportunity.getByRole("link", { name: "Explore your AI product opportunity" }).locator("svg")).toHaveCount(1);
+  await expect(page.locator("#pricing + .ai-opportunity-section")).toHaveCount(1);
   await expect(page.locator(".decision-map")).toHaveCount(0);
   const mobileMenu = page.getByRole("button", { name: "Open navigation" });
   if (await mobileMenu.isVisible()) {
