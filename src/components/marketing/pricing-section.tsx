@@ -67,10 +67,19 @@ export function PricingSection({
             </article>
           ))}
         </div>
-        <div className="pricing-notes">
-          <p><strong>{pricingCopy.startingPriceNotice}</strong> {pricingCopy.scopeNotice}</p>
-          <p>{pricingCopy.pricingFooter} {pricingCopy.paymentNotice}</p>
-          <p><strong>AI is not mandatory:</strong> {pricingCopy.notForEveryProblem}</p>
+        <div className="pricing-notes" aria-label="Pricing guidance">
+          <article className="pricing-note">
+            <span className="pricing-note__label">Scope and pricing</span>
+            <p><strong>{pricingCopy.startingPriceNotice}</strong> {pricingCopy.scopeNotice}</p>
+          </article>
+          <article className="pricing-note">
+            <span className="pricing-note__label">A focused first phase</span>
+            <p>{pricingCopy.pricingFooter} {pricingCopy.paymentNotice}</p>
+          </article>
+          <article className="pricing-note">
+            <span className="pricing-note__label">Technology choice</span>
+            <p><strong>AI is not mandatory:</strong> {pricingCopy.notForEveryProblem}</p>
+          </article>
         </div>
       </Container>
     </section>
